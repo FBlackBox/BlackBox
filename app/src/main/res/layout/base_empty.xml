@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+            android:src="@drawable/ic_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="TODO" />
+
+    <TextView
+            android:text="@string/empty_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+</LinearLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/app_clear" android:title="@string/app_clear"/>
+
+    <item android:id="@+id/app_stop" android:title="@string/app_stop"/>
+
+    <item android:id="@+id/app_remove" android:title="@string/app_remove"/>
+    <item android:id="@+id/app_shortcut" android:title="@string/app_shortcut"/>
+</menu>

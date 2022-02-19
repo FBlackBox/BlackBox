@@ -1,0 +1,26 @@
+<resources>
+    <string name="choose">手动选择</string>
+    <string name="choose_app">选择应用</string>
+    <string name="installed_app">已安装应用</string>
+    <string name="installed_module">已安装模块</string>
+    <string name="empty_empty">空空如也</string>
+    <string name="filter">过滤</string>
+    <string name="open_source_path">开源地址</string>
+    <string name="xp_setting">XP管理</string>
+    <string name="qq_group">交流群</string>
+    <string name="setting">软件设置</string>
+    <string name="jump_module">点击跳转到模块管理界面</string>
+    <string name="module_setting">模块管理</string>
+    <string name="enable_xposed">启用Xposed框架</string>
+    <string name="hider">伪装</string>
+    <string name="hide_root">隐藏Root</string>
+    <string name="hide_xposed">隐藏Xposed框架</string>
+    <string name="userRemark">用户备注</string>
+    <string name="done">确定</string>
+    <string name="cancel">取消</string>
+    <string name="app_stop">停止运行</string>
+    <string name="app_clear">清除数据</string>
+    <string name="app_remove">卸载应用</string>
+    <string name="app_shortcut">创建快捷方式</string>
+    <string name="shortcut_name">快捷方式名称</string>
+</resources>
