@@ -31,4 +31,7 @@ public interface ContextImpl {
 
     @BMethod
     void setOuterContext(Context Context0);
+
+    @BMethod
+    Object getAttributionSource();
 }
