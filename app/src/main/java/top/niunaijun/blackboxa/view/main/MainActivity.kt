@@ -1,13 +1,11 @@
 package top.niunaijun.blackboxa.view.main
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.viewpager2.widget.ViewPager2
 import com.afollestad.materialdialogs.MaterialDialog
@@ -17,12 +15,10 @@ import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.app.AppManager
 import top.niunaijun.blackboxa.databinding.ActivityMainBinding
 import top.niunaijun.blackboxa.util.inflate
-import top.niunaijun.blackboxa.util.toast
 import top.niunaijun.blackboxa.view.apps.AppsFragment
 import top.niunaijun.blackboxa.view.base.BaseActivity
 import top.niunaijun.blackboxa.view.list.ListActivity
 import top.niunaijun.blackboxa.view.setting.SettingActivity
-import top.niunaijun.blackboxa.view.xp.XpActivity
 
 
 class MainActivity : BaseActivity() {
@@ -69,11 +65,11 @@ class MainActivity : BaseActivity() {
 
         val userList = BlackBoxCore.get().users
         userList.forEach {
-            fragmentList.add(AppsFragment(it.id))
+            fragmentList.add(AppsFragment.newInstance(it.id))
         }
 
         currentUser = userList.firstOrNull()?.id ?: 0
-        fragmentList.add(AppsFragment(userList.size))
+        fragmentList.add(AppsFragment.newInstance(userList.size))
 
         mViewPagerAdapter = ViewPagerAdapter(this)
         mViewPagerAdapter.replaceData(fragmentList)
@@ -103,10 +99,9 @@ class MainActivity : BaseActivity() {
         val userList = BlackBoxCore.get().users
 
         if (fragmentList.size == userList.size) {
-            fragmentList.add(AppsFragment(fragmentList.size))
+            fragmentList.add(AppsFragment.newInstance(fragmentList.size))
         } else if (fragmentList.size > userList.size + 1) {
             fragmentList.removeLast()
-
         }
 
         mViewPagerAdapter.notifyDataSetChanged()

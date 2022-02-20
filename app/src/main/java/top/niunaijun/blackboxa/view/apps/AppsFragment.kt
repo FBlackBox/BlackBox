@@ -8,11 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.content.edit
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,10 +21,12 @@ import com.afollestad.materialdialogs.input.input
 import com.roger.catloadinglibrary.CatLoadingView
 import top.niunaijun.blackbox.BlackBoxCore
 import top.niunaijun.blackboxa.R
-import top.niunaijun.blackboxa.app.AppManager
 import top.niunaijun.blackboxa.bean.AppInfo
 import top.niunaijun.blackboxa.databinding.FragmentAppsBinding
-import top.niunaijun.blackboxa.util.*
+import top.niunaijun.blackboxa.util.InjectionUtil
+import top.niunaijun.blackboxa.util.LoadingUtil
+import top.niunaijun.blackboxa.util.inflate
+import top.niunaijun.blackboxa.util.toast
 import top.niunaijun.blackboxa.view.main.MainActivity
 import top.niunaijun.blackboxa.view.main.ShortcutActivity
 
@@ -35,11 +37,9 @@ import top.niunaijun.blackboxa.view.main.ShortcutActivity
  * @Author: wukaicheng
  * @CreateDate: 2021/4/29 22:21
  */
-class AppsFragment constructor(val userID: Int) : Fragment() {
+class AppsFragment : Fragment() {
 
-
-    constructor() : this(0)
-    //fragment必须要提供空构造函数
+    var userID: Int = 0
 
     private lateinit var viewModel: AppsViewModel
 
@@ -54,6 +54,7 @@ class AppsFragment constructor(val userID: Int) : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel =
             ViewModelProvider(this, InjectionUtil.getAppsFactory()).get(AppsViewModel::class.java)
+        userID = requireArguments().getInt("userID",0)
     }
 
     override fun onCreateView(
@@ -260,6 +261,16 @@ class AppsFragment constructor(val userID: Int) : Fragment() {
     private fun hideLoading() {
         if (this::loadingView.isInitialized) {
             loadingView.dismiss()
+        }
+    }
+
+
+    companion object{
+        fun newInstance(userID:Int): AppsFragment {
+            val fragment = AppsFragment()
+            val bundle = bundleOf("userID" to userID)
+            fragment.arguments = bundle
+            return fragment
         }
     }
 

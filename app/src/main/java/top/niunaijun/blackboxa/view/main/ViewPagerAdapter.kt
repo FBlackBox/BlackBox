@@ -19,7 +19,6 @@ class ViewPagerAdapter(appCompatActivity: AppCompatActivity) : FragmentStateAdap
     fun replaceData(list: MutableList<AppsFragment>){
         this.fragmentList = list
         notifyDataSetChanged()
-
     }
 
     override fun getItemCount(): Int {
