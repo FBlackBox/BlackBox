@@ -10,6 +10,6 @@ import android.os.IInterface;
  * しーＪ
  * 此处无Bug
  */
-public interface VContentProvider {
+public interface BContentProvider {
     IInterface wrapper(final IInterface contentProviderProxy, final String appPkg);
 }

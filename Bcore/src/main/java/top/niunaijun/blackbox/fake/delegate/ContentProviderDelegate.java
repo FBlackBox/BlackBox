@@ -11,7 +11,6 @@ import java.util.Set;
 
 import black.android.app.BRActivityThread;
 import black.android.app.BRActivityThreadProviderClientRecordP;
-import black.android.app.BRIActivityManager;
 import black.android.app.BRIActivityManagerContentProviderHolder;
 import black.android.content.BRContentProviderHolderOreo;
 import black.android.providers.BRSettingsContentProviderHolder;
@@ -47,19 +46,19 @@ public class ContentProviderDelegate {
 
         if (iInterface instanceof Proxy)
             return;
-        IInterface vContentProvider;
+        IInterface bContentProvider;
         switch (auth) {
             case "settings":
-                vContentProvider = new SettingsProviderStub().wrapper(iInterface, BlackBoxCore.getHostPkg());
+                bContentProvider = new SettingsProviderStub().wrapper(iInterface, BlackBoxCore.getHostPkg());
                 break;
             default:
-                vContentProvider = new ContentProviderStub().wrapper(iInterface, BlackBoxCore.getHostPkg());
+                bContentProvider = new ContentProviderStub().wrapper(iInterface, BlackBoxCore.getHostPkg());
                 break;
         }
         if (BuildCompat.isOreo()) {
-            BRContentProviderHolderOreo.get(holder)._set_provider(vContentProvider);
+            BRContentProviderHolderOreo.get(holder)._set_provider(bContentProvider);
         } else {
-            BRIActivityManagerContentProviderHolder.get(holder)._set_provider(vContentProvider);
+            BRIActivityManagerContentProviderHolder.get(holder)._set_provider(bContentProvider);
         }
     }
 

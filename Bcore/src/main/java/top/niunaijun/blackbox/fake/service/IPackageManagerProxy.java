@@ -262,4 +262,16 @@ public class IPackageManagerProxy extends BinderInvocationStub {
             return method.invoke(who, args);
         }
     }
+
+    @ProxyMethod(name = "getPackagesForUid")
+    public static class GetPackagesForUid extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            int uid = (int) args[0];
+            if (uid == Process.myUid()) {
+                return new String[]{BActivityThread.getAppPackageName()};
+            }
+            return method.invoke(who, args);
+        }
+    }
 }
