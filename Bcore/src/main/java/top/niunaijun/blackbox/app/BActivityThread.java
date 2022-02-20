@@ -316,13 +316,14 @@ public class BActivityThread extends IBActivityThread.Stub {
         }
         Application application;
         try {
+            installProviders(mInitialApplication, bindData.processName, bindData.providers);
+
             BlackBoxCore.get().getAppLifecycleCallback().beforeCreateApplication(packageName, processName, packageContext);
             application = BRLoadedApk.get(loadedApk).makeApplication(false, null);
             mInitialApplication = application;
             BRActivityThread.get(BlackBoxCore.mainThread())._set_mInitialApplication(mInitialApplication);
             ContextCompat.fix((Context) BRActivityThread.get(BlackBoxCore.mainThread()).getSystemContext());
             ContextCompat.fix(mInitialApplication);
-            installProviders(mInitialApplication, bindData.processName, bindData.providers);
 
             BlackBoxCore.get().getAppLifecycleCallback().beforeApplicationOnCreate(packageName, processName, application);
             AppInstrumentation.get().callApplicationOnCreate(application);
@@ -352,7 +353,8 @@ public class BActivityThread extends IBActivityThread.Stub {
         try {
             for (ProviderInfo providerInfo : provider) {
                 try {
-                    if (processName.equals(providerInfo.processName) || providerInfo.processName.equals(context.getPackageName())) {
+                    if (processName.equals(providerInfo.processName) ||
+                            providerInfo.processName.equals(context.getPackageName()) || providerInfo.multiprocess) {
                         installProvider(BlackBoxCore.mainThread(), context, providerInfo, null);
                     }
                 } catch (Throwable ignored) {
