@@ -15,7 +15,7 @@ import top.niunaijun.blackbox.fake.hook.ClassInvocationStub;
  * しーＪ
  * 此处无Bug
  */
-public class ContentProviderStub extends ClassInvocationStub implements VContentProvider {
+public class ContentProviderStub extends ClassInvocationStub implements BContentProvider {
     public static final String TAG = "ContentProviderStub";
     private IInterface mBase;
 

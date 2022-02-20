@@ -15,7 +15,7 @@ import top.niunaijun.blackbox.fake.hook.ClassInvocationStub;
  * しーＪ
  * 此处无Bug
  */
-public class SettingsProviderStub extends ClassInvocationStub implements VContentProvider {
+public class SettingsProviderStub extends ClassInvocationStub implements BContentProvider {
     private IInterface mBase;
 
     @Override
