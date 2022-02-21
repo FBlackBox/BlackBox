@@ -316,14 +316,13 @@ public class BActivityThread extends IBActivityThread.Stub {
         }
         Application application;
         try {
-            installProviders(mInitialApplication, bindData.processName, bindData.providers);
-
             BlackBoxCore.get().getAppLifecycleCallback().beforeCreateApplication(packageName, processName, packageContext);
             application = BRLoadedApk.get(loadedApk).makeApplication(false, null);
             mInitialApplication = application;
             BRActivityThread.get(BlackBoxCore.mainThread())._set_mInitialApplication(mInitialApplication);
             ContextCompat.fix((Context) BRActivityThread.get(BlackBoxCore.mainThread()).getSystemContext());
             ContextCompat.fix(mInitialApplication);
+            installProviders(mInitialApplication, bindData.processName, bindData.providers);
 
             BlackBoxCore.get().getAppLifecycleCallback().beforeApplicationOnCreate(packageName, processName, application);
             AppInstrumentation.get().callApplicationOnCreate(application);
