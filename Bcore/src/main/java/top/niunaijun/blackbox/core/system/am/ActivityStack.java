@@ -277,8 +277,7 @@ public class ActivityStack {
         return realStartActivityLocked(sourceRecord.processRecord.appThread, shadow, resolvedType, resultTo, resultWho, requestCode, flags, options);
     }
 
-    private int realStartActivityLocked(IInterface appThread, Intent intent, String
-            resolvedType,
+    private int realStartActivityLocked(IInterface appThread, Intent intent, String resolvedType,
                                         IBinder resultTo, String resultWho, int requestCode, int flags,
                                         Bundle options) {
         try {

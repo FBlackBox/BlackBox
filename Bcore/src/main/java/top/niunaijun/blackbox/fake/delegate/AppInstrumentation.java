@@ -7,20 +7,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Proxy;
 
 import black.android.app.BRActivity;
+import black.android.app.BRActivityClient;
+import black.android.app.BRActivityClientActivityClientControllerSingleton;
 import black.android.app.BRActivityThread;
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.fake.hook.HookManager;
 import top.niunaijun.blackbox.fake.hook.IInjectHook;
-import top.niunaijun.blackbox.utils.compat.ActivityCompat;
-import top.niunaijun.blackbox.utils.compat.ContextCompat;
 import top.niunaijun.blackbox.fake.service.HCallbackProxy;
+import top.niunaijun.blackbox.fake.service.IActivityClientProxy;
 import top.niunaijun.blackbox.utils.HackAppUtils;
+import top.niunaijun.blackbox.utils.compat.ActivityCompat;
+import top.niunaijun.blackbox.utils.compat.BuildCompat;
+import top.niunaijun.blackbox.utils.compat.ContextCompat;
 
 public final class AppInstrumentation extends BaseInstrumentationDelegate implements IInjectHook {
 
@@ -98,6 +104,20 @@ public final class AppInstrumentation extends BaseInstrumentationDelegate implem
         HookManager.get().checkEnv(HCallbackProxy.class);
     }
 
+    private void checkActivity(Activity activity) {
+        Log.d(TAG, "callActivityOnCreate: " + activity.getClass().getName());
+        HackAppUtils.enableQQLogOutput(activity.getPackageName(), activity.getClassLoader());
+        checkHCallback();
+        HookManager.get().checkEnv(IActivityClientProxy.class);
+        ActivityInfo info = BRActivity.get(activity).mActivityInfo();
+        ContextCompat.fix(activity);
+        ActivityCompat.fix(activity);
+        if (info.theme != 0) {
+            activity.setTheme(info.theme);
+        }
+        activity.setRequestedOrientation(info.screenOrientation);
+    }
+
     @Override
     public Application newApplication(ClassLoader cl, String className, Context context) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
         ContextCompat.fix(context);
@@ -106,17 +126,14 @@ public final class AppInstrumentation extends BaseInstrumentationDelegate implem
     }
 
     @Override
+    public void callActivityOnCreate(Activity activity, Bundle icicle, PersistableBundle persistentState) {
+        checkActivity(activity);
+        super.callActivityOnCreate(activity, icicle, persistentState);
+    }
+
+    @Override
     public void callActivityOnCreate(Activity activity, Bundle icicle) {
-        HackAppUtils.enableQQLogOutput(activity.getPackageName(), activity.getClassLoader());
-        checkHCallback();
-        Log.d(TAG, "callActivityOnCreate: " + activity.getClass().getName());
-        ActivityInfo info = BRActivity.get(activity).mActivityInfo();
-        ContextCompat.fix(activity);
-        ActivityCompat.fix(activity);
-        if (info.theme != 0) {
-            activity.setTheme(info.theme);
-        }
-        activity.setRequestedOrientation(info.screenOrientation);
+        checkActivity(activity);
         super.callActivityOnCreate(activity, icicle);
     }
 

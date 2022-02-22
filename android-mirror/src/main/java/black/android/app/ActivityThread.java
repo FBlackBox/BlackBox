@@ -23,11 +23,15 @@ import top.niunaijun.blackreflection.annotation.BConstructor;
 import top.niunaijun.blackreflection.annotation.BField;
 import top.niunaijun.blackreflection.annotation.BMethod;
 import top.niunaijun.blackreflection.annotation.BParamClass;
+import top.niunaijun.blackreflection.annotation.BParamClassName;
 import top.niunaijun.blackreflection.annotation.BStaticField;
 import top.niunaijun.blackreflection.annotation.BStaticMethod;
 
 @BClassName("android.app.ActivityThread")
 public interface ActivityThread {
+    @BField
+    Object mAppThread();
+
     @BStaticField
     IInterface sPackageManager();
 
@@ -72,6 +76,16 @@ public interface ActivityThread {
 
     @BMethod
     Object getSystemContext();
+
+    @BMethod
+    Object getActivityClient(IBinder token);
+
+    @BMethod
+    Object getLaunchingActivity(IBinder token);
+
+    @BMethod
+    Object getPackageInfo(ApplicationInfo ai, @BParamClassName("android.content.res.CompatibilityInfo") Object compatInfo,
+                          int flags);
 
     @BMethod
     Object installProvider(Context context,
@@ -187,5 +201,8 @@ public interface ActivityThread {
 
         @BField
         IBinder token();
+
+        @BField
+        Object packageInfo();
     }
 }

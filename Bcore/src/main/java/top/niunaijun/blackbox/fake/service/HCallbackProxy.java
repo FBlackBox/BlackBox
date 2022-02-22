@@ -4,26 +4,29 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ServiceInfo;
-import android.os.Debug;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import java.lang.reflect.Proxy;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import black.android.app.ActivityThreadActivityClientRecordContext;
+import black.android.app.BRActivityClient;
+import black.android.app.BRActivityClientActivityClientControllerSingleton;
 import black.android.app.BRActivityManagerNative;
 import black.android.app.BRActivityThread;
 import black.android.app.BRActivityThreadActivityClientRecord;
 import black.android.app.BRActivityThreadCreateServiceData;
 import black.android.app.BRActivityThreadH;
 import black.android.app.BRIActivityManager;
+import black.android.app.BRLoadedApk;
 import black.android.app.servertransaction.BRClientTransaction;
 import black.android.app.servertransaction.BRLaunchActivityItem;
+import black.android.app.servertransaction.LaunchActivityItem;
 import black.android.app.servertransaction.LaunchActivityItemContext;
 import black.android.os.BRHandler;
 import top.niunaijun.blackbox.BlackBoxCore;
@@ -172,7 +175,15 @@ public class HCallbackProxy implements IInjectHook, Handler.Callback {
             int taskId = BRIActivityManager.get(BRActivityManagerNative.get().getDefault()).getTaskForActivity(token, false);
             BlackBoxCore.getBActivityManager().onActivityCreated(taskId, token, stubRecord.mActivityRecord);
 
-            if (BuildCompat.isPie()) {
+            if (BuildCompat.isS()) {
+                Object record = BRActivityThread.get(BlackBoxCore.mainThread()).getLaunchingActivity(token);
+                ActivityThreadActivityClientRecordContext clientRecordContext = BRActivityThreadActivityClientRecord.get(record);
+                clientRecordContext._set_intent(stubRecord.mTarget);
+                clientRecordContext._set_activityInfo(activityInfo);
+                clientRecordContext._set_packageInfo(BActivityThread.currentActivityThread().getPackageInfo());
+
+                checkActivityClient();
+            } else if (BuildCompat.isPie()) {
                 LaunchActivityItemContext launchActivityItemContext = BRLaunchActivityItem.get(r);
                 launchActivityItemContext._set_mIntent(stubRecord.mTarget);
                 launchActivityItemContext._set_mInfo(activityInfo);
@@ -201,5 +212,21 @@ public class HCallbackProxy implements IInjectHook, Handler.Callback {
             }
         }
         return false;
+    }
+
+    private void checkActivityClient() {
+        try {
+            Object activityClientController = BRActivityClient.get().getActivityClientController();
+            if (!(activityClientController instanceof Proxy)) {
+                IActivityClientProxy iActivityClientProxy = new IActivityClientProxy(activityClientController);
+                iActivityClientProxy.onlyProxy(true);
+                iActivityClientProxy.injectHook();
+                Object instance = BRActivityClient.get().getInstance();
+                Object o = BRActivityClient.get(instance).INTERFACE_SINGLETON();
+                BRActivityClientActivityClientControllerSingleton.get(o)._set_mKnownInstance(iActivityClientProxy.getProxyInvocation());
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
     }
 }

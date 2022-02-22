@@ -365,6 +365,10 @@ public class BActivityThread extends IBActivityThread.Stub {
         }
     }
 
+    public Object getPackageInfo() {
+        return mBoundApplication.info;
+    }
+
     public static Object installProvider(Object mainThread, Context context, ProviderInfo providerInfo, Object holder) throws Throwable {
         return BRActivityThread.getWithException(mainThread).installProvider(context, holder, providerInfo, false, true, true);
     }

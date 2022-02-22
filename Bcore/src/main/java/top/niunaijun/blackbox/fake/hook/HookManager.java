@@ -7,6 +7,7 @@ import java.util.Map;
 
 import top.niunaijun.blackbox.fake.service.IAccessibilityManagerProxy;
 import top.niunaijun.blackbox.fake.service.IAccountManagerProxy;
+import top.niunaijun.blackbox.fake.service.IActivityClientProxy;
 import top.niunaijun.blackbox.fake.service.IActivityManagerProxy;
 import top.niunaijun.blackbox.fake.service.IActivityTaskManagerProxy;
 import top.niunaijun.blackbox.fake.service.HCallbackProxy;
@@ -113,6 +114,9 @@ public class HookManager {
             // 5.0
             if (BuildCompat.isL()) {
                 addInjector(new IJobServiceProxy());
+            }
+            if (BuildCompat.isS()) {
+                addInjector(new IActivityClientProxy(null));
             }
         }
         injectAll();

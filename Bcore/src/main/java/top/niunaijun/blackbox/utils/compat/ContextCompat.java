@@ -11,6 +11,7 @@ import black.android.content.BRAttributionSource;
 import black.android.content.BRAttributionSourceState;
 import black.android.content.BRContentResolver;
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.app.BActivityThread;
 
 /**
  * Created by Milk on 3/31/21.
@@ -21,7 +22,7 @@ import top.niunaijun.blackbox.BlackBoxCore;
  * 此处无Bug
  */
 public class ContextCompat {
-    public static final String TAG = "ContextFixer";
+    public static final String TAG = "ContextCompat";
 
     public static void fixAttributionSourceState(Object obj) {
         Object mAttributionSourceState;

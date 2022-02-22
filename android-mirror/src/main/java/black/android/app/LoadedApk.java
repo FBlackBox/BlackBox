@@ -44,6 +44,12 @@ public interface LoadedApk {
     @BField
     boolean mSecurityViolation();
 
+    @BField
+    boolean mPackageName();
+
+    @BMethod
+    Object getResources();
+
     @BMethod
     IServiceConnection forgetServiceDispatcher(Context Context0, ServiceConnection ServiceConnection1);
 
