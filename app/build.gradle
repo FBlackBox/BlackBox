@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "top.niunaijun.blackboxa"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 3
         versionName "1.2.0"
 
