@@ -54,7 +54,10 @@ public interface ActivityThread {
     Map<String, java.lang.ref.WeakReference<?>> mPackages();
 
     @BField
-    Map mProviderMap();
+    Map<?, ?> mProviderMap();
+
+    @BField
+    Map<?, ?> mLocalProvidersByName();
 
     @BStaticMethod
     Object currentActivityThread();
