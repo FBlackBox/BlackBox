@@ -289,6 +289,7 @@ public class PackageManagerCompat {
         ai.processName = BPackageManagerService.fixProcessName(p.packageName, ai.packageName);
         ai.publicSourceDir = sourceDir;
         ai.sourceDir = sourceDir;
+        ai.targetSdkVersion = baseApplication.targetSdkVersion;
 //        ai.uid = p.mExtras.appId;
         ai.uid = baseApplication.uid;
 
