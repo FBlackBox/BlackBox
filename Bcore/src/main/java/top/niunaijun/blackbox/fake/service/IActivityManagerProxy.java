@@ -103,7 +103,6 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                 } else {
                     Log.d(TAG, "hook getContentProvider: " + auth);
 
-
                     ProviderInfo providerInfo = BlackBoxCore.getBPackageManager().resolveContentProvider((String) auth, GET_META_DATA, BActivityThread.getUserId());
                     if (providerInfo == null) {
                         Object invoke = method.invoke(who, args);

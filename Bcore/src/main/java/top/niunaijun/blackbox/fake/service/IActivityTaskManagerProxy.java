@@ -1,7 +1,10 @@
 package top.niunaijun.blackbox.fake.service;
 
+import black.android.app.BRActivityTaskManager;
+import black.android.app.BRIActivityTaskManager;
 import black.android.app.BRIActivityTaskManagerStub;
 import black.android.os.BRServiceManager;
+import black.android.util.BRSingleton;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.ScanClass;
 
@@ -29,6 +32,9 @@ public class IActivityTaskManagerProxy extends BinderInvocationStub {
     @Override
     protected void inject(Object baseInvocation, Object proxyInvocation) {
         replaceSystemService("activity_task");
+        BRActivityTaskManager.get().getService();
+        Object o = BRActivityTaskManager.get().IActivityTaskManagerSingleton();
+        BRSingleton.get(o)._set_mInstance(BRIActivityTaskManagerStub.get().asInterface(this));
     }
 
     @Override
