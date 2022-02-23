@@ -88,6 +88,7 @@ public class BActivityThread extends IBActivityThread.Stub {
     private AppConfig mAppConfig;
     private final List<ProviderInfo> mProviders = new ArrayList<>();
     private final Handler mH = new Handler(Looper.getMainLooper());
+    private static final Object mConfigLock = new Object();
 
     public static BActivityThread currentActivityThread() {
         if (sBActivityThread == null) {
@@ -100,8 +101,10 @@ public class BActivityThread extends IBActivityThread.Stub {
         return sBActivityThread;
     }
 
-    public static synchronized AppConfig getAppConfig() {
-        return currentActivityThread().mAppConfig;
+    public static AppConfig getAppConfig() {
+        synchronized (mConfigLock) {
+            return currentActivityThread().mAppConfig;
+        }
     }
 
     public static List<ProviderInfo> getProviders() {
@@ -153,11 +156,30 @@ public class BActivityThread extends IBActivityThread.Stub {
     }
 
     public void initProcess(AppConfig appConfig) {
-        if (this.mAppConfig != null && !this.mAppConfig.packageName.equals(appConfig.packageName)) {
-            // 该进程已被attach
-            throw new RuntimeException("reject init process: " + appConfig.processName + ", this process is : " + this.mAppConfig.processName);
+        synchronized (mConfigLock) {
+            if (this.mAppConfig != null && !this.mAppConfig.packageName.equals(appConfig.packageName)) {
+                // 该进程已被attach
+                throw new RuntimeException("reject init process: " + appConfig.processName + ", this process is : " + this.mAppConfig.processName);
+            }
+            this.mAppConfig = appConfig;
+            IBinder iBinder = asBinder();
+            try {
+                iBinder.linkToDeath(new DeathRecipient() {
+                    @Override
+                    public void binderDied() {
+                        synchronized (mConfigLock) {
+                            try {
+                                iBinder.linkToDeath(this, 0);
+                            } catch (RemoteException ignored) {
+                            }
+                            mAppConfig = null;
+                        }
+                    }
+                }, 0);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
-        this.mAppConfig = appConfig;
     }
 
     public boolean isInit() {
