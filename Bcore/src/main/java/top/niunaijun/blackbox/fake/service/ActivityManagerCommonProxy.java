@@ -51,6 +51,9 @@ public class ActivityManagerCommonProxy {
                     intent.setData(Uri.parse("package:" + BlackBoxCore.getHostPkg()));
                 }
 
+                if (intent.getPackage() == null && intent.getComponent() == null) {
+                    intent.setPackage(BActivityThread.getAppPackageName());
+                }
                 ResolveInfo resolveInfo = BlackBoxCore.getBPackageManager().resolveActivity(
                         intent,
                         GET_META_DATA,
