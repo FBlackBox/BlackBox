@@ -69,24 +69,14 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
         List<ResolveInfo> resolves = BPackageManagerService.get().queryBroadcastReceivers(intent, GET_META_DATA, resolvedType, userId);
 
         for (ResolveInfo resolve : resolves) {
-            ProcessRecord processRecord = BProcessManager.get().startProcessLocked(resolve.activityInfo.packageName, resolve.activityInfo.processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
+            ProcessRecord processRecord = BProcessManager.get().findProcessRecord(resolve.activityInfo.packageName, resolve.activityInfo.processName, userId);
             if (processRecord == null) {
-//                throw new RuntimeException("Unable to create process " + resolve.activityInfo.name);
                 continue;
             }
             processRecord.bActivityThread.bindApplication();
         }
-
-        if (intent.getPackage() != null) {
-            intent.setPackage(BlackBoxCore.getHostPkg());
-        }
-        if (intent.getComponent() != null) {
-            intent.setComponent(null);
-//            Intent shadow = new Intent();
-//            shadow.setPackage(VirtualCore.getHostPkg());
-//            shadow.setAction(StubManifest.getStubReceiver());
-//            StubBroadcastRecord.saveStub(shadow, intent, receivers, userId);
-        }
+        intent.setPackage(BlackBoxCore.getHostPkg());
+        intent.setComponent(null);
         return intent;
     }
 

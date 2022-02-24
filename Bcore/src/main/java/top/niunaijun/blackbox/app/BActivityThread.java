@@ -280,6 +280,8 @@ public class BActivityThread extends IBActivityThread.Stub {
     }
 
     public synchronized void handleBindApplication(String packageName, String processName) {
+        if (isInit())
+            return;
         try {
             CrashHandler.create();
         } catch (Throwable ignored) {

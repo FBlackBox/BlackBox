@@ -55,12 +55,12 @@ public class BProcessManager {
             return null;
         ProcessRecord app;
         int buid = BUserHandle.getUid(userId, BPackageManagerService.get().getAppId(packageName));
-        Map<String, ProcessRecord> vProcess = mProcessMap.get(buid);
-
-        if (vProcess == null) {
-            vProcess = new HashMap<>();
-        }
         synchronized (mProcessLock) {
+            Map<String, ProcessRecord> vProcess = mProcessMap.get(buid);
+
+            if (vProcess == null) {
+                vProcess = new HashMap<>();
+            }
             if (bpid == -1) {
                 app = vProcess.get(processName);
                 if (app != null) {
