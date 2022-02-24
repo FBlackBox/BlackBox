@@ -47,6 +47,7 @@ import black.android.app.BRContextImpl;
 import black.android.app.BRLoadedApk;
 import black.android.app.BRService;
 import black.android.content.BRContentProviderClient;
+import black.android.graphics.BRCompatibility;
 import black.android.security.net.config.BRNetworkSecurityConfigProvider;
 import black.com.android.internal.content.BRReferrerIntent;
 import black.dalvik.system.BRVMRuntime;
@@ -314,6 +315,8 @@ public class BActivityThread extends IBActivityThread.Stub {
         }
 
         BRVMRuntime.get(BRVMRuntime.get().getRuntime()).setTargetSdkVersion(applicationInfo.targetSdkVersion);
+        BRCompatibility.get().setTargetSdkVersion(applicationInfo.targetSdkVersion);
+
         VMCore.init(Build.VERSION.SDK_INT);
         assert packageContext != null;
         IOCore.get().enableRedirect(packageContext);

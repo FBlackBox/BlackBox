@@ -37,7 +37,7 @@ import top.niunaijun.blackbox.utils.compat.BuildCompat;
  * しーＪ
  * 此处无Bug
  */
-@SuppressLint("SdCardPath")
+@SuppressLint({"SdCardPath", "NewApi"})
 public class PackageManagerCompat {
 
     public static PackageInfo generatePackageInfo(BPackageSettings ps, int flags, BPackageUserState state, int userId) {
@@ -289,7 +289,6 @@ public class PackageManagerCompat {
         ai.processName = BPackageManagerService.fixProcessName(p.packageName, ai.packageName);
         ai.publicSourceDir = sourceDir;
         ai.sourceDir = sourceDir;
-        ai.targetSdkVersion = baseApplication.targetSdkVersion;
 //        ai.uid = p.mExtras.appId;
         ai.uid = baseApplication.uid;
 
