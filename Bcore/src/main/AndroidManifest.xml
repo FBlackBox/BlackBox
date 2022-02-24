@@ -323,6 +323,9 @@
         android:name="android.permission.HARDWARE_TEST"
         tools:ignore="ProtectedPermissions" />
 
+    <!--android11-->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+
     <application>
         <provider
             android:name="top.niunaijun.blackbox.core.system.SystemCallProvider"
