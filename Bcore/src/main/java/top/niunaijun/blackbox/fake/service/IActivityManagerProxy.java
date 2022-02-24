@@ -293,6 +293,16 @@ public class IActivityManagerProxy extends ClassInvocationStub {
     public static class GetIntentSenderWithFeature extends GetIntentSender {
     }
 
+    @ProxyMethod(name = "registerReceiverWithFeature")
+    public static class RegisterReceiverWithFeature extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            MethodParameterUtils.replaceFirstAppPkg(args);
+            return method.invoke(who, args);
+        }
+    }
+
+
     @ProxyMethod(name = "broadcastIntentWithFeature")
     public static class BroadcastIntentWithFeature extends BroadcastIntent {
     }
