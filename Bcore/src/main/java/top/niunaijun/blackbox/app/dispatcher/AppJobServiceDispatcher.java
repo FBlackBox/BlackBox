@@ -29,7 +29,10 @@ public class AppJobServiceDispatcher {
 
     public boolean onStartJob(JobParameters params) {
         try {
-            return getJobService(params.getJobId()).onStartJob(params);
+            JobService jobService = getJobService(params.getJobId());
+            if (jobService == null)
+                return false;
+            return jobService.onStartJob(params);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,6 +41,8 @@ public class AppJobServiceDispatcher {
 
     public boolean onStopJob(JobParameters params) {
         JobService jobService = getJobService(params.getJobId());
+        if (jobService == null)
+            return false;
         boolean b = jobService.onStopJob(params);
         jobService.onDestroy();
         synchronized (mJobRecords) {
@@ -87,6 +92,8 @@ public class AppJobServiceDispatcher {
             try {
                 JobRecord record = BlackBoxCore.getBJobManager().queryJobRecord(BActivityThread.getAppProcessName(), jobId);
                 record.mJobService = BActivityThread.currentActivityThread().createJobService(record.mServiceInfo);
+                if (record.mJobService == null)
+                    return null;
                 mJobRecords.put(jobId, record);
                 return record.mJobService;
             } catch (Throwable t) {

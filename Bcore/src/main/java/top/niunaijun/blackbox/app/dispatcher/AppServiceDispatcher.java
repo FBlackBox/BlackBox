@@ -50,6 +50,8 @@ public class AppServiceDispatcher {
 //        Log.d(TAG, "onBind: " + component.toString());
 
         Service service = getOrCreateService(intent, serviceInfo);
+        if (service == null)
+            return null;
         intent.setExtrasClassLoader(service.getClassLoader());
 
         ServiceRecord record = findRecord(intent);
@@ -80,6 +82,8 @@ public class AppServiceDispatcher {
 
 //        Log.d(TAG, "onStartCommand: " + component.toString());
         Service service = getOrCreateService(stubRecord.mServiceIntent, stubRecord.mServiceInfo);
+        if (service == null)
+            return START_NOT_STICKY;
         stubRecord.mServiceIntent.setExtrasClassLoader(service.getClassLoader());
         ServiceRecord record = findRecord(stubRecord.mServiceIntent);
         record.setStartId(stubRecord.mStartId);
@@ -159,6 +163,9 @@ public class AppServiceDispatcher {
                 return false;
 
             Service service = getOrCreateService(stubRecord.mServiceIntent, stubRecord.mServiceInfo);
+            if (service == null)
+                return false;
+
             stubRecord.mServiceIntent.setExtrasClassLoader(service.getClassLoader());
 
             ServiceRecord record = findRecord(intent);
@@ -217,6 +224,8 @@ public class AppServiceDispatcher {
             return record.getService();
         }
         Service service = BActivityThread.currentActivityThread().createService(serviceInfo);
+        if (service == null)
+            return null;
         record = new ServiceRecord();
         record.setService(service);
         mService.put(new Intent.FilterComparison(intent), record);

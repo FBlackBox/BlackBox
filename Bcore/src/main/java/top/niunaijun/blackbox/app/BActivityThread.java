@@ -198,9 +198,10 @@ public class BActivityThread extends IBActivityThread.Stub {
         try {
             service = (Service) classLoader.loadClass(serviceInfo.name).newInstance();
         } catch (Exception e) {
-            throw new RuntimeException(
-                    "Unable to instantiate service " + serviceInfo.name
-                            + ": " + e.toString(), e);
+            e.printStackTrace();
+            Slog.e(TAG, "Unable to instantiate service " + serviceInfo.name
+                    + ": " + e.toString());
+            return null;
         }
 
         try {
@@ -236,9 +237,10 @@ public class BActivityThread extends IBActivityThread.Stub {
         try {
             service = (JobService) classLoader.loadClass(serviceInfo.name).newInstance();
         } catch (Exception e) {
-            throw new RuntimeException(
-                    "Unable to instantiate service " + serviceInfo.name
-                            + ": " + e.toString(), e);
+            e.printStackTrace();
+            Slog.e(TAG, "Unable to create JobService " + serviceInfo.name
+                    + ": " + e.toString());
+            return null;
         }
 
         try {

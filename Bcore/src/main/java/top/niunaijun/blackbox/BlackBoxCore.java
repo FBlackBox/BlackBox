@@ -43,6 +43,7 @@ import top.niunaijun.blackbox.fake.frameworks.BJobManager;
 import top.niunaijun.blackbox.fake.frameworks.BPackageManager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -72,7 +73,7 @@ public class BlackBoxCore extends ClientConfiguration {
     private final Map<String, IBinder> mServices = new HashMap<>();
     private Thread.UncaughtExceptionHandler mExceptionHandler;
     private ClientConfiguration mClientConfiguration;
-    private List<AppLifecycleCallback> mAppLifecycleCallbacks = Collections.emptyList();
+    private final List<AppLifecycleCallback> mAppLifecycleCallbacks = new ArrayList<>();
 
     public static BlackBoxCore get() {
         return sBlackBoxCore;
