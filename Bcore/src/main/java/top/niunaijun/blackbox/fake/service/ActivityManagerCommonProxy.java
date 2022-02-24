@@ -91,10 +91,11 @@ public class ActivityManagerCommonProxy {
     public static class StartActivities extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Intent[] intents = (Intent[]) args[2];
-            String[] resolvedTypes = (String[]) args[3];
-            IBinder resultTo = (IBinder) args[4];
-            Bundle options = (Bundle) args[5];
+            int index = getIntents();
+            Intent[] intents = (Intent[]) args[index++];
+            String[] resolvedTypes = (String[]) args[index++];
+            IBinder resultTo = (IBinder) args[index++];
+            Bundle options = (Bundle) args[index];
             // todo ??
             if (!ComponentUtils.isSelf(intents)) {
                 return method.invoke(who, args);
@@ -105,6 +106,13 @@ public class ActivityManagerCommonProxy {
             }
             return BlackBoxCore.getBActivityManager().startActivities(BActivityThread.getUserId(),
                     intents, resolvedTypes, resultTo, options);
+        }
+
+        public int getIntents() {
+            if (BuildCompat.isR()) {
+                return 3;
+            }
+            return 2;
         }
     }
 

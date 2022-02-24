@@ -98,9 +98,9 @@ class BlackBoxLoader {
 
         BlackBoxCore.get().setExceptionHandler { t, e ->
             val logFile = File(mLogDir, "${System.currentTimeMillis()}.log")
-            PrintWriter(FileWriter(logFile)).use {
-                e.printStackTrace(it)
-            }
+//            PrintWriter(FileWriter(logFile)).use {
+//                e.printStackTrace(it)
+//            }
         }
     }
 
