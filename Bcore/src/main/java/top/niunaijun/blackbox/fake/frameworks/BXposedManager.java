@@ -73,7 +73,7 @@ public class BXposedManager {
         if (mService != null && mService.asBinder().isBinderAlive()) {
             return mService;
         }
-        mService = IBXposedManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.Xposed_MANAGER));
+        mService = IBXposedManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.XPOSED_MANAGER));
         return getService();
     }
 }
