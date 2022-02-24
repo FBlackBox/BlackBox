@@ -69,6 +69,7 @@ import top.niunaijun.blackbox.fake.service.HCallbackProxy;
 import top.niunaijun.blackbox.fake.service.context.providers.ContentProviderStub;
 import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.ActivityManagerCompat;
+import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.ContextCompat;
 import top.niunaijun.blackbox.utils.compat.StrictModeCompat;
 
@@ -317,7 +318,9 @@ public class BActivityThread extends IBActivityThread.Stub {
         VirtualRuntime.setupRuntime(processName, applicationInfo);
 
         BRVMRuntime.get(BRVMRuntime.get().getRuntime()).setTargetSdkVersion(applicationInfo.targetSdkVersion);
-        BRCompatibility.get().setTargetSdkVersion(applicationInfo.targetSdkVersion);
+        if (BuildCompat.isS()) {
+            BRCompatibility.get().setTargetSdkVersion(applicationInfo.targetSdkVersion);
+        }
 
         VMCore.init(Build.VERSION.SDK_INT);
         assert packageContext != null;
