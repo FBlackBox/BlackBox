@@ -314,6 +314,8 @@ public class BActivityThread extends IBActivityThread.Stub {
             }
         }
 
+        VirtualRuntime.setupRuntime(processName, applicationInfo);
+
         BRVMRuntime.get(BRVMRuntime.get().getRuntime()).setTargetSdkVersion(applicationInfo.targetSdkVersion);
         BRCompatibility.get().setTargetSdkVersion(applicationInfo.targetSdkVersion);
 
@@ -361,10 +363,9 @@ public class BActivityThread extends IBActivityThread.Stub {
             e.printStackTrace();
             throw new RuntimeException("Unable to makeApplication", e);
         }
-        VirtualRuntime.setupRuntime(bindData.processName, applicationInfo);
     }
 
-    private Context createPackageContext(ApplicationInfo info) {
+    public static Context createPackageContext(ApplicationInfo info) {
         try {
             return BlackBoxCore.getContext().createPackageContext(info.packageName,
                     Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY);
