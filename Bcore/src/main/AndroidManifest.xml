@@ -355,6 +355,11 @@
             android:process="@string/black_box_service_name" />
 
         <activity
+            android:name=".app.LauncherActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/LauncherTheme" />
+
+        <activity
             android:name=".proxy.ProxyActivity$P0"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"

@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        package="top.niunaijun.blackboxa">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="top.niunaijun.blackboxa">
     <!--  Android 11 需要  -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
     <application
-            android:name=".app.App"
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:networkSecurityConfig="@xml/network_security_config"
-            android:roundIcon="@mipmap/ic_launcher"
-            android:supportsRtl="true"
-            android:theme="@style/Theme.BlackBox"
-            tools:targetApi="n">
+        android:name=".app.App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.BlackBox"
+        tools:targetApi="n">
         <activity android:name=".view.setting.SettingActivity" />
         <activity
-                android:name=".view.main.WelcomeActivity"
-                android:launchMode="singleTop"
-                android:theme="@style/WelcomeTheme">
+            android:name=".view.main.WelcomeActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/WelcomeTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,8 +28,9 @@
         <activity android:name=".view.list.ListActivity" />
         <activity android:name=".view.xp.XpActivity" />
         <activity
-                android:name=".view.main.ShortcutActivity"
-                android:exported="true" />
+            android:name=".view.main.ShortcutActivity"
+            android:excludeFromRecents="true"
+            android:exported="true" />
         <activity android:name=".view.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -21,7 +21,6 @@ class ShortcutActivity:AppCompatActivity() {
         val pkg = intent.getStringExtra("pkg")
         val userID = intent.getIntExtra("userId",0)
 
-        toast("正在启动")
         lifecycleScope.launch {
             BlackBoxCore.get().launchApk(pkg,userID)
             finish()

@@ -16,6 +16,7 @@ import android.os.Process;
 
 import black.android.app.BRActivityThread;
 import top.canyie.pine.PineConfig;
+import top.niunaijun.blackbox.app.LauncherActivity;
 import top.niunaijun.blackbox.app.configuration.ClientConfiguration;
 import top.niunaijun.blackbox.core.env.BEnvironment;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
@@ -40,6 +41,7 @@ import top.niunaijun.blackbox.fake.frameworks.BJobManager;
 import top.niunaijun.blackbox.fake.frameworks.BPackageManager;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +51,6 @@ import me.weishu.reflection.Reflection;
 import top.niunaijun.blackbox.fake.frameworks.BStorageManager;
 import top.niunaijun.blackbox.fake.delegate.ContentProviderDelegate;
 import top.niunaijun.blackbox.core.system.ServiceManager;
-import top.niunaijun.blackreflection.BlackReflection;
 
 /**
  * Created by Milk on 3/30/21.
@@ -69,7 +70,7 @@ public class BlackBoxCore extends ClientConfiguration {
     private final Map<String, IBinder> mServices = new HashMap<>();
     private Thread.UncaughtExceptionHandler mExceptionHandler;
     private ClientConfiguration mClientConfiguration;
-    private AppLifecycleCallback mAppLifecycleCallback = AppLifecycleCallback.EMPTY;
+    private List<AppLifecycleCallback> mAppLifecycleCallbacks = Collections.emptyList();
 
     public static BlackBoxCore get() {
         return sBlackBoxCore;
@@ -154,7 +155,7 @@ public class BlackBoxCore extends ClientConfiguration {
     }
 
     public void startActivity(Intent intent, int userId) {
-        getBActivityManager().startActivity(intent, userId);
+        LauncherActivity.launch(intent, userId);
     }
 
     public static BJobManager getBJobManager() {
@@ -293,15 +294,16 @@ public class BlackBoxCore extends ClientConfiguration {
         BUserManager.get().deleteUser(userId);
     }
 
-    public AppLifecycleCallback getAppLifecycleCallback() {
-        return mAppLifecycleCallback;
+    public List<AppLifecycleCallback> getAppLifecycleCallbacks() {
+        return mAppLifecycleCallbacks;
     }
 
-    public void setAppLifecycleCallback(AppLifecycleCallback appLifecycleCallback) {
-        if (appLifecycleCallback == null) {
-            throw new IllegalArgumentException("AppLifecycleCallback is null!");
-        }
-        mAppLifecycleCallback = appLifecycleCallback;
+    public void removeAppLifecycleCallback(AppLifecycleCallback appLifecycleCallback) {
+        mAppLifecycleCallbacks.remove(appLifecycleCallback);
+    }
+
+    public void addAppLifecycleCallback(AppLifecycleCallback appLifecycleCallback) {
+        mAppLifecycleCallbacks.add(appLifecycleCallback);
     }
 
     public IBinder getService(String name) {

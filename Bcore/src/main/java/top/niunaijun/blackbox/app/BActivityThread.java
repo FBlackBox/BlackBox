@@ -53,6 +53,7 @@ import black.com.android.internal.content.BRReferrerIntent;
 import black.dalvik.system.BRVMRuntime;
 import top.canyie.pine.xposed.PineXposed;
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback;
 import top.niunaijun.blackbox.app.dispatcher.AppServiceDispatcher;
 import top.niunaijun.blackbox.core.CrashHandler;
 import top.niunaijun.blackbox.core.IBActivityThread;
@@ -348,7 +349,7 @@ public class BActivityThread extends IBActivityThread.Stub {
         }
         Application application;
         try {
-            BlackBoxCore.get().getAppLifecycleCallback().beforeCreateApplication(packageName, processName, packageContext);
+            onBeforeCreateApplication(packageName, processName, packageContext);
             application = BRLoadedApk.get(loadedApk).makeApplication(false, null);
             mInitialApplication = application;
             BRActivityThread.get(BlackBoxCore.mainThread())._set_mInitialApplication(mInitialApplication);
@@ -356,9 +357,9 @@ public class BActivityThread extends IBActivityThread.Stub {
             ContextCompat.fix(mInitialApplication);
             installProviders(mInitialApplication, bindData.processName, bindData.providers);
 
-            BlackBoxCore.get().getAppLifecycleCallback().beforeApplicationOnCreate(packageName, processName, application);
+            onBeforeApplicationOnCreate(packageName, processName, application);
             AppInstrumentation.get().callApplicationOnCreate(application);
-            BlackBoxCore.get().getAppLifecycleCallback().afterApplicationOnCreate(packageName, processName, application);
+            onAfterApplicationOnCreate(packageName, processName, application);
 
             registerReceivers(mInitialApplication);
             HookManager.get().checkEnv(HCallbackProxy.class);
@@ -550,6 +551,24 @@ public class BActivityThread extends IBActivityThread.Stub {
                 }
             }
         });
+    }
+
+    private void onBeforeCreateApplication(String packageName, String processName, Context context) {
+        for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
+            appLifecycleCallback.beforeCreateApplication(packageName, processName, context);
+        }
+    }
+
+    private void onBeforeApplicationOnCreate(String packageName, String processName, Application application) {
+        for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
+            appLifecycleCallback.beforeApplicationOnCreate(packageName, processName, application);
+        }
+    }
+
+    private void onAfterApplicationOnCreate(String packageName, String processName, Application application) {
+        for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
+            appLifecycleCallback.afterApplicationOnCreate(packageName, processName, application);
+        }
     }
 
     public static class AppBindData {

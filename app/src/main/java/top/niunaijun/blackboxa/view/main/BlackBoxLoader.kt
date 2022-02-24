@@ -50,7 +50,7 @@ class BlackBoxLoader {
     }
 
     fun addLifecycleCallback() {
-        BlackBoxCore.get().appLifecycleCallback = object : AppLifecycleCallback() {
+        BlackBoxCore.get().addAppLifecycleCallback(object : AppLifecycleCallback() {
             override fun beforeCreateApplication(
                 packageName: String?,
                 processName: String?,
@@ -74,7 +74,7 @@ class BlackBoxLoader {
             ) {
                 Log.d(TAG, "afterApplicationOnCreate: pkg $packageName, processName $processName")
             }
-        }
+        })
     }
 
     fun attachBaseContext(context: Context) {

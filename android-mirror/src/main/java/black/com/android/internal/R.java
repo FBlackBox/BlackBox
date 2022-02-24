@@ -63,9 +63,6 @@ public interface R {
         int[] Window();
 
         @BStaticField
-        int Window_background();
-
-        @BStaticField
         int Window_windowBackground();
 
         @BStaticField
