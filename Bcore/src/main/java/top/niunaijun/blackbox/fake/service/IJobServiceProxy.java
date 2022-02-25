@@ -71,6 +71,19 @@ public class IJobServiceProxy extends BinderInvocationStub {
         }
     }
 
+
+    @ProxyMethod(name = "enqueue")
+    public static class Enqueue extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            JobInfo jobInfo = (JobInfo) args[0];
+            JobInfo proxyJobInfo = BlackBoxCore.getBJobManager()
+                    .schedule(jobInfo);
+            args[0] = proxyJobInfo;
+            return method.invoke(who, args);
+        }
+    }
+
     @Override
     public boolean isBadEnv() {
         return false;
