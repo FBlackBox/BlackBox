@@ -14,7 +14,6 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.os.Process;
 
-import androidx.annotation.RequiresApi;
 
 import black.android.app.BRActivityThread;
 import top.canyie.pine.PineConfig;
@@ -160,7 +159,11 @@ public class BlackBoxCore extends ClientConfiguration {
     }
 
     public void startActivity(Intent intent, int userId) {
-        LauncherActivity.launch(intent, userId);
+        if (mClientConfiguration.isEnableLauncherActivity()) {
+            LauncherActivity.launch(intent, userId);
+        } else {
+            getBActivityManager().startActivity(intent, userId);
+        }
     }
 
     public static BJobManager getBJobManager() {

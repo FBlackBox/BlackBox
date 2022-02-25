@@ -23,4 +23,8 @@ public abstract class ClientConfiguration {
     public boolean isEnableDaemonService() {
         return false;
     }
+
+    public boolean isEnableLauncherActivity() {
+        return true;
+    }
 }
