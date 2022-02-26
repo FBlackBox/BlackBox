@@ -41,7 +41,7 @@ public class AppServiceDispatcher {
         return sServiceDispatcher;
     }
 
-    private final Handler mHandler = new Handler(Looper.getMainLooper());
+    private final Handler mHandler = BlackBoxCore.get().getHandler();
 
     public IBinder onBind(Intent proxyIntent) {
         ProxyServiceRecord serviceRecord = ProxyServiceRecord.create(proxyIntent);

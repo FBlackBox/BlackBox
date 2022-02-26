@@ -11,11 +11,8 @@ import android.os.PersistableBundle;
 import android.util.Log;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Proxy;
 
 import black.android.app.BRActivity;
-import black.android.app.BRActivityClient;
-import black.android.app.BRActivityClientActivityClientControllerSingleton;
 import black.android.app.BRActivityThread;
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.BActivityThread;
@@ -25,7 +22,6 @@ import top.niunaijun.blackbox.fake.service.HCallbackProxy;
 import top.niunaijun.blackbox.fake.service.IActivityClientProxy;
 import top.niunaijun.blackbox.utils.HackAppUtils;
 import top.niunaijun.blackbox.utils.compat.ActivityCompat;
-import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.ContextCompat;
 
 public final class AppInstrumentation extends BaseInstrumentationDelegate implements IInjectHook {

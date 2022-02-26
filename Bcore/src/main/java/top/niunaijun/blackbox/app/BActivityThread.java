@@ -10,7 +10,6 @@ import android.content.ComponentName;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -69,7 +68,6 @@ import top.niunaijun.blackbox.fake.frameworks.BXposedManager;
 import top.niunaijun.blackbox.fake.hook.HookManager;
 import top.niunaijun.blackbox.fake.service.HCallbackProxy;
 import top.niunaijun.blackbox.fake.service.context.providers.ContentProviderStub;
-import top.niunaijun.blackbox.proxy.ProxyBroadcastReceiver;
 import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.ActivityManagerCompat;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
@@ -92,7 +90,7 @@ public class BActivityThread extends IBActivityThread.Stub {
     private Application mInitialApplication;
     private AppConfig mAppConfig;
     private final List<ProviderInfo> mProviders = new ArrayList<>();
-    private final Handler mH = new Handler(Looper.getMainLooper());
+    private final Handler mH = BlackBoxCore.get().getHandler();
     private static final Object mConfigLock = new Object();
 
     public static BActivityThread currentActivityThread() {
@@ -273,12 +271,9 @@ public class BActivityThread extends IBActivityThread.Stub {
     public void bindApplication(final String packageName, final String processName) {
         if (Looper.myLooper() != Looper.getMainLooper()) {
             final ConditionVariable conditionVariable = new ConditionVariable();
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    handleBindApplication(packageName, processName);
-                    conditionVariable.open();
-                }
+            BlackBoxCore.get().getHandler().post(() -> {
+                handleBindApplication(packageName, processName);
+                conditionVariable.open();
             });
             conditionVariable.block();
         } else {
@@ -487,7 +482,7 @@ public class BActivityThread extends IBActivityThread.Stub {
                         continue;
                     }
                     BroadcastReceiver broadcastReceiver = (BroadcastReceiver) mInitialApplication.getClassLoader().loadClass(resolve.activityInfo.name).newInstance();
-                    mInitialApplication.registerReceiver(new ProxyBroadcastReceiver(broadcastReceiver), resolve.filter);
+                    mInitialApplication.registerReceiver(broadcastReceiver, resolve.filter);
                 } catch (Throwable e) {
                     Slog.d(TAG, "Unable to registerReceiver " + resolve.activityInfo.name
                             + ": " + e.toString());

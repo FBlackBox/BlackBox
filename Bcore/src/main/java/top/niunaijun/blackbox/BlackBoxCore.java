@@ -11,7 +11,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Process;
 
 
@@ -74,9 +76,14 @@ public class BlackBoxCore extends ClientConfiguration {
     private Thread.UncaughtExceptionHandler mExceptionHandler;
     private ClientConfiguration mClientConfiguration;
     private final List<AppLifecycleCallback> mAppLifecycleCallbacks = new ArrayList<>();
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
 
     public static BlackBoxCore get() {
         return sBlackBoxCore;
+    }
+
+    public Handler getHandler() {
+        return mHandler;
     }
 
     public static PackageManager getPackageManager() {
