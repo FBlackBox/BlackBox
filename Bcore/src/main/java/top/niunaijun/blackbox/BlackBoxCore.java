@@ -53,6 +53,7 @@ import me.weishu.reflection.Reflection;
 import top.niunaijun.blackbox.fake.frameworks.BStorageManager;
 import top.niunaijun.blackbox.fake.delegate.ContentProviderDelegate;
 import top.niunaijun.blackbox.core.system.ServiceManager;
+import top.niunaijun.blackreflection.BlackReflection;
 
 /**
  * Created by Milk on 3/30/21.

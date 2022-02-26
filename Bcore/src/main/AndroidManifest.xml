@@ -359,6 +359,19 @@
             android:excludeFromRecents="true"
             android:theme="@style/LauncherTheme" />
 
+        <service
+            android:name="top.niunaijun.blackbox.proxy.ProxyVpnService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_VPN_SERVICE">
+            <intent-filter>
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.net.VpnService.SUPPORTS_ALWAYS_ON"
+                android:value="true" />
+        </service>
+
         <activity
             android:name=".proxy.ProxyActivity$P0"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"

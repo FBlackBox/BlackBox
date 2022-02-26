@@ -9,5 +9,5 @@ import top.niunaijun.blackreflection.annotation.BMethod;
 @BClassName("android.content.IIntentReceiver")
 public interface IIntentReceiver {
     @BMethod
-    void performReceive(Intent Intent0, int int1, String String2, Bundle Bundle3, boolean boolean4, boolean boolean5);
+    void performReceive(Intent intent, int resultCode, String data, Bundle extras, boolean ordered, boolean sticky, int sendingUser);
 }

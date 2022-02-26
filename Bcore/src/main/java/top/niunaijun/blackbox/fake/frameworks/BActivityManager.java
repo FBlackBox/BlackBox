@@ -12,6 +12,8 @@ import top.niunaijun.blackbox.entity.AppConfig;
 import top.niunaijun.blackbox.entity.UnbindRecord;
 import top.niunaijun.blackbox.core.system.ServiceManager;
 import top.niunaijun.blackbox.core.system.am.IBActivityManagerService;
+import top.niunaijun.blackbox.entity.am.RunningAppProcessInfo;
+import top.niunaijun.blackbox.entity.am.RunningServiceInfo;
 
 /**
  * Created by Milk on 4/14/21.
@@ -107,6 +109,14 @@ public class BActivityManager {
         }
     }
 
+    public void stopServiceToken(ComponentName componentName, IBinder token, int userId) {
+        try {
+            getService().stopServiceToken(componentName, token, userId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void onStartCommand(Intent proxyIntent, int userId) {
         try {
             getService().onStartCommand(proxyIntent, userId);
@@ -189,6 +199,24 @@ public class BActivityManager {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    public RunningAppProcessInfo getRunningAppProcesses(String callerPackage, int userId) throws RemoteException {
+        try {
+            return getService().getRunningAppProcesses(callerPackage, userId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public RunningServiceInfo getRunningServices(String callerPackage, int userId) throws RemoteException {
+        try {
+            return getService().getRunningServices(callerPackage, userId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private IBActivityManagerService getService() {

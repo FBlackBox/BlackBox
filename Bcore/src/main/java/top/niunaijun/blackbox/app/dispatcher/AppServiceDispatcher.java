@@ -5,7 +5,9 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ServiceInfo;
 import android.content.res.Configuration;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -39,6 +41,8 @@ public class AppServiceDispatcher {
         return sServiceDispatcher;
     }
 
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
+
     public IBinder onBind(Intent proxyIntent) {
         ProxyServiceRecord serviceRecord = ProxyServiceRecord.create(proxyIntent);
         Intent intent = serviceRecord.mServiceIntent;
@@ -49,7 +53,7 @@ public class AppServiceDispatcher {
 
 //        Log.d(TAG, "onBind: " + component.toString());
 
-        Service service = getOrCreateService(intent, serviceInfo);
+        Service service = getOrCreateService(serviceRecord);
         if (service == null)
             return null;
         intent.setExtrasClassLoader(service.getClassLoader());
@@ -81,7 +85,7 @@ public class AppServiceDispatcher {
         }
 
 //        Log.d(TAG, "onStartCommand: " + component.toString());
-        Service service = getOrCreateService(stubRecord.mServiceIntent, stubRecord.mServiceInfo);
+        Service service = getOrCreateService(stubRecord);
         if (service == null)
             return START_NOT_STICKY;
         stubRecord.mServiceIntent.setExtrasClassLoader(service.getClassLoader());
@@ -162,7 +166,7 @@ public class AppServiceDispatcher {
             if (unbindRecord == null)
                 return false;
 
-            Service service = getOrCreateService(stubRecord.mServiceIntent, stubRecord.mServiceInfo);
+            Service service = getOrCreateService(stubRecord);
             if (service == null)
                 return false;
 
@@ -195,35 +199,40 @@ public class AppServiceDispatcher {
         return record.getBinder(intent);
     }
 
-    public void stopService(ComponentName componentName) {
-//        if (componentName == null)
-//            return;
-//        Log.d(TAG, "stopService：" + componentName.toString());
-//        ServiceRecord record = findRecord(componentName);
-//        if (record == null)
-//            return;
-//        if (record.getService() != null) {
-//            boolean destroy = record.getStartId() > 0;
-//            try {
-//                if (destroy) {
-//                    record.getService().onDestroy();
-//                }
-//            } catch (Throwable e) {
-//                e.printStackTrace();
-//            }
-//        }
+    public void stopService(Intent intent) {
+        if (intent == null)
+            return;
+        ServiceRecord record = findRecord(intent);
+        if (record == null)
+            return;
+        if (record.getService() != null) {
+            boolean destroy = record.getStartId() > 0;
+            try {
+                if (destroy) {
+                    mHandler.post(() -> record.getService().onDestroy());
+                    BlackBoxCore.getBActivityManager().onServiceDestroy(intent, BActivityThread.getUserId());
+                    mService.remove(new Intent.FilterComparison(intent));
+                }
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private ServiceRecord findRecord(Intent intent) {
         return mService.get(new Intent.FilterComparison(intent));
     }
 
-    private Service getOrCreateService(Intent intent, ServiceInfo serviceInfo) {
+    private Service getOrCreateService(ProxyServiceRecord proxyServiceRecord) {
+        Intent intent = proxyServiceRecord.mServiceIntent;
+        ServiceInfo serviceInfo = proxyServiceRecord.mServiceInfo;
+        IBinder token = proxyServiceRecord.mToken;
+
         ServiceRecord record = findRecord(intent);
         if (record != null && record.getService() != null) {
             return record.getService();
         }
-        Service service = BActivityThread.currentActivityThread().createService(serviceInfo);
+        Service service = BActivityThread.currentActivityThread().createService(serviceInfo, token);
         if (service == null)
             return null;
         record = new ServiceRecord();

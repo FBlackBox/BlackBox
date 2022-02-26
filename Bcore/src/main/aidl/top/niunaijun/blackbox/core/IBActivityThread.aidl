@@ -12,11 +12,12 @@ import android.content.pm.ResolveInfo;
 interface IBActivityThread {
     IBinder getActivityThread();
     void bindApplication();
-    void stopService(in ComponentName componentName);
     void restartJobService(String selfId);
     IBinder acquireContentProviderClient(in ProviderInfo providerInfo);
 
     IBinder peekService(in Intent intent);
+    void stopService(in Intent componentName);
+
     void finishActivity(IBinder token);
     void handleNewIntent(IBinder token, in Intent intent);
 }

@@ -13,10 +13,12 @@ import top.niunaijun.blackbox.fake.service.IActivityTaskManagerProxy;
 import top.niunaijun.blackbox.fake.service.HCallbackProxy;
 import top.niunaijun.blackbox.fake.service.IAlarmManagerProxy;
 import top.niunaijun.blackbox.fake.service.IAppOpsManagerProxy;
+import top.niunaijun.blackbox.fake.service.IConnectivityManagerProxy;
 import top.niunaijun.blackbox.fake.service.IDevicePolicyManagerProxy;
 import top.niunaijun.blackbox.fake.service.IJobServiceProxy;
 import top.niunaijun.blackbox.fake.service.INotificationManagerProxy;
 import top.niunaijun.blackbox.fake.service.ITelephonyRegistryProxy;
+import top.niunaijun.blackbox.fake.service.IVpnManagerProxy;
 import top.niunaijun.blackbox.fake.service.context.ContentServiceStub;
 import top.niunaijun.blackbox.fake.service.context.RestrictionsManagerStub;
 import top.niunaijun.blackbox.fake.service.IDisplayManagerProxy;
@@ -82,9 +84,15 @@ public class HookManager {
             addInjector(new ITelephonyRegistryProxy());
             addInjector(new IDevicePolicyManagerProxy());
             addInjector(new IAccountManagerProxy());
+            addInjector(new IConnectivityManagerProxy());
 
             addInjector(AppInstrumentation.get());
 
+            // 12.0
+            if (BuildCompat.isS()) {
+                addInjector(new IActivityClientProxy(null));
+                addInjector(new IVpnManagerProxy());
+            }
             // 11.0
             if (BuildCompat.isR()) {
             }
@@ -114,9 +122,6 @@ public class HookManager {
             // 5.0
             if (BuildCompat.isL()) {
                 addInjector(new IJobServiceProxy());
-            }
-            if (BuildCompat.isS()) {
-                addInjector(new IActivityClientProxy(null));
             }
         }
         injectAll();

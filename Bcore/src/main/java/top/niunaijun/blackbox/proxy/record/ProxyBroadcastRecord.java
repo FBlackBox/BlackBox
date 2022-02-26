@@ -15,33 +15,28 @@ import java.util.ArrayList;
  */
 public class ProxyBroadcastRecord {
     public Intent mIntent;
-    public ArrayList<ActivityInfo> mActivityInfo;
     public int mUserId;
 
-    public ProxyBroadcastRecord(Intent intent, ArrayList<ActivityInfo> activityInfo, int userId) {
+    public ProxyBroadcastRecord(Intent intent, int userId) {
         mIntent = intent;
-        mActivityInfo = activityInfo;
         mUserId = userId;
     }
 
-    public static void saveStub(Intent shadow, Intent target, ArrayList<ActivityInfo> activityInfo, int userId) {
-        shadow.putExtra("_VM_|_target_", target);
-        shadow.putParcelableArrayListExtra("_VM_|_activity_info_", activityInfo);
-        shadow.putExtra("_VM_|_user_id_", userId);
+    public static void saveStub(Intent shadow, Intent target, int userId) {
+        shadow.putExtra("_B_|_target_", target);
+        shadow.putExtra("_B_|_user_id_", userId);
     }
 
     public static ProxyBroadcastRecord create(Intent intent) {
-        Intent target = intent.getParcelableExtra("_VM_|_target_");
-        ArrayList<ActivityInfo> activityInfo = intent.getParcelableArrayListExtra("_VM_|_activity_info_");
-        int userId = intent.getIntExtra("_VM_|_user_id_", 0);
-        return new ProxyBroadcastRecord(target, activityInfo, userId);
+        Intent target = intent.getParcelableExtra("_B_|_target_");
+        int userId = intent.getIntExtra("_B_|_user_id_", 0);
+        return new ProxyBroadcastRecord(target, userId);
     }
 
     @Override
     public String toString() {
         return "ProxyBroadcastRecord{" +
                 "mIntent=" + mIntent +
-                ", mActivityInfo=" + mActivityInfo +
                 ", mUserId=" + mUserId +
                 '}';
     }

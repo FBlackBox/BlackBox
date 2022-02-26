@@ -1,6 +1,8 @@
 package top.niunaijun.blackbox.core.system.am;
 
+import android.app.ActivityManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
@@ -20,6 +22,9 @@ import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
 import top.niunaijun.blackbox.entity.UnbindRecord;
 import top.niunaijun.blackbox.core.system.ProcessRecord;
 import top.niunaijun.blackbox.core.system.BProcessManager;
+import top.niunaijun.blackbox.entity.am.RunningAppProcessInfo;
+import top.niunaijun.blackbox.entity.am.RunningServiceInfo;
+import top.niunaijun.blackbox.proxy.record.ProxyBroadcastRecord;
 
 import static android.content.pm.PackageManager.GET_META_DATA;
 
@@ -75,9 +80,10 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
             }
             processRecord.bActivityThread.bindApplication();
         }
-        intent.setPackage(BlackBoxCore.getHostPkg());
-        intent.setComponent(null);
-        return intent;
+        Intent shadow = new Intent(intent);
+        shadow.setPackage(BlackBoxCore.getHostPkg());
+        shadow.setComponent(null);
+        return shadow;
     }
 
     @Override
@@ -142,6 +148,36 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
     }
 
     @Override
+    public RunningAppProcessInfo getRunningAppProcesses(String callerPackage, int userId) throws RemoteException {
+        ActivityManager manager = (ActivityManager)
+                BlackBoxCore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = manager.getRunningAppProcesses();
+        Map<Integer, ActivityManager.RunningAppProcessInfo> runningProcessMap = new HashMap<>();
+        for (ActivityManager.RunningAppProcessInfo runningProcess : runningAppProcesses) {
+            runningProcessMap.put(runningProcess.pid, runningProcess);
+        }
+        List<ProcessRecord> packageProcessAsUser = BProcessManager.get().getPackageProcessAsUser(callerPackage, userId);
+
+        RunningAppProcessInfo appProcessInfo = new RunningAppProcessInfo();
+        for (ProcessRecord processRecord : packageProcessAsUser) {
+            ActivityManager.RunningAppProcessInfo runningAppProcessInfo = runningProcessMap.get(processRecord.pid);
+            if (runningAppProcessInfo != null) {
+                runningAppProcessInfo.processName = processRecord.processName;
+                appProcessInfo.mAppProcessInfoList.add(runningAppProcessInfo);
+            }
+        }
+        return appProcessInfo;
+    }
+
+    @Override
+    public RunningServiceInfo getRunningServices(String callerPackage, int userId) throws RemoteException {
+        UserSpace userSpace = getOrCreateSpaceLocked(userId);
+        synchronized (userSpace.mActiveServices) {
+            return userSpace.mActiveServices.getRunningServiceInfo(callerPackage, userId);
+        }
+    }
+
+    @Override
     public void onStartCommand(Intent intent, int userId) throws RemoteException {
         UserSpace userSpace = getOrCreateSpaceLocked(userId);
         synchronized (userSpace.mActiveServices) {
@@ -186,6 +222,14 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
         UserSpace userSpace = getOrCreateSpaceLocked(userId);
         synchronized (userSpace.mActiveServices) {
             userSpace.mActiveServices.unbindService(binder, userId);
+        }
+    }
+
+    @Override
+    public void stopServiceToken(ComponentName className, IBinder token, int userId) throws RemoteException {
+        UserSpace userSpace = getOrCreateSpaceLocked(userId);
+        synchronized (userSpace.mActiveServices) {
+            userSpace.mActiveServices.stopServiceToken(className, token, userId);
         }
     }
 

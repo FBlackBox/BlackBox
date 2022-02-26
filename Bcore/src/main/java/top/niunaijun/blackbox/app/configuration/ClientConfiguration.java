@@ -21,7 +21,7 @@ public abstract class ClientConfiguration {
     public abstract String getHostPackageName();
 
     public boolean isEnableDaemonService() {
-        return false;
+        return true;
     }
 
     public boolean isEnableLauncherActivity() {

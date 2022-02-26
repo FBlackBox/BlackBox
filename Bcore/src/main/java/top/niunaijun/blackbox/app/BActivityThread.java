@@ -10,6 +10,7 @@ import android.content.ComponentName;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -68,6 +69,7 @@ import top.niunaijun.blackbox.fake.frameworks.BXposedManager;
 import top.niunaijun.blackbox.fake.hook.HookManager;
 import top.niunaijun.blackbox.fake.service.HCallbackProxy;
 import top.niunaijun.blackbox.fake.service.context.providers.ContentProviderStub;
+import top.niunaijun.blackbox.proxy.ProxyBroadcastReceiver;
 import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.ActivityManagerCompat;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
@@ -189,7 +191,7 @@ public class BActivityThread extends IBActivityThread.Stub {
         return mBoundApplication != null;
     }
 
-    public Service createService(ServiceInfo serviceInfo) {
+    public Service createService(ServiceInfo serviceInfo, IBinder token) {
         if (!BActivityThread.currentActivityThread().isInit()) {
             BActivityThread.currentActivityThread().bindApplication(serviceInfo.packageName, serviceInfo.processName);
         }
@@ -214,7 +216,7 @@ public class BActivityThread extends IBActivityThread.Stub {
                     context,
                     BlackBoxCore.mainThread(),
                     serviceInfo.name,
-                    BActivityThread.currentActivityThread().getActivityThread(),
+                    token,
                     mInitialApplication,
                     BRActivityManagerNative.get().getDefault()
             );
@@ -450,8 +452,8 @@ public class BActivityThread extends IBActivityThread.Stub {
     }
 
     @Override
-    public void stopService(ComponentName componentName) {
-        AppServiceDispatcher.get().stopService(componentName);
+    public void stopService(Intent intent) {
+        AppServiceDispatcher.get().stopService(intent);
     }
 
     @Override
@@ -485,7 +487,7 @@ public class BActivityThread extends IBActivityThread.Stub {
                         continue;
                     }
                     BroadcastReceiver broadcastReceiver = (BroadcastReceiver) mInitialApplication.getClassLoader().loadClass(resolve.activityInfo.name).newInstance();
-                    mInitialApplication.registerReceiver(broadcastReceiver, resolve.filter);
+                    mInitialApplication.registerReceiver(new ProxyBroadcastReceiver(broadcastReceiver), resolve.filter);
                 } catch (Throwable e) {
                     Slog.d(TAG, "Unable to registerReceiver " + resolve.activityInfo.name
                             + ": " + e.toString());

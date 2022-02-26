@@ -1,38 +1,42 @@
 package top.niunaijun.blackbox.fake.service;
 
-import android.app.ActivityManager;
 import android.app.IServiceConnection;
 import android.content.ComponentName;
+import android.content.IIntentReceiver;
 import android.content.Intent;
 import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
 import android.os.IBinder;
 import android.os.IInterface;
-import android.os.Process;
 import android.util.Log;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.List;
+import java.util.ArrayList;
 
 import black.android.app.BRActivityManagerNative;
-
 import black.android.app.BRActivityManagerOreo;
 import black.android.content.BRContentProviderNative;
+import black.android.os.BRUserHandle;
 import black.android.util.BRSingleton;
+import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.core.env.AppSystemEnv;
 import top.niunaijun.blackbox.entity.AppConfig;
+import top.niunaijun.blackbox.entity.am.RunningAppProcessInfo;
+import top.niunaijun.blackbox.entity.am.RunningServiceInfo;
+import top.niunaijun.blackbox.fake.delegate.ContentProviderDelegate;
+import top.niunaijun.blackbox.fake.delegate.InnerReceiverDelegate;
+import top.niunaijun.blackbox.fake.delegate.ServiceConnectionDelegate;
+import top.niunaijun.blackbox.fake.frameworks.BActivityManager;
+import top.niunaijun.blackbox.fake.hook.ClassInvocationStub;
+import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
 import top.niunaijun.blackbox.fake.hook.ScanClass;
 import top.niunaijun.blackbox.fake.service.context.providers.ContentProviderStub;
-import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.proxy.ProxyManifest;
-import top.niunaijun.blackbox.app.BActivityThread;
-import top.niunaijun.blackbox.fake.hook.ClassInvocationStub;
-import top.niunaijun.blackbox.fake.hook.MethodHook;
-import top.niunaijun.blackbox.fake.delegate.ContentProviderDelegate;
-import top.niunaijun.blackbox.fake.delegate.ServiceConnectionDelegate;
 import top.niunaijun.blackbox.proxy.ProxyActivity;
+import top.niunaijun.blackbox.proxy.ProxyManifest;
+import top.niunaijun.blackbox.proxy.record.ProxyBroadcastRecord;
 import top.niunaijun.blackbox.utils.ComponentUtils;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 import top.niunaijun.blackbox.utils.Reflector;
@@ -126,7 +130,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                             providerBinder = BlackBoxCore.getBActivityManager().acquireContentProviderClient(providerInfo);
                         }
                         args[authIndex] = ProxyManifest.getProxyAuthorities(appConfig.bpid);
-                        args[getUserIndex()] = 0;
+                        args[getUserIndex()] = BRUserHandle.get().myUserId();
                     }
                     content = method.invoke(who, args);
 
@@ -182,6 +186,17 @@ public class IActivityManagerProxy extends ClassInvocationStub {
             Intent intent = (Intent) args[1];
             String resolvedType = (String) args[2];
             return BlackBoxCore.getBActivityManager().stopService(intent, resolvedType, BActivityThread.getUserId());
+        }
+    }
+
+    @ProxyMethod(name = "stopServiceToken")
+    public static class StopServiceToken extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            ComponentName componentName = (ComponentName) args[0];
+            IBinder token = (IBinder) args[1];
+            BlackBoxCore.getBActivityManager().stopServiceToken(componentName, token, BActivityThread.getUserId());
+            return true;
         }
     }
 
@@ -249,20 +264,24 @@ public class IActivityManagerProxy extends ClassInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            List<ActivityManager.RunningAppProcessInfo> invoke = (List<ActivityManager.RunningAppProcessInfo>) method.invoke(who, args);
-            if (invoke == null || BActivityThread.getAppConfig() == null)
-                return null;
-            boolean findSelf = false;
-            for (ActivityManager.RunningAppProcessInfo runningAppProcessInfo : invoke) {
-                if (runningAppProcessInfo.pid == Process.myPid()) {
-                    runningAppProcessInfo.processName = BActivityThread.getAppProcessName();
-                    findSelf = true;
-                }
+            RunningAppProcessInfo runningAppProcesses = BActivityManager.get().getRunningAppProcesses(BActivityThread.getAppPackageName(), BActivityThread.getUserId());
+            if (runningAppProcesses == null) {
+                return new ArrayList<>();
             }
-            if (!findSelf) {
-                invoke.add(new ActivityManager.RunningAppProcessInfo(BActivityThread.getAppProcessName(), Process.myPid(), new String[]{BActivityThread.getAppPackageName()}));
+            return runningAppProcesses.mAppProcessInfoList;
+        }
+    }
+
+    @ProxyMethod(name = "getServices")
+    public static class GetServices extends MethodHook {
+
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            RunningServiceInfo runningServices = BActivityManager.get().getRunningServices(BActivityThread.getAppPackageName(), BActivityThread.getUserId());
+            if (runningServices == null) {
+                return new ArrayList<>();
             }
-            return invoke;
+            return runningServices.mRunningServiceInfoList;
         }
     }
 
@@ -293,16 +312,6 @@ public class IActivityManagerProxy extends ClassInvocationStub {
     public static class GetIntentSenderWithFeature extends GetIntentSender {
     }
 
-    @ProxyMethod(name = "registerReceiverWithFeature")
-    public static class RegisterReceiverWithFeature extends MethodHook {
-        @Override
-        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            MethodParameterUtils.replaceFirstAppPkg(args);
-            return method.invoke(who, args);
-        }
-    }
-
-
     @ProxyMethod(name = "broadcastIntentWithFeature")
     public static class BroadcastIntentWithFeature extends BroadcastIntent {
     }
@@ -316,8 +325,11 @@ public class IActivityManagerProxy extends ClassInvocationStub {
             String resolvedType = (String) args[intentIndex + 1];
             Intent proxyIntent = BlackBoxCore.getBActivityManager().sendBroadcast(intent, resolvedType, BActivityThread.getUserId());
             if (proxyIntent != null) {
+                proxyIntent.setExtrasClassLoader(BActivityThread.getApplication().getClassLoader());
+                ProxyBroadcastRecord.saveStub(proxyIntent, intent, BActivityThread.getUserId());
                 args[intentIndex] = proxyIntent;
             }
+            // ignore permission
             for (int i = 0; i < args.length; i++) {
                 Object o = args[i];
                 if (o instanceof String[]) {
@@ -335,6 +347,20 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                 }
             }
             return 1;
+        }
+    }
+
+    @ProxyMethod(name = "unregisterReceiver")
+    public static class unregisterReceiver extends MethodHook {
+
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            InnerReceiverDelegate delegate = InnerReceiverDelegate.getDelegate((IBinder) args[0]);
+            if (delegate == null) {
+                return method.invoke(who, args);
+            }
+            args[0] = delegate;
+            return method.invoke(who, args);
         }
     }
 
@@ -370,14 +396,45 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
+    // android 10
+    @ProxyMethod(name = "registerReceiverWithFeature")
+    public static class RegisterReceiverWithFeature extends RegisterReceiver {
+    }
+
     @ProxyMethod(name = "registerReceiver")
     public static class RegisterReceiver extends MethodHook {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             MethodParameterUtils.replaceFirstAppPkg(args);
-            args[4] = null;
+            int receiverIndex = getReceiverIndex();
+            if (args[receiverIndex] != null) {
+                IIntentReceiver proxy = InnerReceiverDelegate.createProxy((IIntentReceiver) args[receiverIndex]);
+                args[receiverIndex] = proxy;
+            }
+            // ignore permission
+            if (args[getPermissionIndex()] != null) {
+                args[getPermissionIndex()] = null;
+            }
             return method.invoke(who, args);
+        }
+
+        public int getReceiverIndex() {
+            if (BuildCompat.isS()) {
+                return 4;
+            } else if (BuildCompat.isR()) {
+                return 3;
+            }
+            return 2;
+        }
+
+        public int getPermissionIndex() {
+            if (BuildCompat.isS()) {
+                return 6;
+            } else if (BuildCompat.isR()) {
+                return 5;
+            }
+            return 4;
         }
     }
 
@@ -386,6 +443,17 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             MethodParameterUtils.replaceLastUserId(args);
+            return method.invoke(who, args);
+        }
+    }
+
+    @ProxyMethod(name = "setServiceForeground")
+    public static class setServiceForeground extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            if (args[0] instanceof ComponentName) {
+                args[0] = new ComponentName(BlackBoxCore.getHostPkg(), ProxyManifest.getProxyService(BActivityThread.getAppPid()));
+            }
             return method.invoke(who, args);
         }
     }

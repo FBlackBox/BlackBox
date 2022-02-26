@@ -11,6 +11,8 @@ import android.app.IServiceConnection;
 import top.niunaijun.blackbox.entity.AppConfig;
 import top.niunaijun.blackbox.entity.UnbindRecord;
 import android.os.Bundle;
+import top.niunaijun.blackbox.entity.am.RunningAppProcessInfo;
+import top.niunaijun.blackbox.entity.am.RunningServiceInfo;
 
 // Declare any non-default types here with import statements
 
@@ -28,6 +30,8 @@ interface IBActivityManagerService {
     Intent bindService(in Intent service, in IBinder binder, String resolvedType, int userId);
     void unbindService(in IBinder binder, int userId);
 
+    void stopServiceToken(in ComponentName className, in IBinder token, int userId);
+
     void onStartCommand(in Intent proxyIntent, int userId);
     UnbindRecord onServiceUnbind(in Intent proxyIntent, int userId);
     void onServiceDestroy(in Intent proxyIntent, int userId);
@@ -40,4 +44,7 @@ interface IBActivityManagerService {
     void onActivityResumed(IBinder token);
     void onActivityDestroyed(IBinder token);
     void onFinishActivity(IBinder token);
+
+    RunningAppProcessInfo getRunningAppProcesses(String callerPackage, int userId);
+    RunningServiceInfo getRunningServices(String callerPackage, int userId);
 }

@@ -252,6 +252,15 @@ public class BProcessManager {
         }
     }
 
+    public List<ProcessRecord> getPackageProcessAsUser(String packageName, int userId) {
+        synchronized (mProcessLock) {
+            int buid = BUserHandle.getUid(userId, BPackageManagerService.get().getAppId(packageName));
+            Map<String, ProcessRecord> process = mProcessMap.get(buid);
+            if (process == null)
+                return new ArrayList<>();
+            return new ArrayList<>(process.values());
+        }
+    }
 
     public int getUserIdByCallingPid(int callingPid) {
         synchronized (mProcessLock) {
