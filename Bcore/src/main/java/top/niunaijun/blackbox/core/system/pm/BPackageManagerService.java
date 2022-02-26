@@ -215,7 +215,6 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
 
     private List<ResolveInfo> queryIntentActivities(Intent intent,
                                                     String resolvedType, int flags, int userId) {
-        final String pkgName = intent.getPackage();
         ComponentName comp = intent.getComponent();
         if (comp == null) {
             if (intent.getSelector() != null) {
@@ -241,11 +240,8 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
 
         // reader
         synchronized (mPackages) {
-            if (pkgName != null) {
-                return mComponentResolver.queryActivities(intent, resolvedType, flags, userId);
-            }
+            return mComponentResolver.queryActivities(intent, resolvedType, flags, userId);
         }
-        return Collections.emptyList();
     }
 
 
