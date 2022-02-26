@@ -5,9 +5,9 @@ import android.os.RemoteException;
 
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.BActivityThread;
-import top.niunaijun.blackbox.entity.JobRecord;
 import top.niunaijun.blackbox.core.system.ServiceManager;
 import top.niunaijun.blackbox.core.system.am.IBJobManagerService;
+import top.niunaijun.blackbox.entity.JobRecord;
 
 /**
  * Created by Milk on 4/14/21.

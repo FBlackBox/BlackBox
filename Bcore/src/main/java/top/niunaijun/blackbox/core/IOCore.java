@@ -7,19 +7,18 @@ import android.content.pm.PackageManager;
 import android.os.Process;
 import android.text.TextUtils;
 
-import black.android.os.BRUserHandle;
-import black.android.os.UserHandle;
-import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.app.BActivityThread;
-import top.niunaijun.blackbox.core.env.BEnvironment;
-import top.niunaijun.blackbox.utils.FileUtils;
-import top.niunaijun.blackbox.utils.TrieTree;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import black.android.os.BRUserHandle;
+import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.app.BActivityThread;
+import top.niunaijun.blackbox.core.env.BEnvironment;
+import top.niunaijun.blackbox.utils.FileUtils;
+import top.niunaijun.blackbox.utils.TrieTree;
 
 /**
  * Created by Milk on 4/9/21.

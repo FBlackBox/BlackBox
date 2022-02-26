@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.Build;
 import android.util.Log;
 
-import top.canyie.pine.callback.MethodHook;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
@@ -18,6 +16,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import top.canyie.pine.callback.MethodHook;
 
 /**
  * The bridge class provides main APIs for you.

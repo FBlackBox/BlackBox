@@ -1,7 +1,6 @@
 package top.niunaijun.blackbox.fake.service;
 
 import black.android.app.BRActivityTaskManager;
-import black.android.app.BRIActivityTaskManager;
 import black.android.app.BRIActivityTaskManagerStub;
 import black.android.os.BRServiceManager;
 import black.android.util.BRSingleton;

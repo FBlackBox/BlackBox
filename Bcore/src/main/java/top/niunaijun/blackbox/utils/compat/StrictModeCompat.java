@@ -1,7 +1,6 @@
 package top.niunaijun.blackbox.utils.compat;
 
 import black.android.os.BRStrictMode;
-import black.android.os.StrictMode;
 
 public class StrictModeCompat {
     public static int DETECT_VM_FILE_URI_EXPOSURE = BRStrictMode.get().DETECT_VM_FILE_URI_EXPOSURE() == null ?

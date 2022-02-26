@@ -1,7 +1,6 @@
 package top.niunaijun.blackbox.utils.compat;
 
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import java.io.BufferedReader;

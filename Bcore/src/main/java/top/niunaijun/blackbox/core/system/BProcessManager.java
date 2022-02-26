@@ -17,17 +17,17 @@ import java.util.List;
 import java.util.Map;
 
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.core.IBActivityThread;
 import top.niunaijun.blackbox.core.env.BEnvironment;
-import top.niunaijun.blackbox.entity.AppConfig;
-import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
 import top.niunaijun.blackbox.core.system.user.BUserHandle;
+import top.niunaijun.blackbox.entity.AppConfig;
+import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.ApplicationThreadCompat;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
 import top.niunaijun.blackbox.utils.provider.ProviderCall;
-import top.niunaijun.blackbox.core.IBActivityThread;
 
 /**
  * Created by Milk on 4/2/21.

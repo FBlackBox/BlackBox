@@ -6,9 +6,9 @@ import java.util.Collections;
 import java.util.List;
 
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.entity.pm.InstalledModule;
 import top.niunaijun.blackbox.core.system.ServiceManager;
 import top.niunaijun.blackbox.core.system.pm.IBXposedManagerService;
+import top.niunaijun.blackbox.entity.pm.InstalledModule;
 
 /**
  * Created by Milk on 5/2/21.

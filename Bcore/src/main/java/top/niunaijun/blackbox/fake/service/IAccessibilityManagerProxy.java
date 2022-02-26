@@ -8,10 +8,10 @@ import java.lang.reflect.Method;
 import black.android.os.BRServiceManager;
 import black.android.view.accessibility.BRIAccessibilityManagerStub;
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.core.system.user.BUserHandle;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethods;
-import top.niunaijun.blackbox.core.system.user.BUserHandle;
 
 /**
  * Created by Milk on 4/25/21.

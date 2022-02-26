@@ -33,7 +33,6 @@ import de.robv.android.xposed.XposedBridge.CopyOnWriteSortedSet;
 import de.robv.android.xposed.callbacks.XC_LayoutInflated;
 import de.robv.android.xposed.callbacks.XC_LayoutInflated.LayoutInflatedParam;
 import de.robv.android.xposed.callbacks.XCallback;
-
 import xposed.dummy.XResourcesSuperClass;
 
 import static de.robv.android.xposed.XposedHelpers.decrementMethodDepth;

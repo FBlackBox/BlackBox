@@ -1,7 +1,6 @@
 package top.niunaijun.blackbox.fake.service;
 
 import android.content.Context;
-import android.os.IInterface;
 
 import java.lang.reflect.Method;
 

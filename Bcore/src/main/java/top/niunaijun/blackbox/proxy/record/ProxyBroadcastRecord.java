@@ -1,9 +1,6 @@
 package top.niunaijun.blackbox.proxy.record;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-
-import java.util.ArrayList;
 
 /**
  * Created by Milk on 4/7/21.

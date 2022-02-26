@@ -1,8 +1,8 @@
 package top.niunaijun.blackbox.core.system.pm.installer;
 
 import top.niunaijun.blackbox.core.env.BEnvironment;
-import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackbox.core.system.pm.BPackageSettings;
+import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackbox.utils.FileUtils;
 
 /**

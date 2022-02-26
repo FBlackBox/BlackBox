@@ -3,7 +3,6 @@ package top.niunaijun.blackbox.core.system;
 import android.content.pm.ApplicationInfo;
 import android.os.Binder;
 import android.os.ConditionVariable;
-
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,8 +11,8 @@ import android.text.TextUtils;
 
 import java.util.Arrays;
 
-import top.niunaijun.blackbox.entity.AppConfig;
 import top.niunaijun.blackbox.core.IBActivityThread;
+import top.niunaijun.blackbox.entity.AppConfig;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
 
 public class ProcessRecord extends Binder implements Parcelable {

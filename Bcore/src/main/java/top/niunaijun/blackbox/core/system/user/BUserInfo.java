@@ -3,9 +3,6 @@ package top.niunaijun.blackbox.core.system.user;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import top.niunaijun.blackbox.core.system.pm.BPackage;
-import top.niunaijun.blackbox.core.system.pm.BPackageSettings;
-
 /**
  * Created by Milk on 4/22/21.
  * * ∧＿∧

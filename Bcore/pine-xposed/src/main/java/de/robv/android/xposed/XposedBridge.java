@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Set;
 
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
-
 import top.canyie.pine.Pine;
 import top.canyie.pine.callback.MethodHook;
 import top.canyie.pine.xposed.PineXposed;

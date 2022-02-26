@@ -9,7 +9,6 @@ import android.os.Parcelable;
 import java.util.Objects;
 
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.core.system.pm.BPackageSettings;
 
 /**
  * Created by Milk on 4/20/21.

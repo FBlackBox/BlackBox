@@ -1,8 +1,8 @@
 package top.canyie.pine.callback;
 
-import top.canyie.pine.Pine;
-
 import java.lang.reflect.Member;
+
+import top.canyie.pine.Pine;
 
 /**
  * Interface definition for a callback that will be invoked before/after the method executes.

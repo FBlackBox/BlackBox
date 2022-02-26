@@ -4,6 +4,7 @@ import android.content.pm.PackageParser;
 import android.content.pm.PackageParser.Package;
 import android.os.Build;
 import android.util.DisplayMetrics;
+
 import java.io.File;
 
 import black.android.content.pm.BRPackageParser;
@@ -13,8 +14,6 @@ import black.android.content.pm.BRPackageParserMarshmallow;
 import black.android.content.pm.BRPackageParserNougat;
 import black.android.content.pm.BRPackageParserPie;
 
-import static android.os.Build.VERSION_CODES.JELLY_BEAN;
-import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.os.Build.VERSION_CODES.LOLLIPOP_MR1;
 import static android.os.Build.VERSION_CODES.M;

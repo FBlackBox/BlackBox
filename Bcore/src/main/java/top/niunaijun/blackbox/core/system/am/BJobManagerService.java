@@ -15,12 +15,12 @@ import java.util.Map;
 
 import black.android.app.job.BRJobInfo;
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.proxy.ProxyManifest;
+import top.niunaijun.blackbox.core.system.BProcessManager;
 import top.niunaijun.blackbox.core.system.ISystemService;
+import top.niunaijun.blackbox.core.system.ProcessRecord;
 import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
 import top.niunaijun.blackbox.entity.JobRecord;
-import top.niunaijun.blackbox.core.system.ProcessRecord;
-import top.niunaijun.blackbox.core.system.BProcessManager;
+import top.niunaijun.blackbox.proxy.ProxyManifest;
 
 /**
  * Created by Milk on 4/2/21.

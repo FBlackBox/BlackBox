@@ -1,14 +1,11 @@
 package top.niunaijun.blackbox.fake.service;
 
 import android.os.IBinder;
-import android.os.IInterface;
-import android.util.Log;
 
 import java.lang.reflect.Method;
 
 import black.android.app.BRActivityClient;
 import black.android.util.BRSingleton;
-import black.android.util.SingletonContext;
 import top.niunaijun.blackbox.fake.frameworks.BActivityManager;
 import top.niunaijun.blackbox.fake.hook.ClassInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;

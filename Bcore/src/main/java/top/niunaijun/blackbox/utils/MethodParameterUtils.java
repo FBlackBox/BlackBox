@@ -5,8 +5,8 @@ import android.os.Process;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.app.BActivityThread;
 
 public class MethodParameterUtils {
 

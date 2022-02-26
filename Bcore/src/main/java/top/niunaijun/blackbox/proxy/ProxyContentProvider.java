@@ -9,8 +9,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import top.niunaijun.blackbox.entity.AppConfig;
 import top.niunaijun.blackbox.app.BActivityThread;
+import top.niunaijun.blackbox.entity.AppConfig;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
 
 /**

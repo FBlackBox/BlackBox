@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import black.android.content.pm.BRParceledListSlice;
-import black.android.content.pm.ParceledListSlice;
 
 public class ParceledListSliceCompat {
 

@@ -3,8 +3,8 @@ package top.niunaijun.blackbox.fake.service.libcore;
 import java.lang.reflect.Method;
 
 import black.libcore.io.BRLibcore;
-import top.niunaijun.blackbox.fake.hook.ClassInvocationStub;
 import top.niunaijun.blackbox.core.IOCore;
+import top.niunaijun.blackbox.fake.hook.ClassInvocationStub;
 
 /**
  * Created by Milk on 4/9/21.

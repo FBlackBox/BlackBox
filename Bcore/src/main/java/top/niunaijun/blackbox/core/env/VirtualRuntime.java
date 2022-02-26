@@ -1,7 +1,6 @@
 package top.niunaijun.blackbox.core.env;
 
 import android.content.pm.ApplicationInfo;
-import android.os.Build;
 
 import black.android.ddm.BRDdmHandleAppName;
 import black.android.os.BRProcess;

@@ -3,7 +3,6 @@ package top.niunaijun.blackbox.fake.service;
 
 import java.lang.reflect.Method;
 
-import black.android.os.BRIDeviceIdentifiersPolicyService;
 import black.android.os.BRIDeviceIdentifiersPolicyServiceStub;
 import black.android.os.BRServiceManager;
 import top.niunaijun.blackbox.BlackBoxCore;

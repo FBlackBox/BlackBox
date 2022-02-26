@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.pm.ServiceInfo;
 import android.os.IBinder;
 
-import top.niunaijun.blackbox.core.system.ServiceManager;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
 
 /**

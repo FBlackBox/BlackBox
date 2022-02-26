@@ -4,13 +4,10 @@ package top.niunaijun.blackbox.core;
 import androidx.annotation.Keep;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import dalvik.system.DexFile;
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.utils.FileUtils;
-import top.niunaijun.blackbox.utils.Reflector;
 import top.niunaijun.blackbox.utils.compat.DexFileCompat;
 
 import static top.niunaijun.blackbox.core.env.BEnvironment.EMPTY_JAR;

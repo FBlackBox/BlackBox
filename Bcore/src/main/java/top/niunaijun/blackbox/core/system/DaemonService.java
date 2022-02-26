@@ -12,7 +12,6 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
-import top.niunaijun.blackbox.R;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 
 

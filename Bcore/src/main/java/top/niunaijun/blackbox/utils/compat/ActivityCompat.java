@@ -18,7 +18,6 @@ import android.view.WindowManager;
 import java.util.Locale;
 
 import black.android.app.BRActivity;
-import black.com.android.internal.BRR;
 import black.com.android.internal.BRRstyleable;
 import top.niunaijun.blackbox.app.BActivityThread;
 

@@ -16,15 +16,14 @@ import java.util.List;
 import java.util.Map;
 
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.entity.AppConfig;
-import top.niunaijun.blackbox.core.system.ISystemService;
-import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
-import top.niunaijun.blackbox.entity.UnbindRecord;
-import top.niunaijun.blackbox.core.system.ProcessRecord;
 import top.niunaijun.blackbox.core.system.BProcessManager;
+import top.niunaijun.blackbox.core.system.ISystemService;
+import top.niunaijun.blackbox.core.system.ProcessRecord;
+import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
+import top.niunaijun.blackbox.entity.AppConfig;
+import top.niunaijun.blackbox.entity.UnbindRecord;
 import top.niunaijun.blackbox.entity.am.RunningAppProcessInfo;
 import top.niunaijun.blackbox.entity.am.RunningServiceInfo;
-import top.niunaijun.blackbox.proxy.record.ProxyBroadcastRecord;
 
 import static android.content.pm.PackageManager.GET_META_DATA;
 

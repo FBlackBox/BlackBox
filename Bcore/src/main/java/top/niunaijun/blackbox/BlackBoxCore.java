@@ -16,46 +16,41 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Process;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import black.android.app.BRActivityThread;
+import me.weishu.reflection.Reflection;
 import top.canyie.pine.PineConfig;
 import top.niunaijun.blackbox.app.LauncherActivity;
+import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback;
 import top.niunaijun.blackbox.app.configuration.ClientConfiguration;
 import top.niunaijun.blackbox.core.env.BEnvironment;
-import top.niunaijun.blackbox.proxy.ProxyManifest;
-import top.niunaijun.blackbox.fake.frameworks.BUserManager;
-import top.niunaijun.blackbox.fake.frameworks.BXposedManager;
-import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback;
-import top.niunaijun.blackbox.fake.hook.HookManager;
+import top.niunaijun.blackbox.core.system.DaemonService;
+import top.niunaijun.blackbox.core.system.ServiceManager;
+import top.niunaijun.blackbox.core.system.user.BUserHandle;
+import top.niunaijun.blackbox.core.system.user.BUserInfo;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackbox.entity.pm.InstallResult;
 import top.niunaijun.blackbox.entity.pm.InstalledModule;
-import top.niunaijun.blackbox.core.system.DaemonService;
-import top.niunaijun.blackbox.core.system.user.BUserHandle;
-import top.niunaijun.blackbox.core.system.user.BUserInfo;
+import top.niunaijun.blackbox.fake.delegate.ContentProviderDelegate;
+import top.niunaijun.blackbox.fake.frameworks.BActivityManager;
+import top.niunaijun.blackbox.fake.frameworks.BJobManager;
+import top.niunaijun.blackbox.fake.frameworks.BPackageManager;
+import top.niunaijun.blackbox.fake.frameworks.BStorageManager;
+import top.niunaijun.blackbox.fake.frameworks.BUserManager;
+import top.niunaijun.blackbox.fake.frameworks.BXposedManager;
+import top.niunaijun.blackbox.fake.hook.HookManager;
+import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.ShellUtils;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
 import top.niunaijun.blackbox.utils.compat.XposedParserCompat;
 import top.niunaijun.blackbox.utils.provider.ProviderCall;
-import top.niunaijun.blackbox.fake.frameworks.BActivityManager;
-import top.niunaijun.blackbox.fake.frameworks.BJobManager;
-import top.niunaijun.blackbox.fake.frameworks.BPackageManager;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
-import me.weishu.reflection.Reflection;
-import top.niunaijun.blackbox.fake.frameworks.BStorageManager;
-import top.niunaijun.blackbox.fake.delegate.ContentProviderDelegate;
-import top.niunaijun.blackbox.core.system.ServiceManager;
-import top.niunaijun.blackreflection.BlackReflection;
 
 /**
  * Created by Milk on 3/30/21.

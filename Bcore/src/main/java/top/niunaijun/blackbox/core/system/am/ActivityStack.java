@@ -24,12 +24,12 @@ import java.util.Set;
 import black.android.app.BRActivityManagerNative;
 import black.android.app.BRIActivityManager;
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.proxy.ProxyManifest;
-import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
-import top.niunaijun.blackbox.utils.ComponentUtils;
-import top.niunaijun.blackbox.proxy.record.ProxyActivityRecord;
-import top.niunaijun.blackbox.core.system.ProcessRecord;
 import top.niunaijun.blackbox.core.system.BProcessManager;
+import top.niunaijun.blackbox.core.system.ProcessRecord;
+import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
+import top.niunaijun.blackbox.proxy.ProxyManifest;
+import top.niunaijun.blackbox.proxy.record.ProxyActivityRecord;
+import top.niunaijun.blackbox.utils.ComponentUtils;
 
 import static android.content.pm.PackageManager.GET_ACTIVITIES;
 

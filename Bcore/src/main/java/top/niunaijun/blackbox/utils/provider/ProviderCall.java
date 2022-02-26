@@ -7,8 +7,8 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 
-import top.niunaijun.blackbox.utils.compat.ContentProviderCompat;
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.utils.compat.ContentProviderCompat;
 
 /**
  * Created by Milk on 4/1/21.

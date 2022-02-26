@@ -1,7 +1,6 @@
 package top.canyie.pine.entry;
 
 import top.canyie.pine.Pine;
-import top.canyie.pine.utils.Primitives;
 import top.canyie.pine.utils.Three;
 
 /**
