@@ -1,4 +1,4 @@
-![xx](banner.png)
+![xx](assets/banner.png)
 # Virtual Engine · BlackBox
 > The only people who have anything to fear from free software are those whose products are worth even less. 
 >
@@ -61,6 +61,9 @@ This project distinguishes between 32-bit and 64-bit, it was compiled to 2 diffe
 ```java
    BlackBoxCore.get().launchApk("com.tencent.mm", userId);
 ```
+
+### App Cloner
+<img src="assets/multiw.gif" width="50%">
 
 ### API
 #### Get application list that were installed in BlackBox
