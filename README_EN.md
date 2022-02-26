@@ -63,7 +63,7 @@ This project distinguishes between 32-bit and 64-bit, it was compiled to 2 diffe
 ```
 
 ### App Cloner
-<img src="assets/multi.gif" width="50%">
+<img src="assets/multiw.gif" width="50%">
 
 ### API
 #### Get application list that were installed in BlackBox

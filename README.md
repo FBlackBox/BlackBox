@@ -63,7 +63,7 @@
 ```
 
 ### 多开应用操作
-<img src="assets/multi.gif" width="50%">
+<img src="assets/multiw.gif" width="50%">
 
 ### 相关API
 #### 获取黑盒内已安装的应用
