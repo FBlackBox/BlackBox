@@ -1,4 +1,4 @@
-![xx](banner.png)
+![xx](assets/banner.png)
 ### [English Version](README_EN.md)
 
 # 虚拟引擎 · BlackBox
@@ -61,6 +61,9 @@
 ```java
    BlackBoxCore.get().launchApk("com.tencent.mm", userId);
 ```
+
+### 多开应用操作
+<img src="assets/multi.gif" width="50%">
 
 ### 相关API
 #### 获取黑盒内已安装的应用
