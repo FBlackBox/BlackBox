@@ -36,6 +36,7 @@ public class ActivityManagerCommonProxy {
     public static class StartActivity extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            MethodParameterUtils.replaceFirstAppPkg(args);
             Object arg = args[getIntentIndex()];
             if (arg instanceof Intent) {
                 Intent intent = (Intent) arg;
@@ -57,8 +58,11 @@ public class ActivityManagerCommonProxy {
                         StartActivityCompat.getResolvedType(args),
                         BActivityThread.getUserId());
                 if (resolveInfo == null) {
+                    String origPackage = intent.getPackage();
                     if (intent.getPackage() == null && intent.getComponent() == null) {
                         intent.setPackage(BActivityThread.getAppPackageName());
+                    } else {
+                        origPackage = intent.getPackage();
                     }
                     resolveInfo = BlackBoxCore.getBPackageManager().resolveActivity(
                             intent,
@@ -66,7 +70,7 @@ public class ActivityManagerCommonProxy {
                             StartActivityCompat.getResolvedType(args),
                             BActivityThread.getUserId());
                     if (resolveInfo == null) {
-                        intent.setPackage(null);
+                        intent.setPackage(origPackage);
                         return method.invoke(who, args);
                     }
                 }
