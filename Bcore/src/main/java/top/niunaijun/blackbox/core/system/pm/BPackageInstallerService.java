@@ -96,7 +96,6 @@ public class BPackageInstallerService extends IBPackageInstallerService.Stub imp
         InstallOption option = ps.installOption;
         for (Executor executor : executors) {
             int exec = executor.exec(ps, option, -1);
-            Slog.d(TAG, "updatePackage: " + executor.getClass().getSimpleName() + " exec: " + exec);
             if (exec != 0) {
                 return exec;
             }

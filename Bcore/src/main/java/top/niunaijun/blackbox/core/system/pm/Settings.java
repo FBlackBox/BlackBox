@@ -171,13 +171,8 @@ import top.niunaijun.blackbox.utils.Slog;
             BPackageSettings bPackageSettings = new BPackageSettings(packageSettingsIn);
             if (bPackageSettings.installOption.isFlag(InstallOption.FLAG_SYSTEM)) {
                 PackageInfo packageInfo = BlackBoxCore.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
-                String currPackageSourcePath = packageInfo.applicationInfo.sourceDir;
-                if (!currPackageSourcePath.equals(bPackageSettings.pkg.baseCodePath)) {
-                    // update baseCodePath And Re install
-                    BProcessManager.get().killAllByPackageName(bPackageSettings.pkg.packageName);
-                    bPackageSettings.pkg.baseCodePath = currPackageSourcePath;
-                    BPackageInstallerService.get().updatePackage(bPackageSettings);
-                }
+                bPackageSettings.pkg.applicationInfo = packageInfo.applicationInfo;
+                BPackageInstallerService.get().updatePackage(bPackageSettings);
             }
             bPackageSettings.pkg.mExtras = bPackageSettings;
             bPackageSettings.pkg.applicationInfo = PackageManagerCompat.generateApplicationInfo(bPackageSettings.pkg, 0, BPackageUserState.create(), 0);
