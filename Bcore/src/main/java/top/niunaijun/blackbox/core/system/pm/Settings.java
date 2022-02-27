@@ -22,6 +22,7 @@ import top.niunaijun.blackbox.core.system.user.BUserHandle;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.Slog;
+import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
 
 /**
  * Created by Milk on 4/13/21.
@@ -171,11 +172,16 @@ import top.niunaijun.blackbox.utils.Slog;
             BPackageSettings bPackageSettings = new BPackageSettings(packageSettingsIn);
             if (bPackageSettings.installOption.isFlag(InstallOption.FLAG_SYSTEM)) {
                 PackageInfo packageInfo = BlackBoxCore.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
-                bPackageSettings.pkg.applicationInfo = packageInfo.applicationInfo;
-                BPackageInstallerService.get().updatePackage(bPackageSettings);
+                String currPackageSourcePath = packageInfo.applicationInfo.sourceDir;
+                if (!currPackageSourcePath.equals(bPackageSettings.pkg.baseCodePath)) {
+                    // update baseCodePath And Re install
+                    BPackageSettings newPkg = reInstallBySystem(packageInfo, bPackageSettings.installOption);
+                    bPackageSettings.pkg = newPkg.pkg;
+                }
+            } else {
+                bPackageSettings.pkg.applicationInfo = PackageManagerCompat.generateApplicationInfo(bPackageSettings.pkg, 0, BPackageUserState.create(), 0);
             }
             bPackageSettings.pkg.mExtras = bPackageSettings;
-            bPackageSettings.pkg.applicationInfo = PackageManagerCompat.generateApplicationInfo(bPackageSettings.pkg, 0, BPackageUserState.create(), 0);
             bPackageSettings.save();
             mPackages.put(bPackageSettings.pkg.packageName, bPackageSettings);
             Slog.d(TAG, "loaded Package: " + packageName);
@@ -190,5 +196,27 @@ import top.niunaijun.blackbox.utils.Slog;
         } finally {
             packageSettingsIn.recycle();
         }
+    }
+
+    private BPackageSettings reInstallBySystem(PackageInfo systemPackageInfo, InstallOption option) throws Exception {
+        Slog.d(TAG, "reInstallBySystem: " + systemPackageInfo.packageName);
+        PackageParser.Package aPackage = parserApk(systemPackageInfo.applicationInfo.sourceDir);
+        if (aPackage == null) {
+            throw new RuntimeException("parser apk error.");
+        }
+        aPackage.applicationInfo = BlackBoxCore.getPackageManager().getPackageInfo(aPackage.packageName, 0).applicationInfo;
+        return getPackageLPw(aPackage.packageName, aPackage, option);
+    }
+
+    private PackageParser.Package parserApk(String file) {
+        try {
+            PackageParser parser = PackageParserCompat.createParser(new File(file));
+            PackageParser.Package aPackage = PackageParserCompat.parsePackage(parser, new File(file), 0);
+            PackageParserCompat.collectCertificates(parser, aPackage, 0);
+            return aPackage;
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return null;
     }
 }
