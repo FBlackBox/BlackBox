@@ -1,13 +1,22 @@
 package top.niunaijun.blackbox.proxy;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
+import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.app.dispatcher.AppServiceDispatcher;
+import top.niunaijun.blackbox.utils.compat.BuildCompat;
 
 /**
  * Created by Milk on 3/30/21.
@@ -28,6 +37,7 @@ public class ProxyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        showNotification();
         AppServiceDispatcher.get().onStartCommand(intent, flags, startId);
         return START_NOT_STICKY;
     }
@@ -60,6 +70,14 @@ public class ProxyService extends Service {
     public boolean onUnbind(Intent intent) {
         AppServiceDispatcher.get().onUnbind(intent);
         return false;
+    }
+
+    private void showNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), getPackageName() + ".blackbox_proxy")
+                .setPriority(NotificationCompat.PRIORITY_MAX);
+        if (BuildCompat.isOreo()) {
+            startForeground(BlackBoxCore.getHostPkg().hashCode(), builder.build());
+        }
     }
 
     public static class P0 extends ProxyService {

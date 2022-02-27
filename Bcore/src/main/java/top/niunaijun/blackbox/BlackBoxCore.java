@@ -2,11 +2,15 @@ package top.niunaijun.blackbox;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -108,6 +112,8 @@ public class BlackBoxCore extends ClientConfiguration {
         Reflection.unseal(context);
         sContext = context;
         mClientConfiguration = clientConfiguration;
+        initNotificationManager();
+
         String processName = getProcessName(getContext());
         if (processName.equals(BlackBoxCore.getHostPkg())) {
             mProcessType = ProcessType.Main;
@@ -404,6 +410,21 @@ public class BlackBoxCore extends ClientConfiguration {
             return Process.is64Bit();
         } else {
             return Build.CPU_ABI.equals("arm64-v8a");
+        }
+    }
+
+    private void initNotificationManager() {
+        NotificationManager nm = (NotificationManager) BlackBoxCore.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        String CHANNEL_ONE_ID = BlackBoxCore.getContext().getPackageName() + ".blackbox_proxy";
+        String CHANNEL_ONE_NAME = "blackbox_proxy";
+        if (BuildCompat.isOreo()) {
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,
+                    CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.setShowBadge(true);
+            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            nm.createNotificationChannel(notificationChannel);
         }
     }
 }
