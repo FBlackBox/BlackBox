@@ -10,12 +10,15 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.util.Log;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 
 import black.android.app.BRActivityManagerNative;
 import black.android.app.BRActivityManagerOreo;
+import black.android.app.BRLoadedApkReceiverDispatcher;
+import black.android.app.BRLoadedApkReceiverDispatcherInnerReceiver;
 import black.android.content.BRContentProviderNative;
 import black.android.os.BRUserHandle;
 import black.android.util.BRSingleton;
@@ -382,11 +385,6 @@ public class IActivityManagerProxy extends ClassInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            InnerReceiverDelegate delegate = InnerReceiverDelegate.getDelegate((IBinder) args[0]);
-            if (delegate == null) {
-                return method.invoke(who, args);
-            }
-            args[0] = delegate;
             return method.invoke(who, args);
         }
     }
@@ -436,7 +434,12 @@ public class IActivityManagerProxy extends ClassInvocationStub {
             MethodParameterUtils.replaceFirstAppPkg(args);
             int receiverIndex = getReceiverIndex();
             if (args[receiverIndex] != null) {
-                IIntentReceiver proxy = InnerReceiverDelegate.createProxy((IIntentReceiver) args[receiverIndex]);
+                IIntentReceiver intentReceiver = (IIntentReceiver) args[receiverIndex];
+                IIntentReceiver proxy = InnerReceiverDelegate.createProxy(intentReceiver);
+
+                WeakReference<?> weakReference = BRLoadedApkReceiverDispatcherInnerReceiver.get(intentReceiver).mDispatcher();
+                BRLoadedApkReceiverDispatcher.get(weakReference.get())._set_mIIntentReceiver(proxy);
+
                 args[receiverIndex] = proxy;
             }
             // ignore permission

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,10 +28,10 @@ public class InnerReceiverDelegate extends IIntentReceiver.Stub {
     public static final String TAG = "InnerReceiverDelegate";
 
     private static final Map<IBinder, InnerReceiverDelegate> sInnerReceiverDelegate = new HashMap<>();
-    private final IIntentReceiver mIntentReceiver;
+    private final WeakReference<IIntentReceiver> mIntentReceiver;
 
     private InnerReceiverDelegate(IIntentReceiver iIntentReceiver) {
-        this.mIntentReceiver = iIntentReceiver;
+        this.mIntentReceiver = new WeakReference<>(iIntentReceiver);
     }
 
     public static InnerReceiverDelegate getDelegate(IBinder iBinder) {
@@ -69,6 +70,9 @@ public class InnerReceiverDelegate extends IIntentReceiver.Stub {
         } else {
             perIntent = intent;
         }
-        BRIIntentReceiver.get(mIntentReceiver).performReceive(perIntent, resultCode, data, extras, ordered, sticky, sendingUser);
+        IIntentReceiver iIntentReceiver = mIntentReceiver.get();
+        if (iIntentReceiver != null) {
+            BRIIntentReceiver.get(iIntentReceiver).performReceive(perIntent, resultCode, data, extras, ordered, sticky, sendingUser);
+        }
     }
 }

@@ -73,7 +73,7 @@ public interface LoadedApk {
         @BClassName("android.app.LoadedApk$ServiceDispatcher$InnerConnection")
         interface InnerConnection {
             @BField
-            WeakReference mDispatcher();
+            WeakReference<?> mDispatcher();
         }
     }
 
@@ -91,7 +91,7 @@ public interface LoadedApk {
         @BClassName("android.app.LoadedApk$ReceiverDispatcher$InnerReceiver")
         interface InnerReceiver {
             @BField
-            WeakReference mDispatcher();
+            WeakReference<?> mDispatcher();
         }
     }
 }
