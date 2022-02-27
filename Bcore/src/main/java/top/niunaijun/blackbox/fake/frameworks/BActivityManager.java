@@ -74,9 +74,9 @@ public class BActivityManager {
         return -1;
     }
 
-    public ComponentName startService(Intent intent, String resolvedType, int userId) {
+    public ComponentName startService(Intent intent, String resolvedType, boolean requireForeground, int userId) {
         try {
-            return getService().startService(intent, resolvedType, userId);
+            return getService().startService(intent, resolvedType, requireForeground, userId);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

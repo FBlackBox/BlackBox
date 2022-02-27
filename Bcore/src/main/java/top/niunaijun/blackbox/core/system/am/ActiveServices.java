@@ -1,5 +1,6 @@
 package top.niunaijun.blackbox.core.system.am;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -26,6 +27,7 @@ import top.niunaijun.blackbox.entity.UnbindRecord;
 import top.niunaijun.blackbox.entity.am.RunningServiceInfo;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.proxy.record.ProxyServiceRecord;
+import top.niunaijun.blackbox.utils.compat.BuildCompat;
 
 /**
  * Created by Milk on 4/7/21.
@@ -35,6 +37,7 @@ import top.niunaijun.blackbox.proxy.record.ProxyServiceRecord;
  * しーＪ
  * 此处无Bug
  */
+@SuppressLint("NewApi")
 public class ActiveServices {
     public static final String TAG = "ActiveServices";
 
@@ -42,7 +45,7 @@ public class ActiveServices {
     private final Map<IBinder, RunningServiceRecord> mRunningTokens = new HashMap<>();
     private final Map<IBinder, ConnectedServiceRecord> mConnectedServices = new HashMap<>();
 
-    public void startService(Intent intent, String resolvedType, int userId) {
+    public void startService(Intent intent, String resolvedType, boolean requireForeground, int userId) {
         ResolveInfo resolveInfo = resolveService(intent, resolvedType, userId);
         if (resolveInfo == null)
             return;
@@ -60,7 +63,11 @@ public class ActiveServices {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                BlackBoxCore.getContext().startService(stubServiceIntent);
+                if (requireForeground && BuildCompat.isOreo()) {
+                    BlackBoxCore.getContext().startForegroundService(stubServiceIntent);
+                } else {
+                    BlackBoxCore.getContext().startService(stubServiceIntent);
+                }
             }
         }).start();
     }

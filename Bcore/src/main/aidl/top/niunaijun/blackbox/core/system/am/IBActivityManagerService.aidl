@@ -24,7 +24,7 @@ interface IBActivityManagerService {
     int startActivityAms(int userId, in Intent intent, String resolvedType, IBinder resultTo, String resultWho, int requestCode, int flags, in Bundle options);
     int startActivities(int userId, in Intent[] intent, in String[] resolvedType, IBinder resultTo, in Bundle options);
 
-    ComponentName startService(in Intent intent, String resolvedType, int userId);
+    ComponentName startService(in Intent intent, String resolvedType, boolean requireForeground, int userId);
     int stopService(in Intent intent,in String resolvedType, int userId);
 
     Intent bindService(in Intent service, in IBinder binder, String resolvedType, int userId);

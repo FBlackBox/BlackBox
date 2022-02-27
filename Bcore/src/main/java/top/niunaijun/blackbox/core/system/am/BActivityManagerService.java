@@ -45,10 +45,10 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
     }
 
     @Override
-    public ComponentName startService(Intent intent, String resolvedType, int userId) {
+    public ComponentName startService(Intent intent, String resolvedType, boolean requireForeground, int userId) {
         UserSpace userSpace = getOrCreateSpaceLocked(userId);
         synchronized (userSpace.mActiveServices) {
-            userSpace.mActiveServices.startService(intent, resolvedType, userId);
+            userSpace.mActiveServices.startService(intent, resolvedType, requireForeground, userId);
         }
         return null;
     }

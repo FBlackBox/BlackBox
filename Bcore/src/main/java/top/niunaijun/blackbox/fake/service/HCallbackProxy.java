@@ -205,7 +205,7 @@ public class HCallbackProxy implements IInjectHook, Handler.Callback {
                 Slog.d(TAG, "handleCreateService: " + data);
                 Intent intent = new Intent();
                 intent.setComponent(new ComponentName(appPackageName, serviceInfo.name));
-                BlackBoxCore.getBActivityManager().startService(intent, null, BActivityThread.getUserId());
+                BlackBoxCore.getBActivityManager().startService(intent, null, false, BActivityThread.getUserId());
                 return true;
             }
         }

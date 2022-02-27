@@ -175,7 +175,20 @@ public class IActivityManagerProxy extends ClassInvocationStub {
             if (resolveInfo == null) {
                 return method.invoke(who, args);
             }
-            return BlackBoxCore.getBActivityManager().startService(intent, resolvedType, BActivityThread.getUserId());
+
+            int requireForegroundIndex = getRequireForeground();
+            boolean requireForeground = false;
+            if (requireForegroundIndex != -1) {
+                requireForeground = (boolean) args[requireForegroundIndex];
+            }
+            return BlackBoxCore.getBActivityManager().startService(intent, resolvedType, requireForeground, BActivityThread.getUserId());
+        }
+
+        public int getRequireForeground() {
+            if (BuildCompat.isOreo()) {
+                return 3;
+            }
+            return -1;
         }
     }
 
