@@ -377,6 +377,20 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
+    @ProxyMethod(name = "finishReceiver")
+    public static class finishReceiver extends MethodHook {
+
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            InnerReceiverDelegate delegate = InnerReceiverDelegate.getDelegate((IBinder) args[0]);
+            if (delegate == null) {
+                return method.invoke(who, args);
+            }
+            args[0] = delegate;
+            return method.invoke(who, args);
+        }
+    }
+
     @ProxyMethod(name = "publishService")
     public static class PublishService extends MethodHook {
 
