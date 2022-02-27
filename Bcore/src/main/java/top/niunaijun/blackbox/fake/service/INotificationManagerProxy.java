@@ -64,4 +64,14 @@ public class INotificationManagerProxy extends BinderInvocationStub {
             return method.invoke(who, args);
         }
     }
+
+    @ProxyMethod(name = "deleteNotificationChannel")
+    public static class DeleteNotificationChannel extends MethodHook {
+
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            MethodParameterUtils.replaceLastAppPkg(args);
+            return method.invoke(who, args);
+        }
+    }
 }
