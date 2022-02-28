@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -82,6 +83,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
         Intent shadow = new Intent(intent);
         shadow.setPackage(BlackBoxCore.getHostPkg());
         shadow.setComponent(null);
+        shadow.setData(Uri.parse(System.currentTimeMillis() + ""));
         return shadow;
     }
 

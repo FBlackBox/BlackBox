@@ -371,11 +371,6 @@ public class IActivityManagerProxy extends ClassInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            InnerReceiverDelegate delegate = InnerReceiverDelegate.getDelegate((IBinder) args[0]);
-            if (delegate == null) {
-                return method.invoke(who, args);
-            }
-            args[0] = delegate;
             return method.invoke(who, args);
         }
     }
