@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="choose">Choose</string>
+	<string name="qq_group">QQ group</string>
+	<string name="hider">Hide</string>
+	<string name="app_stop">Stop app</string>
+	<string name="app_shortcut">Create shortcut</string>
+	<string name="app_remove">Uninstall app</string>
+	<string name="cancel">Cancel</string>
+	<string name="enable_xposed">Enable xposed</string>
+	<string name="installed_app">App installed</string>
+	<string name="installed_module">Module installed</string>
+	<string name="open_source_path">Open source path</string>
+	<string name="shortcut_name">Shortcut name</string>
+	<string name="module_setting">Module setting</string>
+	<string name="app_clear">Clear app</string>
+	<string name="jump_module">Click to jump to the module interface</string>
+	<string name="userRemark">User comments</string>
+	<string name="done">Done</string>
+	<string name="empty_empty">Empty</string>
+	<string name="setting">Setting</string>
+	<string name="filter">Filter</string>
+	<string name="choose_app">Choose app</string>
+	<string name="hide_root">Hide root</string>
+	<string name="hide_xposed">Hide xposed</string>
+	<string name="xp_setting">XP settings</string>
+</resources>
