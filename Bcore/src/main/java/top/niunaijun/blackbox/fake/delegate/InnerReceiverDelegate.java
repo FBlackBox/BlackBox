@@ -39,6 +39,9 @@ public class InnerReceiverDelegate extends IIntentReceiver.Stub {
     }
 
     public static IIntentReceiver createProxy(IIntentReceiver base) {
+        if (base instanceof InnerReceiverDelegate) {
+            return base;
+        }
         final IBinder iBinder = base.asBinder();
         InnerReceiverDelegate delegate = sInnerReceiverDelegate.get(iBinder);
         if (delegate == null) {

@@ -438,7 +438,9 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                 IIntentReceiver proxy = InnerReceiverDelegate.createProxy(intentReceiver);
 
                 WeakReference<?> weakReference = BRLoadedApkReceiverDispatcherInnerReceiver.get(intentReceiver).mDispatcher();
-                BRLoadedApkReceiverDispatcher.get(weakReference.get())._set_mIIntentReceiver(proxy);
+                if (weakReference != null) {
+                    BRLoadedApkReceiverDispatcher.get(weakReference.get())._set_mIIntentReceiver(proxy);
+                }
 
                 args[receiverIndex] = proxy;
             }
