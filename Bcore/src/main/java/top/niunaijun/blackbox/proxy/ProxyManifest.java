@@ -13,7 +13,7 @@ import top.niunaijun.blackbox.BlackBoxCore;
  * 此处无Bug
  */
 public class ProxyManifest {
-    public static final int FREE_COUNT = 100;
+    public static final int FREE_COUNT = 50;
 
     public static boolean isProxy(String msg) {
         return getBindProvider().equals(msg) || msg.contains("proxy_content_provider_");
