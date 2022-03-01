@@ -4,9 +4,10 @@ import android.net.Uri
 import android.webkit.URLUtil
 import androidx.lifecycle.MutableLiveData
 import top.niunaijun.blackbox.BlackBoxCore
-import top.niunaijun.blackboxa.bean.XpModuleInfo
 import top.niunaijun.blackbox.BlackBoxCore.getPackageManager
-import java.io.File
+import top.niunaijun.blackboxa.R
+import top.niunaijun.blackboxa.bean.XpModuleInfo
+import top.niunaijun.blackboxa.util.getString
 
 /**
  *
@@ -45,15 +46,14 @@ class XpRepository {
         }
 
         if(installResult.success){
-
-            resultLiveData.postValue("安装成功")
+            resultLiveData.postValue(getString(R.string.install_success))
         }else{
-            resultLiveData.postValue("安装失败："+installResult.msg)
+            resultLiveData.postValue(getString(R.string.install_fail, installResult.msg))
         }
     }
 
     fun unInstallModule(packageName: String, resultLiveData: MutableLiveData<String>) {
         BlackBoxCore.get().uninstallXPModule(packageName)
-        resultLiveData.postValue("移除成功")
+        resultLiveData.postValue(getString(R.string.remove_success))
     }
 }

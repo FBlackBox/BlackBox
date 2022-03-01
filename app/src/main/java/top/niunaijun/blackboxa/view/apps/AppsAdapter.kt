@@ -6,6 +6,7 @@ import top.niunaijun.blackboxa.bean.AppInfo
 import top.niunaijun.blackboxa.databinding.ItemAppBinding
 import top.niunaijun.blackboxa.util.inflateBinding
 import top.niunaijun.blackboxa.view.base.BaseAdapter
+import java.util.*
 
 /**
  *
@@ -28,5 +29,18 @@ class AppsAdapter : BaseAdapter<ItemAppBinding, AppInfo>() {
         }else{
             binding.cornerLabel.visibility = View.INVISIBLE
         }
+    }
+
+    fun onMove(fromPosition:Int,toPosition:Int){
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                Collections.swap(dataList, i, i + 1)
+            }
+        } else {
+            for (i in fromPosition downTo toPosition + 1) {
+                Collections.swap(dataList, i, i - 1)
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition)
     }
 }

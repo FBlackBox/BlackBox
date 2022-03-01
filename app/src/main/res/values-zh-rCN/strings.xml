@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="choose">手动选择</string>
+    <string name="choose_app">选择应用</string>
+    <string name="installed_app">已安装应用</string>
+    <string name="installed_module">已安装模块</string>
+    <string name="empty_empty">空空如也</string>
+    <string name="filter">过滤</string>
+    <string name="open_source_path">开源地址</string>
+    <string name="xp_setting">XP管理</string>
+    <string name="tg_group">交流群</string>
+    <string name="setting">软件设置</string>
+    <string name="jump_module">点击跳转到模块管理界面</string>
+    <string name="module_setting">模块管理</string>
+    <string name="enable_xposed">启用Xposed框架</string>
+    <string name="hider">伪装</string>
+    <string name="hide_root">隐藏Root</string>
+    <string name="hide_xposed">隐藏Xposed框架</string>
+    <string name="userRemark">用户备注</string>
+    <string name="done">确定</string>
+    <string name="cancel">取消</string>
+    <string name="app_stop">停止运行</string>
+    <string name="app_stop_hint">是否强行停止运行%s</string>
+    <string name="is_stop">%s已停止运行</string>
+    <string name="app_clear">清除数据</string>
+    <string name="app_clear_hint">是否清除%s的数据？</string>
+    <string name="app_remove">卸载应用</string>
+    <string name="app_shortcut">创建快捷方式</string>
+    <string name="shortcut_name">快捷方式名称</string>
+    <string name="install_success">安装成功</string>
+    <string name="install_fail">安装失败 : %s</string>
+    <string name="uninstall_success">卸载成功</string>
+    <string name="uninstall_app">卸载软件</string>
+    <string name="uninstall_app_hint">是否卸载%s，卸载后相关数据将被清除？</string>
+    <string name="uninstall_module">卸载模块</string>
+    <string name="uninstall_module_hint">是否卸载该模块，卸载后将无法再发挥作用？</string>
+    <string name="remove_success">移除成功</string>
+    <string name="clear_success">清除成功</string>
+    <string name="start_fail">启动失败</string>
+    <string name="start_in_outside">请在外部启动模块</string>
+    <string name="restart_module">重新启动软件修改才能生效</string>
+    <string name="cannot_create_shortcut">该桌面不支持创建快捷方式</string>
+    <string name="uninstall_module_toast">Xposed模块请在管理界面卸载</string>
+    <string name="other">其它</string>
+    <string name="daemon_enable">开启守护进程</string>
+</resources>

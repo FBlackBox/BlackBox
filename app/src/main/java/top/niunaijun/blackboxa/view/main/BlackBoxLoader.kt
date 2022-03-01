@@ -11,9 +11,6 @@ import top.niunaijun.blackbox.utils.compat.BuildCompat
 import top.niunaijun.blackboxa.app.App
 import top.niunaijun.blackboxa.biz.cache.AppSharedPreferenceDelegate
 import java.io.File
-import java.io.FileWriter
-import java.io.PrintWriter
-import java.util.*
 
 /**
  *
@@ -26,6 +23,7 @@ class BlackBoxLoader {
 
     private var mHideRoot by AppSharedPreferenceDelegate(App.getContext(), false)
     private var mHideXposed by AppSharedPreferenceDelegate(App.getContext(), false)
+    private var mDaemonEnable by AppSharedPreferenceDelegate(App.getContext(), false)
 
     private val mLogDir = getLogDir(App.getContext())
 
@@ -37,12 +35,20 @@ class BlackBoxLoader {
         this.mHideRoot = hideRoot
     }
 
+    fun hideXposed(): Boolean {
+        return mHideXposed
+    }
+
     fun invalidHideXposed(hideXposed: Boolean) {
         this.mHideXposed = hideXposed
     }
 
-    fun hideXposed(): Boolean {
-        return mHideXposed
+    fun daemonEnable(): Boolean {
+        return mDaemonEnable
+    }
+
+    fun invalidDaemonEnable(enable: Boolean) {
+        this.mDaemonEnable = enable
     }
 
     fun getBlackBoxCore(): BlackBoxCore {
@@ -89,6 +95,10 @@ class BlackBoxLoader {
 
             override fun isHideXposed(): Boolean {
                 return mHideXposed
+            }
+
+            override fun isEnableDaemonService(): Boolean {
+                return mDaemonEnable
             }
         })
     }

@@ -16,7 +16,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/hider">
+    <PreferenceCategory app:title="@string/other">
 
         <SwitchPreferenceCompat
                 app:key="xp_hide"
@@ -25,6 +25,10 @@
         <SwitchPreferenceCompat
                 app:key="root_hide"
                 app:title="@string/hide_root" />
+
+        <SwitchPreferenceCompat
+                app:key="daemon_enable"
+                app:title="@string/daemon_enable" />
 
     </PreferenceCategory>
 

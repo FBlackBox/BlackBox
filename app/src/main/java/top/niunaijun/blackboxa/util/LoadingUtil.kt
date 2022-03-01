@@ -1,6 +1,7 @@
 package top.niunaijun.blackboxa.util
 
 import android.view.KeyEvent
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.roger.catloadinglibrary.CatLoadingView
 import top.niunaijun.blackboxa.R
@@ -12,6 +13,12 @@ import top.niunaijun.blackboxa.R
  * @CreateDate: 2021/4/30 23:04
  */
 object LoadingUtil {
+
+    fun showLoading(loadingView: CatLoadingView,fragment: Fragment){
+        if (fragment.isAdded){
+            showLoading(loadingView,fragment.childFragmentManager)
+        }
+    }
 
     fun showLoading(loadingView: CatLoadingView, fragmentManager: FragmentManager) {
         if (!loadingView.isAdded) {

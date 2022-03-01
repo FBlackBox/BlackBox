@@ -83,7 +83,7 @@ class XpActivity : BaseActivity() {
             it?.run {
                 hideLoading()
                 if (!it) {
-                    toast("启动失败")
+                    toast(R.string.start_fail)
                 }
             }
         }
@@ -97,7 +97,7 @@ class XpActivity : BaseActivity() {
         viewBinding.stateView.showEmpty()
 
         mAdapter.setOnItemClick { _, _, _ ->
-            toast("请在外部启动模块")
+            toast(R.string.start_in_outside)
         }
 
         mAdapter.setOnItemLongClick { _, _, data ->
@@ -107,7 +107,7 @@ class XpActivity : BaseActivity() {
         mAdapter.setOnCheckChangeListener { data, isChecked ->
 
             BlackBoxCore.get().setModuleEnable(data.packageName, isChecked)
-            toast("重新启动软件修改才能生效")
+            toast(R.string.restart_module)
 
         }
     }
@@ -140,13 +140,13 @@ class XpActivity : BaseActivity() {
 
     private fun unInstallModule(packageName: String) {
         MaterialDialog(this).show {
-            title(text = "卸载模块")
-            message(text = "是否卸载该模块，卸载后将无法再发挥作用？")
-            positiveButton(text = "确定") {
+            title(R.string.uninstall_module)
+            message(R.string.uninstall_module_hint)
+            positiveButton(R.string.done) {
                 showLoading()
                 viewModel.unInstallModule(packageName)
             }
-            negativeButton(text = "取消")
+            negativeButton(R.string.cancel)
         }
     }
 

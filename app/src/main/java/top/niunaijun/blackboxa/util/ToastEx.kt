@@ -2,6 +2,7 @@ package top.niunaijun.blackboxa.util
 
 import android.content.Context
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import top.niunaijun.blackboxa.app.App
@@ -19,4 +20,8 @@ fun Context.toast(msg:String){
 
 fun toast(msg: String){
     App.getContext().toast(msg)
+}
+
+fun toast(@StringRes msgID:Int){
+    toast(getString(msgID))
 }

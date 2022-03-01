@@ -6,7 +6,6 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import top.niunaijun.blackbox.BlackBoxCore
-import top.niunaijun.blackbox.utils.compat.BuildCompat
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.app.AppManager
 import top.niunaijun.blackboxa.util.toast
@@ -49,17 +48,32 @@ class SettingFragment : PreferenceFragmentCompat() {
         val rootHidePreference: Preference = (findPreference("root_hide")!!)
         val hideRoot = AppManager.mBlackBoxLoader.hideRoot()
         invalidHideState(rootHidePreference, hideRoot)
+
+        val daemonPreference: Preference = (findPreference("daemon_enable")!!)
+        val mDaemonEnable = AppManager.mBlackBoxLoader.daemonEnable()
+        invalidHideState(daemonPreference, mDaemonEnable)
     }
 
     private fun invalidHideState(pref: Preference, hide: Boolean) {
         pref.setDefaultValue(hide)
         pref.setOnPreferenceChangeListener { preference, newValue ->
             val tmpHide = (newValue == true)
-            if (preference.key == "xp_hide") {
-                AppManager.mBlackBoxLoader.invalidHideXposed(tmpHide)
-            } else {
-                AppManager.mBlackBoxLoader.invalidHideRoot(tmpHide)
+            when (preference.key) {
+                "xp_hide" -> {
+                    AppManager.mBlackBoxLoader.invalidHideXposed(tmpHide)
+                }
+
+                "root_hide" -> {
+
+                    AppManager.mBlackBoxLoader.invalidHideRoot(tmpHide)
+                }
+
+                "daemon_enable" -> {
+                    AppManager.mBlackBoxLoader.invalidDaemonEnable(tmpHide)
+                }
             }
+
+            toast(R.string.restart_module)
             return@setOnPreferenceChangeListener true
         }
     }

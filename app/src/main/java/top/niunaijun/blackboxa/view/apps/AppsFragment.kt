@@ -1,34 +1,28 @@
 package top.niunaijun.blackboxa.view.apps
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.content.pm.ShortcutInfoCompat
-import androidx.core.content.pm.ShortcutManagerCompat
-import androidx.core.graphics.drawable.IconCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.input.input
 import com.roger.catloadinglibrary.CatLoadingView
 import top.niunaijun.blackbox.BlackBoxCore
+import top.niunaijun.blackbox.utils.Slog
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.bean.AppInfo
 import top.niunaijun.blackboxa.databinding.FragmentAppsBinding
-import top.niunaijun.blackboxa.util.InjectionUtil
-import top.niunaijun.blackboxa.util.LoadingUtil
-import top.niunaijun.blackboxa.util.inflate
-import top.niunaijun.blackboxa.util.toast
+import top.niunaijun.blackboxa.util.*
 import top.niunaijun.blackboxa.view.main.MainActivity
-import top.niunaijun.blackboxa.view.main.ShortcutActivity
+import kotlin.math.abs
 
 
 /**
@@ -62,33 +56,98 @@ class AppsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        viewBinding.stateView.showEmpty()
+
         mAdapter = AppsAdapter()
         viewBinding.recyclerView.adapter = mAdapter
         viewBinding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 4)
-        viewBinding.stateView.showEmpty()
+
+        val touchCallBack = AppsTouchCallBack { from, to ->
+            mAdapter.onMove(from, to)
+            viewModel.updateSortLiveData.postValue(true)
+        }
+
+        val itemTouchHelper = ItemTouchHelper(touchCallBack)
+        itemTouchHelper.attachToRecyclerView(viewBinding.recyclerView)
 
         mAdapter.setOnItemClick { _, _, data ->
             showLoading()
             viewModel.launchApk(data.packageName, userID)
         }
 
-        setAdapterLongClick()
+
+        interceptTouch(touchCallBack)
+
         return viewBinding.root
     }
 
-    private fun setAdapterLongClick() {
-        mAdapter.setOnItemLongClick { _, binding, data ->
-            PopupMenu(requireContext(), binding.root).also {
-                it.inflate(R.menu.app_menu)
-                it.setOnMenuItemClickListener { item ->
-                    when (item.itemId) {
-                        R.id.app_remove -> {
-                            if (data.isXpModule) {
-                                toast("Xposed模块请在管理界面卸载")
-                            } else {
-                                unInstallApk(data)
+    /**
+     * 拖拽优化
+     * @param touchCallBack AppsTouchCallBack
+     */
+    private fun interceptTouch(touchCallBack: AppsTouchCallBack) {
+        var lastX = 0F
+        var lastY = 0F
+        var lastTime = 0L
+
+        viewBinding.recyclerView.addOnItemTouchListener(object :
+            RecyclerView.SimpleOnItemTouchListener() {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                when (e.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        lastTime = System.currentTimeMillis()
+                    }
+
+                    MotionEvent.ACTION_MOVE -> {
+
+                        val offsetX = abs(e.x - lastX)
+                        val offsetY = abs(e.y - lastY)
+                        lastX = e.x
+                        lastY = e.y
+
+                        val enterTime = System.currentTimeMillis() - lastTime
+                        return if (offsetX <= 10 && offsetY <= 10 && enterTime > 300) {
+                            touchCallBack.canDrag = false
+                            viewBinding.recyclerView.findChildViewUnder(e.x, e.y)?.let {
+                                val index = viewBinding.recyclerView.getChildAdapterPosition(it)
+                                val data = mAdapter.dataList[index]
+                                showPopupMenu(it, data)
                             }
+                            true
+                        } else {
+                            touchCallBack.canDrag = true
+                            false
                         }
+                    }
+
+                    MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
+                        touchCallBack.canDrag = true
+                    }
+                }
+                return false
+
+            }
+        })
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initData()
+    }
+
+    private fun showPopupMenu(view: View, data: AppInfo) {
+        PopupMenu(requireContext(), view).also {
+            it.inflate(R.menu.app_menu)
+            it.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.app_remove -> {
+                        if (data.isXpModule) {
+                            toast(R.string.uninstall_module_toast)
+                        } else {
+                            unInstallApk(data)
+                        }
+                    }
 
                         R.id.app_clear -> {
                             clearApk(data)
@@ -99,20 +158,19 @@ class AppsFragment : Fragment() {
                         }
 
                         R.id.app_shortcut -> {
-                            createShortcut(data)
+                            ShortcutUtil.createShortcut(requireContext(), userID, data)
                         }
                     }
                     return@setOnMenuItemClickListener true
                 }
             }.show()
-        }
     }
 
-    override fun onStart() {
-        super.onStart()
+    private fun initData() {
         viewBinding.stateView.showLoading()
         viewModel.getInstalledApps(userID)
-        viewModel.appsLiveData.observe(this) {
+        viewModel.appsLiveData.observe(viewLifecycleOwner) {
+
             if (it != null) {
                 mAdapter.replaceData(it)
                 if (it.isEmpty()) {
@@ -125,7 +183,7 @@ class AppsFragment : Fragment() {
             }
         }
 
-        viewModel.resultLiveData.observe(this) {
+        viewModel.resultLiveData.observe(viewLifecycleOwner) {
             if (!TextUtils.isEmpty(it)) {
                 hideLoading()
                 requireContext().toast(it)
@@ -135,36 +193,46 @@ class AppsFragment : Fragment() {
 
         }
 
-        viewModel.launchLiveData.observe(this) {
+        viewModel.launchLiveData.observe(viewLifecycleOwner) {
             it?.run {
                 hideLoading()
                 if (!it) {
-                    Toast.makeText(requireContext(), "启动失败", Toast.LENGTH_LONG).show()
+                    toast(R.string.start_fail)
                 }
+            }
+        }
+
+        viewModel.updateSortLiveData.observe(viewLifecycleOwner) {
+            if (this::mAdapter.isInitialized) {
+                viewModel.updateApkOrder(userID, mAdapter.dataList)
             }
         }
     }
 
     override fun onStop() {
         super.onStop()
-        viewModel.appsLiveData.value = null
-        viewModel.appsLiveData.removeObservers(this)
         viewModel.resultLiveData.value = null
-        viewModel.resultLiveData.removeObservers(this)
         viewModel.launchLiveData.value = null
-        viewModel.launchLiveData.removeObservers(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.appsLiveData.removeObservers(viewLifecycleOwner)
+        viewModel.launchLiveData.removeObservers(viewLifecycleOwner)
+        viewModel.resultLiveData.removeObservers(viewLifecycleOwner)
+        viewModel.updateSortLiveData.removeObservers(viewLifecycleOwner)
     }
 
 
     private fun unInstallApk(info: AppInfo) {
         MaterialDialog(requireContext()).show {
-            title(text = "卸载软件")
-            message(text = "是否卸载\"${info.name}\"，卸载后相关数据将被清除？")
-            positiveButton(text = "确定") {
+            title(R.string.uninstall_app)
+            message(text = getString(R.string.uninstall_app_hint, info.name))
+            positiveButton(R.string.done) {
                 showLoading()
                 viewModel.unInstall(info.packageName, userID)
             }
-            negativeButton(text = "取消")
+            negativeButton(R.string.cancel)
         }
     }
 
@@ -174,13 +242,13 @@ class AppsFragment : Fragment() {
      */
     private fun stopApk(info: AppInfo) {
         MaterialDialog(requireContext()).show {
-            title(text = "停止运行")
-            message(text = "是否强行停止运行\"${info.name}\"？")
-            positiveButton(text = "确定") {
+            title(R.string.app_stop)
+            message(text = getString(R.string.app_stop_hint,info.name))
+            positiveButton(R.string.done) {
                 BlackBoxCore.get().stopPackage(info.packageName, userID)
-                toast("\"${info.name}\"已停止运行")
+                toast(getString(R.string.is_stop,info.name))
             }
-            negativeButton(text = "取消")
+            negativeButton(R.string.cancel)
         }
     }
 
@@ -190,51 +258,13 @@ class AppsFragment : Fragment() {
      */
     private fun clearApk(info: AppInfo) {
         MaterialDialog(requireContext()).show {
-            title(text = "清除数据")
-            message(text = "是否清除\"${info.name}\"的数据？")
-            positiveButton(text = "确定") {
+            title(R.string.app_clear)
+            message(text = getString(R.string.app_clear_hint,info.name))
+            positiveButton(R.string.done) {
                 showLoading()
                 viewModel.clearApkData(info.packageName, userID)
             }
-            negativeButton(text = "取消")
-        }
-    }
-
-    /**
-     * 创建桌面快捷方式
-     * @param info AppInfo
-     */
-    private fun createShortcut(info: AppInfo) {
-
-        if (ShortcutManagerCompat.isRequestPinShortcutSupported(requireContext())) {
-            val labelName = info.name + userID
-            val intent = Intent(context, ShortcutActivity::class.java)
-                .setAction(Intent.ACTION_MAIN)
-                .putExtra("pkg", info.packageName)
-                .putExtra("userId", userID)
-            MaterialDialog(requireContext()).show {
-                title(res = R.string.app_shortcut)
-                input(
-                    hintRes = R.string.shortcut_name,
-                    prefill = labelName
-                ) { _, input ->
-
-                    val shortcutInfo: ShortcutInfoCompat =
-                        ShortcutInfoCompat.Builder(requireContext(), info.packageName + userID)
-                            .setIntent(intent)
-                            .setShortLabel(input)
-                            .setLongLabel(input)
-                            .setIcon(IconCompat.createWithBitmap(info.icon.toBitmap()))
-                            .build()
-                    ShortcutManagerCompat.requestPinShortcut(requireContext(), shortcutInfo, null)
-
-                }
-                positiveButton(res = R.string.done)
-                negativeButton(res = R.string.cancel)
-            }
-
-        } else {
-            toast("该桌面不支持创建快捷方式")
+            negativeButton(R.string.cancel)
         }
     }
 
@@ -254,7 +284,7 @@ class AppsFragment : Fragment() {
             loadingView = CatLoadingView()
         }
 
-        LoadingUtil.showLoading(loadingView, childFragmentManager)
+        LoadingUtil.showLoading(loadingView, this)
     }
 
 

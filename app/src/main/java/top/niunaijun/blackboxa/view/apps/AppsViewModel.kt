@@ -19,6 +19,9 @@ class AppsViewModel(private val repo: AppsRepository) : BaseViewModel() {
 
     val launchLiveData = MutableLiveData<Boolean>()
 
+    //利用LiveData只更新最后一次的特性，用来保存app顺序
+    val updateSortLiveData = MutableLiveData<Boolean>()
+
     fun getInstalledApps(userId: Int) {
         launchOnUI {
             repo.getVmInstallList(userId, appsLiveData)
@@ -46,6 +49,12 @@ class AppsViewModel(private val repo: AppsRepository) : BaseViewModel() {
     fun launchApk(packageName: String, userID: Int) {
         launchOnUI {
             repo.launchApk(packageName, userID, launchLiveData)
+        }
+    }
+
+    fun updateApkOrder(userID: Int,dataList:MutableList<AppInfo>){
+        launchOnUI {
+            repo.updateApkOrder(userID,dataList)
         }
     }
 }
