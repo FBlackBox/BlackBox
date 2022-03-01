@@ -274,4 +274,13 @@ public class IPackageManagerProxy extends BinderInvocationStub {
             return method.invoke(who, args);
         }
     }
+
+    @ProxyMethod(name = "getInstallerPackageName")
+    public static class GetInstallerPackageName extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            // fake google play
+            return "com.android.vending";
+        }
+    }
 }
