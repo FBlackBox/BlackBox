@@ -54,7 +54,7 @@ public class IActivityClientProxy extends ClassInvocationStub {
         super.onlyProxy(o);
     }
 
-    @ProxyMethod(name = "finishActivity")
+    @ProxyMethod("finishActivity")
     public static class FinishActivity extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -64,7 +64,7 @@ public class IActivityClientProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "activityResumed")
+    @ProxyMethod("activityResumed")
     public static class ActivityResumed extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -74,7 +74,7 @@ public class IActivityClientProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "activityDestroyed")
+    @ProxyMethod("activityDestroyed")
     public static class ActivityDestroyed extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {

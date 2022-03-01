@@ -51,7 +51,7 @@ public class IStorageManagerProxy extends BinderInvocationStub {
         return false;
     }
 
-    @ProxyMethod(name = "getVolumeList")
+    @ProxyMethod("getVolumeList")
     public static class GetVolumeList extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -77,7 +77,7 @@ public class IStorageManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "mkdirs")
+    @ProxyMethod("mkdirs")
     public static class mkdirs extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {

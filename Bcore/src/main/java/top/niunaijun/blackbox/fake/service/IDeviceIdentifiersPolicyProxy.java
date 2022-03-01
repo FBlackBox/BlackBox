@@ -40,7 +40,7 @@ public class IDeviceIdentifiersPolicyProxy extends BinderInvocationStub {
         return false;
     }
 
-    @ProxyMethod(name = "getSerialForPackage")
+    @ProxyMethod("getSerialForPackage")
     public static class x extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {

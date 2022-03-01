@@ -46,7 +46,7 @@ public class INotificationManagerProxy extends BinderInvocationStub {
         return false;
     }
 
-    @ProxyMethod(name = "cancelNotificationWithTag")
+    @ProxyMethod("cancelNotificationWithTag")
     public static class CancelNotificationWithTag extends MethodHook {
 
         @Override
@@ -55,7 +55,7 @@ public class INotificationManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "createNotificationChannels")
+    @ProxyMethod("createNotificationChannels")
     public static class CreateNotificationChannels extends MethodHook {
 
         @Override
@@ -65,7 +65,7 @@ public class INotificationManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "deleteNotificationChannel")
+    @ProxyMethod("deleteNotificationChannel")
     public static class DeleteNotificationChannel extends MethodHook {
 
         @Override

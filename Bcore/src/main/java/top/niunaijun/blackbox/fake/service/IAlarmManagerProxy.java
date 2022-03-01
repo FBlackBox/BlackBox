@@ -35,7 +35,7 @@ public class IAlarmManagerProxy extends BinderInvocationStub {
         replaceSystemService(Context.ALARM_SERVICE);
     }
 
-    @ProxyMethod(name = "set")
+    @ProxyMethod("set")
     public static class Set extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {

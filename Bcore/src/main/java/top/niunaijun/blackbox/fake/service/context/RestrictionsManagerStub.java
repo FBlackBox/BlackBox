@@ -40,7 +40,7 @@ public class RestrictionsManagerStub extends BinderInvocationStub {
         return false;
     }
 
-    @ProxyMethod(name = "getApplicationRestrictions")
+    @ProxyMethod("getApplicationRestrictions")
     public static class GetApplicationRestrictions extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {

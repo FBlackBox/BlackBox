@@ -16,7 +16,7 @@ import top.niunaijun.blackbox.utils.MethodParameterUtils;
  * Created by BlackBox on 2022/2/26.
  */
 public class VpnCommonProxy {
-    @ProxyMethod(name = "setVpnPackageAuthorization")
+    @ProxyMethod("setVpnPackageAuthorization")
     public static class setVpnPackageAuthorization extends MethodHook {
 
         @Override
@@ -26,7 +26,7 @@ public class VpnCommonProxy {
         }
     }
 
-    @ProxyMethod(name = "prepareVpn")
+    @ProxyMethod("prepareVpn")
     public static class PrepareVpn extends MethodHook {
 
         @Override
@@ -36,7 +36,7 @@ public class VpnCommonProxy {
         }
     }
 
-    @ProxyMethod(name = "establishVpn")
+    @ProxyMethod("establishVpn")
     public static class establishVpn extends MethodHook {
 
         @Override

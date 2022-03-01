@@ -49,7 +49,7 @@ public class IWindowSessionProxy extends BinderInvocationStub {
         return super.getProxyInvocation();
     }
 
-    @ProxyMethod(name = "addToDisplay")
+    @ProxyMethod("addToDisplay")
     public static class AddToDisplay extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -65,7 +65,7 @@ public class IWindowSessionProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "addToDisplayAsUser")
+    @ProxyMethod("addToDisplayAsUser")
     public static class AddToDisplayAsUser extends AddToDisplay {
     }
 }

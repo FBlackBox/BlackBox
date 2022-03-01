@@ -88,7 +88,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         return false;
     }
 
-    @ProxyMethod(name = "getContentProvider")
+    @ProxyMethod("getContentProvider")
     public static class GetContentProvider extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Exception {
@@ -170,7 +170,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "startService")
+    @ProxyMethod("startService")
     public static class StartService extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -197,7 +197,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "stopService")
+    @ProxyMethod("stopService")
     public static class StopService extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -207,7 +207,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "stopServiceToken")
+    @ProxyMethod("stopServiceToken")
     public static class StopServiceToken extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -218,7 +218,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "bindService")
+    @ProxyMethod("bindService")
     public static class BindService extends MethodHook {
 
         @Override
@@ -249,7 +249,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
     }
 
     // 10.0
-    @ProxyMethod(name = "bindIsolatedService")
+    @ProxyMethod("bindIsolatedService")
     public static class BindIsolatedService extends BindService {
         @Override
         protected Object beforeHook(Object who, Method method, Object[] args) throws Throwable {
@@ -259,7 +259,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "unbindService")
+    @ProxyMethod("unbindService")
     public static class UnbindService extends MethodHook {
 
         @Override
@@ -277,7 +277,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getRunningAppProcesses")
+    @ProxyMethod("getRunningAppProcesses")
     public static class GetRunningAppProcesses extends MethodHook {
 
         @Override
@@ -290,7 +290,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getServices")
+    @ProxyMethod("getServices")
     public static class GetServices extends MethodHook {
 
         @Override
@@ -303,7 +303,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getIntentSender")
+    @ProxyMethod("getIntentSender")
     public static class GetIntentSender extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -326,15 +326,15 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getIntentSenderWithFeature")
+    @ProxyMethod("getIntentSenderWithFeature")
     public static class GetIntentSenderWithFeature extends GetIntentSender {
     }
 
-    @ProxyMethod(name = "broadcastIntentWithFeature")
+    @ProxyMethod("broadcastIntentWithFeature")
     public static class BroadcastIntentWithFeature extends BroadcastIntent {
     }
 
-    @ProxyMethod(name = "broadcastIntent")
+    @ProxyMethod("broadcastIntent")
     public static class BroadcastIntent extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -368,7 +368,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "unregisterReceiver")
+    @ProxyMethod("unregisterReceiver")
     public static class unregisterReceiver extends MethodHook {
 
         @Override
@@ -377,7 +377,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "finishReceiver")
+    @ProxyMethod("finishReceiver")
     public static class finishReceiver extends MethodHook {
 
         @Override
@@ -386,7 +386,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "publishService")
+    @ProxyMethod("publishService")
     public static class PublishService extends MethodHook {
 
         @Override
@@ -395,7 +395,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "peekService")
+    @ProxyMethod("peekService")
     public static class PeekService extends MethodHook {
 
         @Override
@@ -409,7 +409,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
     }
 
     // todo
-    @ProxyMethod(name = "sendIntentSender")
+    @ProxyMethod("sendIntentSender")
     public static class SendIntentSender extends MethodHook {
 
         @Override
@@ -419,11 +419,11 @@ public class IActivityManagerProxy extends ClassInvocationStub {
     }
 
     // android 10
-    @ProxyMethod(name = "registerReceiverWithFeature")
+    @ProxyMethod("registerReceiverWithFeature")
     public static class RegisterReceiverWithFeature extends RegisterReceiver {
     }
 
-    @ProxyMethod(name = "registerReceiver")
+    @ProxyMethod("registerReceiver")
     public static class RegisterReceiver extends MethodHook {
 
         @Override
@@ -467,7 +467,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "grantUriPermission")
+    @ProxyMethod("grantUriPermission")
     public static class GrantUriPermission extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -476,7 +476,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "setServiceForeground")
+    @ProxyMethod("setServiceForeground")
     public static class setServiceForeground extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {

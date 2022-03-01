@@ -32,7 +32,7 @@ import static android.content.pm.PackageManager.GET_META_DATA;
 public class ActivityManagerCommonProxy {
     public static final String TAG = "CommonStub";
 
-    @ProxyMethod(name = "startActivity")
+    @ProxyMethod("startActivity")
     public static class StartActivity extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -100,7 +100,7 @@ public class ActivityManagerCommonProxy {
         }
     }
 
-    @ProxyMethod(name = "startActivities")
+    @ProxyMethod("startActivities")
     public static class StartActivities extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -129,7 +129,7 @@ public class ActivityManagerCommonProxy {
         }
     }
 
-    @ProxyMethod(name = "activityResumed")
+    @ProxyMethod("activityResumed")
     public static class ActivityResumed extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -138,7 +138,7 @@ public class ActivityManagerCommonProxy {
         }
     }
 
-    @ProxyMethod(name = "activityDestroyed")
+    @ProxyMethod("activityDestroyed")
     public static class ActivityDestroyed extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -147,7 +147,7 @@ public class ActivityManagerCommonProxy {
         }
     }
 
-    @ProxyMethod(name = "finishActivity")
+    @ProxyMethod("finishActivity")
     public static class FinishActivity extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -156,7 +156,7 @@ public class ActivityManagerCommonProxy {
         }
     }
 
-    @ProxyMethod(name = "getAppTasks")
+    @ProxyMethod("getAppTasks")
     public static class GetAppTasks extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {

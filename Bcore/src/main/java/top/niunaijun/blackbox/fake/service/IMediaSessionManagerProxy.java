@@ -40,7 +40,7 @@ public class IMediaSessionManagerProxy extends BinderInvocationStub {
         return false;
     }
 
-    @ProxyMethod(name = "createSession")
+    @ProxyMethod("createSession")
     public static class CreateSession extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {

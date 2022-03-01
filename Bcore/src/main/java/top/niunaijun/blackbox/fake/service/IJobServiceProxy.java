@@ -40,7 +40,7 @@ public class IJobServiceProxy extends BinderInvocationStub {
         replaceSystemService(Context.JOB_SCHEDULER_SERVICE);
     }
 
-    @ProxyMethod(name = "schedule")
+    @ProxyMethod("schedule")
     public static class Schedule extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -52,7 +52,7 @@ public class IJobServiceProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "cancel")
+    @ProxyMethod("cancel")
     public static class Cancel extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -62,7 +62,7 @@ public class IJobServiceProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "cancelAll")
+    @ProxyMethod("cancelAll")
     public static class CancelAll extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -72,7 +72,7 @@ public class IJobServiceProxy extends BinderInvocationStub {
     }
 
 
-    @ProxyMethod(name = "enqueue")
+    @ProxyMethod("enqueue")
     public static class Enqueue extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {

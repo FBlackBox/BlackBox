@@ -37,7 +37,7 @@ public class ContentServiceStub extends BinderInvocationStub {
         return false;
     }
 
-    @ProxyMethod(name = "registerContentObserver")
+    @ProxyMethod("registerContentObserver")
     public static class RegisterContentObserver extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -45,7 +45,7 @@ public class ContentServiceStub extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "notifyChange")
+    @ProxyMethod("notifyChange")
     public static class NotifyChange extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {

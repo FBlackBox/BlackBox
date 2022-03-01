@@ -39,7 +39,7 @@ public class IDevicePolicyManagerProxy extends BinderInvocationStub {
         return false;
     }
 
-    @ProxyMethod(name = "getStorageEncryptionStatus")
+    @ProxyMethod("getStorageEncryptionStatus")
     public static class GetStorageEncryptionStatus extends MethodHook {
 
         @Override

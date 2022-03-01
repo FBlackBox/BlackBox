@@ -69,7 +69,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         return false;
     }
 
-    @ProxyMethod(name = "resolveIntent")
+    @ProxyMethod("resolveIntent")
     public static class ResolveIntent extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -84,7 +84,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "setComponentEnabledSetting")
+    @ProxyMethod("setComponentEnabledSetting")
     public static class SetComponentEnabledSetting extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -93,7 +93,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getPackageInfo")
+    @ProxyMethod("getPackageInfo")
     public static class GetPackageInfo extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -113,7 +113,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getPackageUid")
+    @ProxyMethod("getPackageUid")
     public static class GetPackageUid extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -122,7 +122,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getProviderInfo")
+    @ProxyMethod("getProviderInfo")
     public static class GetProviderInfo extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -138,7 +138,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getReceiverInfo")
+    @ProxyMethod("getReceiverInfo")
     public static class GetReceiverInfo extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -154,7 +154,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getActivityInfo")
+    @ProxyMethod("getActivityInfo")
     public static class GetActivityInfo extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -170,7 +170,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getServiceInfo")
+    @ProxyMethod("getServiceInfo")
     public static class GetServiceInfo extends MethodHook {
 
         @Override
@@ -187,7 +187,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getInstalledApplications")
+    @ProxyMethod("getInstalledApplications")
     public static class GetInstalledApplications extends MethodHook {
 
         @Override
@@ -198,7 +198,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getInstalledPackages")
+    @ProxyMethod("getInstalledPackages")
     public static class GetInstalledPackages extends MethodHook {
 
         @Override
@@ -209,7 +209,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getApplicationInfo")
+    @ProxyMethod("getApplicationInfo")
     public static class GetApplicationInfo extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -229,7 +229,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "queryContentProviders")
+    @ProxyMethod("queryContentProviders")
     public static class QueryContentProviders extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -240,7 +240,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "resolveContentProvider")
+    @ProxyMethod("resolveContentProvider")
     public static class ResolveContentProvider extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -254,7 +254,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "canRequestPackageInstalls")
+    @ProxyMethod("canRequestPackageInstalls")
     public static class CanRequestPackageInstalls extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -263,7 +263,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getPackagesForUid")
+    @ProxyMethod("getPackagesForUid")
     public static class GetPackagesForUid extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -275,7 +275,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getInstallerPackageName")
+    @ProxyMethod("getInstallerPackageName")
     public static class GetInstallerPackageName extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {

@@ -59,7 +59,7 @@ public class IAppOpsManagerProxy extends BinderInvocationStub {
         return false;
     }
 
-    @ProxyMethod(name = "checkPackage")
+    @ProxyMethod("checkPackage")
     public static class CheckPackage extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -68,7 +68,7 @@ public class IAppOpsManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "checkPackage")
+    @ProxyMethod("checkPackage")
     public static class CheckOperation extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -76,7 +76,7 @@ public class IAppOpsManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "noteOperation")
+    @ProxyMethod("noteOperation")
     public static class NoteOperation extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {

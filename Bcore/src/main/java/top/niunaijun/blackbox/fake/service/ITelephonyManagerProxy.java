@@ -43,7 +43,7 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
         return false;
     }
 
-    @ProxyMethod(name = "getDeviceId")
+    @ProxyMethod("getDeviceId")
     public static class GetDeviceId extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -53,7 +53,7 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getImeiForSlot")
+    @ProxyMethod("getImeiForSlot")
     public static class getImeiForSlot extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -63,7 +63,7 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getMeidForSlot")
+    @ProxyMethod("getMeidForSlot")
     public static class GetMeidForSlot extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -73,7 +73,7 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "isUserDataEnabled")
+    @ProxyMethod("isUserDataEnabled")
     public static class IsUserDataEnabled extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -81,7 +81,7 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getSubscriberId")
+    @ProxyMethod("getSubscriberId")
     public static class GetSubscriberId extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -89,7 +89,7 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "getDeviceIdWithFeature")
+    @ProxyMethod("getDeviceIdWithFeature")
     public static class GetDeviceIdWithFeature extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {

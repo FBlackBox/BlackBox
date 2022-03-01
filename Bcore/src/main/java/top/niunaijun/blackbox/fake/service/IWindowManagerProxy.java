@@ -42,7 +42,7 @@ public class IWindowManagerProxy extends BinderInvocationStub {
         return false;
     }
 
-    @ProxyMethod(name = "openSession")
+    @ProxyMethod("openSession")
     public static class OpenSession extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {

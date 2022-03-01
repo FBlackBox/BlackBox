@@ -37,7 +37,7 @@ public class ITelephonyRegistryProxy extends BinderInvocationStub {
         return false;
     }
 
-    @ProxyMethod(name = "listenForSubscriber")
+    @ProxyMethod("listenForSubscriber")
     public static class ListenForSubscriber extends MethodHook {
 
         @Override
@@ -47,7 +47,7 @@ public class ITelephonyRegistryProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "listen")
+    @ProxyMethod("listen")
     public static class Listen extends MethodHook {
 
         @Override

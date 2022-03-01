@@ -43,7 +43,7 @@ public class IAutofillManagerProxy extends BinderInvocationStub {
         return false;
     }
 
-    @ProxyMethod(name = "startSession")
+    @ProxyMethod("startSession")
     public static class StartSession extends MethodHook {
 
         @Override

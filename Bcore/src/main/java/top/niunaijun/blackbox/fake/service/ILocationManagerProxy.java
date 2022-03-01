@@ -46,7 +46,7 @@ public class ILocationManagerProxy extends BinderInvocationStub {
         return super.invoke(proxy, method, args);
     }
 
-    @ProxyMethod(name = "registerGnssStatusCallback")
+    @ProxyMethod("registerGnssStatusCallback")
     public static class RegisterGnssStatusCallback extends MethodHook {
 
         @Override

@@ -41,7 +41,7 @@ public class IDisplayManagerProxy extends ClassInvocationStub {
         return mDm != getProxyInvocation();
     }
 
-    @ProxyMethod(name = "createVirtualDisplay")
+    @ProxyMethod("createVirtualDisplay")
     public static class CreateVirtualDisplay extends MethodHook {
 
         @Override

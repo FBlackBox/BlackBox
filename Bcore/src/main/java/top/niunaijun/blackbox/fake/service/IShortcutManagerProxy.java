@@ -42,7 +42,7 @@ public class IShortcutManagerProxy extends BinderInvocationStub {
         return false;
     }
 
-    @ProxyMethod(name = "requestPinShortcut")
+    @ProxyMethod("requestPinShortcut")
     public static class RequestPinShortcut extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -50,7 +50,7 @@ public class IShortcutManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "setDynamicShortcuts")
+    @ProxyMethod("setDynamicShortcuts")
     public static class SetDynamicShortcuts extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -58,7 +58,7 @@ public class IShortcutManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "addDynamicShortcuts")
+    @ProxyMethod("addDynamicShortcuts")
     public static class AddDynamicShortcuts extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -66,7 +66,7 @@ public class IShortcutManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod(name = "createShortcutResultIntent")
+    @ProxyMethod("createShortcutResultIntent")
     public static class CreateShortcutResultIntent extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
