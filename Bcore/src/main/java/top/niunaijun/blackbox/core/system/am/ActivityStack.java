@@ -42,7 +42,9 @@ import static android.content.pm.PackageManager.GET_ACTIVITIES;
  * 此处无Bug
  */
 public class ActivityStack {
-    private ActivityManager mAms;
+    public static final String TAG = "ActivityStack";
+
+    private final ActivityManager mAms;
     private final Map<Integer, TaskRecord> mTasks = new LinkedHashMap<>();
     private final Set<ActivityRecord> mLaunchingActivities = new HashSet<>();
 
@@ -79,7 +81,7 @@ public class ActivityStack {
         if (resolveInfo == null || resolveInfo.activityInfo == null) {
             return 0;
         }
-        Log.d("TestActivity", "startActivityLocked : " + intent.getComponent().toString());
+        Log.d(TAG, "startActivityLocked : " + intent.getComponent().toString());
         ActivityInfo activityInfo = resolveInfo.activityInfo;
 
         ActivityRecord sourceRecord = findActivityRecordByToken(userId, resultTo);
@@ -146,7 +148,7 @@ public class ActivityStack {
                         ActivityRecord next = targetActivityRecord.task.activities.get(i);
                         if (next != targetActivityRecord) {
                             next.finished = true;
-                            Log.d("TestActivity", "makerFinish: " + next.component.toString());
+                            Log.d(TAG, "makerFinish: " + next.component.toString());
                         } else {
                             if (singleTop) {
                                 newIntentRecord = targetActivityRecord;
@@ -407,7 +409,7 @@ public class ActivityStack {
             record.processRecord = processRecord;
             record.task = taskRecord;
             taskRecord.addTopActivity(record);
-            Log.d("TestActivity", "onActivityCreated : " + record.component.toString());
+            Log.d(TAG, "onActivityCreated : " + record.component.toString());
         }
     }
 
@@ -418,7 +420,7 @@ public class ActivityStack {
             if (activityRecord == null) {
                 return;
             }
-            Log.d("TestActivity", "onActivityResumed : " + activityRecord.component.toString());
+            Log.d(TAG, "onActivityResumed : " + activityRecord.component.toString());
             activityRecord.task.removeActivity(activityRecord);
             activityRecord.task.addTopActivity(activityRecord);
         }
@@ -432,7 +434,7 @@ public class ActivityStack {
                 return;
             }
             activityRecord.finished = true;
-            Log.d("TestActivity", "onActivityDestroyed : " + activityRecord.component.toString());
+            Log.d(TAG, "onActivityDestroyed : " + activityRecord.component.toString());
             activityRecord.task.removeActivity(activityRecord);
         }
     }
@@ -445,7 +447,7 @@ public class ActivityStack {
                 return;
             }
             activityRecord.finished = true;
-            Log.d("TestActivity", "onFinishActivity : " + activityRecord.component.toString());
+            Log.d(TAG, "onFinishActivity : " + activityRecord.component.toString());
         }
     }
 

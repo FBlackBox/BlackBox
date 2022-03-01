@@ -43,6 +43,10 @@ public class ProxyManifest {
         return BlackBoxCore.getHostPkg() + ".blackbox.FileProvider";
     }
 
+    public static String getProxyReceiver() {
+        return BlackBoxCore.getHostPkg() + ".stub_receiver";
+    }
+
     public static String getProcessName(int bPid) {
         return BlackBoxCore.getHostPkg() + ":p" + bPid;
     }

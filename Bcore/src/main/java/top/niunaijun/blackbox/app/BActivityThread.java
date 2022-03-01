@@ -10,6 +10,7 @@ import android.content.ComponentName;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -23,6 +24,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Looper;
+import android.os.Message;
 import android.os.RemoteException;
 import android.os.StrictMode;
 import android.text.TextUtils;
@@ -46,6 +48,7 @@ import black.android.app.BRActivityThreadQ;
 import black.android.app.BRContextImpl;
 import black.android.app.BRLoadedApk;
 import black.android.app.BRService;
+import black.android.content.BRBroadcastReceiver;
 import black.android.content.BRContentProviderClient;
 import black.android.graphics.BRCompatibility;
 import black.android.security.net.config.BRNetworkSecurityConfigProvider;
@@ -61,9 +64,11 @@ import top.niunaijun.blackbox.core.IOCore;
 import top.niunaijun.blackbox.core.VMCore;
 import top.niunaijun.blackbox.core.env.VirtualRuntime;
 import top.niunaijun.blackbox.entity.AppConfig;
+import top.niunaijun.blackbox.entity.am.ReceiverData;
 import top.niunaijun.blackbox.entity.pm.InstalledModule;
 import top.niunaijun.blackbox.fake.delegate.AppInstrumentation;
 import top.niunaijun.blackbox.fake.delegate.ContentProviderDelegate;
+import top.niunaijun.blackbox.fake.frameworks.BActivityManager;
 import top.niunaijun.blackbox.fake.frameworks.BXposedManager;
 import top.niunaijun.blackbox.fake.hook.HookManager;
 import top.niunaijun.blackbox.fake.service.HCallbackProxy;
@@ -355,7 +360,7 @@ public class BActivityThread extends IBActivityThread.Stub {
             ContextCompat.fix((Context) BRActivityThread.get(BlackBoxCore.mainThread()).getSystemContext());
             ContextCompat.fix(mInitialApplication);
             installProviders(mInitialApplication, bindData.processName, bindData.providers);
-            registerReceivers(mInitialApplication);
+//            registerReceivers(mInitialApplication);
 
             onBeforeApplicationOnCreate(packageName, processName, application);
             AppInstrumentation.get().callApplicationOnCreate(application);
@@ -500,54 +505,81 @@ public class BActivityThread extends IBActivityThread.Stub {
 
     @Override
     public void finishActivity(final IBinder token) {
-        mH.post(new Runnable() {
-            @Override
-            public void run() {
-                Map<IBinder, Object> activities = BRActivityThread.get(BlackBoxCore.mainThread()).mActivities();
-                if (activities.isEmpty())
-                    return;
-                Object clientRecord = activities.get(token);
-                if (clientRecord == null)
-                    return;
-                Activity activity = BRActivityThreadActivityClientRecord.get(clientRecord).activity();
+        mH.post(() -> {
+            Map<IBinder, Object> activities = BRActivityThread.get(BlackBoxCore.mainThread()).mActivities();
+            if (activities.isEmpty())
+                return;
+            Object clientRecord = activities.get(token);
+            if (clientRecord == null)
+                return;
+            Activity activity = BRActivityThreadActivityClientRecord.get(clientRecord).activity();
 
-                while (activity.getParent() != null) {
-                    activity = activity.getParent();
-                }
-
-                int resultCode = BRActivity.get(activity).mResultCode();
-                Intent resultData = BRActivity.get(activity).mResultData();
-                ActivityManagerCompat.finishActivity(token, resultCode, resultData);
-                BRActivity.get(activity)._set_mFinished(true);
+            while (activity.getParent() != null) {
+                activity = activity.getParent();
             }
+
+            int resultCode = BRActivity.get(activity).mResultCode();
+            Intent resultData = BRActivity.get(activity).mResultData();
+            ActivityManagerCompat.finishActivity(token, resultCode, resultData);
+            BRActivity.get(activity)._set_mFinished(true);
         });
     }
 
     @Override
     public void handleNewIntent(final IBinder token, final Intent intent) {
-        mH.post(new Runnable() {
-            @Override
-            public void run() {
-                Intent newIntent;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    newIntent = BRReferrerIntent.get()._new(intent, BlackBoxCore.getHostPkg());
-                } else {
-                    newIntent = intent;
+        mH.post(() -> {
+            Intent newIntent;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                newIntent = BRReferrerIntent.get()._new(intent, BlackBoxCore.getHostPkg());
+            } else {
+                newIntent = intent;
+            }
+            Object mainThread = BlackBoxCore.mainThread();
+            if (BRActivityThread.get(BlackBoxCore.mainThread())._check_performNewIntents(null, null) != null) {
+                BRActivityThread.get(mainThread).performNewIntents(
+                        token,
+                        Collections.singletonList(newIntent)
+                );
+            } else if (BRActivityThreadNMR1.get(mainThread)._check_performNewIntents(null, null, false) != null) {
+                BRActivityThreadNMR1.get(mainThread).performNewIntents(
+                        token,
+                        Collections.singletonList(newIntent),
+                        true);
+            } else if (BRActivityThreadQ.get(mainThread)._check_handleNewIntent(null, null) != null) {
+                BRActivityThreadQ.get(mainThread).handleNewIntent(token, Collections.singletonList(newIntent));
+            }
+        });
+    }
+
+    @Override
+    public void scheduleReceiver(ReceiverData data) throws RemoteException {
+        if (!isInit()) {
+            bindApplication();
+        }
+        mH.post(() -> {
+            BroadcastReceiver mReceiver = null;
+            Intent intent = data.intent;
+            ActivityInfo activityInfo = data.activityInfo;
+            BroadcastReceiver.PendingResult pendingResult = data.data.build();
+
+            try {
+                Context baseContext = mInitialApplication.getBaseContext();
+                ClassLoader classLoader = baseContext.getClassLoader();
+                intent.setExtrasClassLoader(classLoader);
+
+                mReceiver = (BroadcastReceiver) classLoader.loadClass(activityInfo.name).newInstance();
+                BRBroadcastReceiver.get(mReceiver).setPendingResult(pendingResult);
+                mReceiver.onReceive(baseContext, intent);
+                BroadcastReceiver.PendingResult finish = BRBroadcastReceiver.get(mReceiver).getPendingResult();
+                if (finish != null) {
+                    finish.finish();
                 }
-                Object mainThread = BlackBoxCore.mainThread();
-                if (BRActivityThread.get(BlackBoxCore.mainThread())._check_performNewIntents(null, null) != null) {
-                    BRActivityThread.get(mainThread).performNewIntents(
-                            token,
-                            Collections.singletonList(newIntent)
-                    );
-                } else if (BRActivityThreadNMR1.get(mainThread)._check_performNewIntents(null, null, false) != null) {
-                    BRActivityThreadNMR1.get(mainThread).performNewIntents(
-                            token,
-                            Collections.singletonList(newIntent),
-                            true);
-                } else if (BRActivityThreadQ.get(mainThread)._check_handleNewIntent(null, null) != null) {
-                    BRActivityThreadQ.get(mainThread).handleNewIntent(token, Collections.singletonList(newIntent));
-                }
+                BlackBoxCore.getBActivityManager().finishBroadcast(data.data);
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+                Slog.e(TAG,
+                        "Error receiving broadcast " + intent
+                                + " in " + mReceiver);
             }
         });
     }

@@ -6,6 +6,7 @@ import android.content.IIntentReceiver;
 import android.content.Intent;
 import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.util.Log;
@@ -43,6 +44,7 @@ import top.niunaijun.blackbox.proxy.record.ProxyBroadcastRecord;
 import top.niunaijun.blackbox.utils.ComponentUtils;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 import top.niunaijun.blackbox.utils.Reflector;
+import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 
 import static android.content.pm.PackageManager.GET_META_DATA;

@@ -541,7 +541,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                     ps.removeUser(userId);
                     ps.save();
                 }
-                onPackageUninstalled(packageName, userId);
+                onPackageUninstalled(packageName, removeApp, userId);
             }
         }
     }
@@ -560,7 +560,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                         if (i < 0) {
                             continue;
                         }
-                        onPackageUninstalled(packageName, user.id);
+                        onPackageUninstalled(packageName, true, user.id);
                     }
                 } else {
                     for (Integer userId : ps.getUserIds()) {
@@ -568,7 +568,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                         if (i < 0) {
                             continue;
                         }
-                        onPackageUninstalled(packageName, userId);
+                        onPackageUninstalled(packageName, true, userId);
                     }
                 }
                 mPackages.remove(packageName);
@@ -749,9 +749,9 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
         mPackageMonitors.add(monitor);
     }
 
-    void onPackageUninstalled(String packageName, int userId) {
+    void onPackageUninstalled(String packageName, boolean isRemove, int userId) {
         for (PackageMonitor packageMonitor : mPackageMonitors) {
-            packageMonitor.onPackageUninstalled(packageName, userId);
+            packageMonitor.onPackageUninstalled(packageName, isRemove, userId);
         }
         Slog.d(TAG, "onPackageUninstalled: " + packageName + ", userId: " + userId);
     }
@@ -761,6 +761,14 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             packageMonitor.onPackageInstalled(packageName, userId);
         }
         Slog.d(TAG, "onPackageInstalled: " + packageName + ", userId: " + userId);
+    }
+
+    public BPackageSettings getBPackageSetting(String packageName) {
+        return mPackages.get(packageName);
+    }
+
+    public List<BPackageSettings> getBPackageSettings() {
+        return new ArrayList<>(mPackages.values());
     }
 
     @Override

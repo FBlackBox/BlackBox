@@ -12,6 +12,7 @@ import top.niunaijun.blackbox.entity.AppConfig;
 import top.niunaijun.blackbox.entity.UnbindRecord;
 import android.os.Bundle;
 import top.niunaijun.blackbox.entity.am.RunningAppProcessInfo;
+import top.niunaijun.blackbox.entity.am.PendingResultData;
 import top.niunaijun.blackbox.entity.am.RunningServiceInfo;
 
 // Declare any non-default types here with import statements
@@ -47,4 +48,7 @@ interface IBActivityManagerService {
 
     RunningAppProcessInfo getRunningAppProcesses(String callerPackage, int userId);
     RunningServiceInfo getRunningServices(String callerPackage, int userId);
+
+    void scheduleBroadcastReceiver(in Intent intent, in PendingResultData pendingResultData, int userId);
+    void finishBroadcast(in PendingResultData data);
 }

@@ -145,7 +145,7 @@ public class BXposedManagerService extends IBXposedManagerService.Stub implement
     }
 
     @Override
-    public void onPackageUninstalled(String packageName, int userId) {
+    public void onPackageUninstalled(String packageName, boolean removeApp, int userId) {
         if (userId != BUserHandle.USER_XPOSED && userId != BUserHandle.USER_ALL) {
             return;
         }

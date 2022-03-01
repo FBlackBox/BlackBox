@@ -344,6 +344,16 @@
                 android:resource="@xml/filepath" />
         </provider>
 
+        <receiver
+            android:name=".proxy.ProxyBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:process="@string/black_box_service_name">
+            <intent-filter>
+                <action android:name="${applicationId}.stub_receiver" />
+            </intent-filter>
+        </receiver>
+
         <service
             android:name="top.niunaijun.blackbox.core.system.DaemonService"
             android:exported="false"

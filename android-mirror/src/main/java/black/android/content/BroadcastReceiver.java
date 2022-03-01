@@ -12,15 +12,15 @@ import top.niunaijun.blackreflection.annotation.BParamClassName;
 @BClassName("android.content.BroadcastReceiver")
 public interface BroadcastReceiver {
     @BMethod
-    Object getPendingResult();
+    android.content.BroadcastReceiver.PendingResult getPendingResult();
 
     @BMethod
     void setPendingResult(@BParamClassName("android.content.BroadcastReceiver$PendingResult") Object pendingResult);
 
     @BClassName("android.content.BroadcastReceiver$PendingResult")
-    interface PendingResultMNC {
+    interface PendingResultM {
         @BConstructor
-        PendingResultMNC _new(int resultCode, String resultData, Bundle resultExtras, int type,
+        android.content.BroadcastReceiver.PendingResult _new(int resultCode, String resultData, Bundle resultExtras, int type,
                               boolean ordered, boolean sticky, IBinder token, int userId, int flags);
 
         @BField
@@ -58,9 +58,10 @@ public interface BroadcastReceiver {
     }
 
     @BClassName("android.content.BroadcastReceiver$PendingResult")
-    interface PendingResultJBMR1 {
+    interface PendingResult {
         @BConstructor
-        PendingResultJBMR1 _new(int int0, String String1, Bundle Bundle2, int int3, boolean boolean4, boolean boolean5, IBinder IBinder6, int int7);
+        android.content.BroadcastReceiver.PendingResult _new(int resultCode, String resultData, Bundle resultExtras, int type,
+                                                             boolean ordered, boolean sticky, IBinder token, int userId);
 
         @BField
         boolean mAbortBroadcast();
@@ -85,39 +86,6 @@ public interface BroadcastReceiver {
 
         @BField
         int mSendingUser();
-
-        @BField
-        IBinder mToken();
-
-        @BField
-        int mType();
-    }
-
-    @BClassName("android.content.BroadcastReceiver$PendingResult")
-    interface PendingResult {
-        @BConstructor
-        PendingResult _new(int int0, String String1, Bundle Bundle2, int int3, boolean boolean4, boolean boolean5, IBinder IBinder6);
-
-        @BField
-        boolean mAbortBroadcast();
-
-        @BField
-        boolean mFinished();
-
-        @BField
-        boolean mInitialStickyHint();
-
-        @BField
-        boolean mOrderedHint();
-
-        @BField
-        int mResultCode();
-
-        @BField
-        String mResultData();
-
-        @BField
-        Bundle mResultExtras();
 
         @BField
         IBinder mToken();

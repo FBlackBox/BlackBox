@@ -1,11 +1,13 @@
 package top.niunaijun.blackbox.core.system.am;
 
 import android.app.ActivityManager;
+import android.content.ClipData;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -22,8 +24,11 @@ import top.niunaijun.blackbox.core.system.ProcessRecord;
 import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
 import top.niunaijun.blackbox.entity.AppConfig;
 import top.niunaijun.blackbox.entity.UnbindRecord;
+import top.niunaijun.blackbox.entity.am.PendingResultData;
+import top.niunaijun.blackbox.entity.am.ReceiverData;
 import top.niunaijun.blackbox.entity.am.RunningAppProcessInfo;
 import top.niunaijun.blackbox.entity.am.RunningServiceInfo;
+import top.niunaijun.blackbox.utils.Slog;
 
 import static android.content.pm.PackageManager.GET_META_DATA;
 
@@ -36,12 +41,18 @@ import static android.content.pm.PackageManager.GET_META_DATA;
  * 此处无Bug
  */
 public class BActivityManagerService extends IBActivityManagerService.Stub implements ISystemService {
-    public static final String TAG = "VActivityManagerService";
+    public static final String TAG = "BActivityManagerService";
     private static final BActivityManagerService sService = new BActivityManagerService();
     private final Map<Integer, UserSpace> mUserSpace = new HashMap<>();
+    private final BPackageManagerService mPms = BPackageManagerService.get();
+    private final BroadcastManager mBroadcastManager;
 
     public static BActivityManagerService get() {
         return sService;
+    }
+
+    public BActivityManagerService() {
+        mBroadcastManager = BroadcastManager.startSystem(this, mPms);
     }
 
     @Override
@@ -79,9 +90,10 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
             }
             processRecord.bActivityThread.bindApplication();
         }
-        Intent shadow = new Intent(intent);
+        Intent shadow = new Intent();
         shadow.setPackage(BlackBoxCore.getHostPkg());
         shadow.setComponent(null);
+        shadow.setAction(intent.getAction());
         return shadow;
     }
 
@@ -174,6 +186,33 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
         synchronized (userSpace.mActiveServices) {
             return userSpace.mActiveServices.getRunningServiceInfo(callerPackage, userId);
         }
+    }
+
+    @Override
+    public void scheduleBroadcastReceiver(Intent intent, PendingResultData pendingResultData, int userId) throws RemoteException {
+        List<ResolveInfo> resolves = BPackageManagerService.get().queryBroadcastReceivers(intent, GET_META_DATA, null, userId);
+
+        if (resolves.isEmpty()) {
+            pendingResultData.build().finish();
+            Slog.d(TAG, "scheduleBroadcastReceiver empty");
+            return;
+        }
+        mBroadcastManager.sendBroadcast(pendingResultData);
+        for (ResolveInfo resolve : resolves) {
+            ProcessRecord processRecord = BProcessManager.get().findProcessRecord(resolve.activityInfo.packageName, resolve.activityInfo.processName, userId);
+            if (processRecord != null) {
+                ReceiverData data = new ReceiverData();
+                data.intent = intent;
+                data.activityInfo = resolve.activityInfo;
+                data.data = pendingResultData;
+                processRecord.bActivityThread.scheduleReceiver(data);
+            }
+        }
+    }
+
+    @Override
+    public void finishBroadcast(PendingResultData data) throws RemoteException {
+        mBroadcastManager.finishBroadcast(data);
     }
 
     @Override
@@ -282,6 +321,6 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
 
     @Override
     public void systemReady() {
-
+        mBroadcastManager.startup();
     }
 }

@@ -12,6 +12,7 @@ import top.niunaijun.blackbox.core.system.ServiceManager;
 import top.niunaijun.blackbox.core.system.am.IBActivityManagerService;
 import top.niunaijun.blackbox.entity.AppConfig;
 import top.niunaijun.blackbox.entity.UnbindRecord;
+import top.niunaijun.blackbox.entity.am.PendingResultData;
 import top.niunaijun.blackbox.entity.am.RunningAppProcessInfo;
 import top.niunaijun.blackbox.entity.am.RunningServiceInfo;
 
@@ -217,6 +218,18 @@ public class BActivityManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void scheduleBroadcastReceiver(Intent intent, PendingResultData pendingResultData, int userId) throws RemoteException {
+        getService().scheduleBroadcastReceiver(intent, pendingResultData, userId);
+    }
+
+    public void finishBroadcast(PendingResultData data) {
+        try {
+            getService().finishBroadcast(data);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     private IBActivityManagerService getService() {

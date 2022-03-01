@@ -192,7 +192,7 @@ import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
             FileUtils.deleteDir(app);
             mPackages.remove(packageName);
             BProcessManager.get().killAllByPackageName(packageName);
-            BPackageManagerService.get().onPackageUninstalled(packageName, BUserHandle.USER_ALL);
+            BPackageManagerService.get().onPackageUninstalled(packageName, true, BUserHandle.USER_ALL);
             Slog.d(TAG, "bad Package: " + packageName);
         } finally {
             packageSettingsIn.recycle();
