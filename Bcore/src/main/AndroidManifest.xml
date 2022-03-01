@@ -388,700 +388,700 @@
             android:exported="true"
             android:process=":p0"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P1"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p1"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P2"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p2"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P3"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p3"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P4"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p4"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P5"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p5"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P6"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p6"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P7"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p7"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P8"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p8"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P9"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p9"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P10"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p10"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P11"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p11"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P12"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p12"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P13"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p13"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P14"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p14"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P15"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p15"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P16"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p16"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P17"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p17"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P18"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p18"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P19"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p19"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P20"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p20"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P21"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p21"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P22"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p22"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P23"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p23"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P24"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p24"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P25"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p25"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P26"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p26"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P27"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p27"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P28"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p28"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P29"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p29"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P30"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p30"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P31"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p31"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P32"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p32"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P33"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p33"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P34"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p34"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P35"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p35"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P36"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p36"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P37"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p37"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P38"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p38"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P39"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p39"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P40"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p40"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P41"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p41"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P42"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p42"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P43"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p43"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P44"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p44"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P45"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p45"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P46"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p46"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P47"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p47"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P48"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p48"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P49"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p49"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P50"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p50"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P51"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p51"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P52"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p52"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P53"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p53"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P54"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p54"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P55"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p55"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P56"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p56"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P57"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p57"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P58"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p58"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P59"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p59"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P60"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p60"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P61"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p61"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P62"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p62"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P63"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p63"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P64"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p64"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P65"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p65"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P66"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p66"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P67"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p67"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P68"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p68"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P69"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p69"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P70"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p70"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P71"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p71"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P72"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p72"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P73"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p73"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P74"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p74"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P75"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p75"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P76"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p76"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P77"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p77"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P78"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p78"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P79"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p79"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P80"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p80"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P81"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p81"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P82"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p82"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P83"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p83"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P84"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p84"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P85"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p85"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P86"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p86"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P87"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p87"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P88"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p88"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P89"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p89"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P90"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p90"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P91"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p91"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P92"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p92"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P93"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p93"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P94"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p94"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P95"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p95"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P96"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p96"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P97"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p97"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P98"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p98"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".proxy.ProxyActivity$P99"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:exported="true"
             android:process=":p99"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
-            android:theme="@style/BTheme" />
+            android:theme="@android:style/Theme.Translucent" />
 
 
         <service

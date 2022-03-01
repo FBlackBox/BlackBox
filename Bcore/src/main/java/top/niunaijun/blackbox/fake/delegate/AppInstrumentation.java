@@ -109,7 +109,7 @@ public final class AppInstrumentation extends BaseInstrumentationDelegate implem
         ContextCompat.fix(activity);
         ActivityCompat.fix(activity);
         if (info.theme != 0) {
-            activity.setTheme(info.theme);
+            activity.getTheme().applyStyle(info.theme, true);
         }
         activity.setRequestedOrientation(info.screenOrientation);
     }
