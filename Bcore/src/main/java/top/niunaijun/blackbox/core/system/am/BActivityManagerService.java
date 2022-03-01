@@ -1,13 +1,11 @@
 package top.niunaijun.blackbox.core.system.am;
 
 import android.app.ActivityManager;
-import android.content.ClipData;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -18,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.core.system.BProcessManager;
+import top.niunaijun.blackbox.core.system.BProcessManagerService;
 import top.niunaijun.blackbox.core.system.ISystemService;
 import top.niunaijun.blackbox.core.system.ProcessRecord;
 import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
@@ -67,9 +65,9 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
     @Override
     public IBinder acquireContentProviderClient(ProviderInfo providerInfo) throws RemoteException {
         int callingPid = Binder.getCallingPid();
-        ProcessRecord processRecord = BProcessManager.get().startProcessLocked(providerInfo.packageName,
+        ProcessRecord processRecord = BProcessManagerService.get().startProcessLocked(providerInfo.packageName,
                 providerInfo.processName,
-                BProcessManager.get().getUserIdByCallingPid(callingPid),
+                BProcessManagerService.get().getUserIdByCallingPid(callingPid),
                 -1,
                 Binder.getCallingUid(),
                 Binder.getCallingPid());
@@ -84,7 +82,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
         List<ResolveInfo> resolves = BPackageManagerService.get().queryBroadcastReceivers(intent, GET_META_DATA, resolvedType, userId);
 
         for (ResolveInfo resolve : resolves) {
-            ProcessRecord processRecord = BProcessManager.get().findProcessRecord(resolve.activityInfo.packageName, resolve.activityInfo.processName, userId);
+            ProcessRecord processRecord = BProcessManagerService.get().findProcessRecord(resolve.activityInfo.packageName, resolve.activityInfo.processName, userId);
             if (processRecord == null) {
                 continue;
             }
@@ -108,7 +106,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
     @Override
     public void onActivityCreated(int taskId, IBinder token, IBinder activityRecord) throws RemoteException {
         int callingPid = Binder.getCallingPid();
-        ProcessRecord process = BProcessManager.get().findProcessByPid(callingPid);
+        ProcessRecord process = BProcessManagerService.get().findProcessByPid(callingPid);
         if (process == null) {
             return;
         }
@@ -122,7 +120,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
     @Override
     public void onActivityResumed(IBinder token) throws RemoteException {
         int callingPid = Binder.getCallingPid();
-        ProcessRecord process = BProcessManager.get().findProcessByPid(callingPid);
+        ProcessRecord process = BProcessManagerService.get().findProcessByPid(callingPid);
         if (process == null) {
             return;
         }
@@ -135,7 +133,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
     @Override
     public void onActivityDestroyed(IBinder token) throws RemoteException {
         int callingPid = Binder.getCallingPid();
-        ProcessRecord process = BProcessManager.get().findProcessByPid(callingPid);
+        ProcessRecord process = BProcessManagerService.get().findProcessByPid(callingPid);
         if (process == null) {
             return;
         }
@@ -148,7 +146,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
     @Override
     public void onFinishActivity(IBinder token) throws RemoteException {
         int callingPid = Binder.getCallingPid();
-        ProcessRecord process = BProcessManager.get().findProcessByPid(callingPid);
+        ProcessRecord process = BProcessManagerService.get().findProcessByPid(callingPid);
         if (process == null) {
             return;
         }
@@ -167,7 +165,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
         for (ActivityManager.RunningAppProcessInfo runningProcess : runningAppProcesses) {
             runningProcessMap.put(runningProcess.pid, runningProcess);
         }
-        List<ProcessRecord> packageProcessAsUser = BProcessManager.get().getPackageProcessAsUser(callerPackage, userId);
+        List<ProcessRecord> packageProcessAsUser = BProcessManagerService.get().getPackageProcessAsUser(callerPackage, userId);
 
         RunningAppProcessInfo appProcessInfo = new RunningAppProcessInfo();
         for (ProcessRecord processRecord : packageProcessAsUser) {
@@ -199,7 +197,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
         }
         mBroadcastManager.sendBroadcast(pendingResultData);
         for (ResolveInfo resolve : resolves) {
-            ProcessRecord processRecord = BProcessManager.get().findProcessRecord(resolve.activityInfo.packageName, resolve.activityInfo.processName, userId);
+            ProcessRecord processRecord = BProcessManagerService.get().findProcessRecord(resolve.activityInfo.packageName, resolve.activityInfo.processName, userId);
             if (processRecord != null) {
                 ReceiverData data = new ReceiverData();
                 data.intent = intent;
@@ -273,7 +271,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
 
     @Override
     public AppConfig initProcess(String packageName, String processName, int userId) throws RemoteException {
-        ProcessRecord processRecord = BProcessManager.get().startProcessLocked(packageName, processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
+        ProcessRecord processRecord = BProcessManagerService.get().startProcessLocked(packageName, processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
         if (processRecord == null)
             return null;
         return processRecord.getClientConfig();
@@ -281,7 +279,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
 
     @Override
     public void restartProcess(String packageName, String processName, int userId) throws RemoteException {
-        BProcessManager.get().restartAppProcess(packageName, processName, userId);
+        BProcessManagerService.get().restartAppProcess(packageName, processName, userId);
     }
 
     @Override

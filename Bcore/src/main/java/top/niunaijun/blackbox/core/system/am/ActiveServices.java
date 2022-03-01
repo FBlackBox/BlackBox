@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.core.IEmpty;
-import top.niunaijun.blackbox.core.system.BProcessManager;
+import top.niunaijun.blackbox.core.system.BProcessManagerService;
 import top.niunaijun.blackbox.core.system.ProcessRecord;
 import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
 import top.niunaijun.blackbox.entity.UnbindRecord;
@@ -51,7 +51,7 @@ public class ActiveServices {
             return;
 //            throw new RuntimeException("resolveService service exception");
         ServiceInfo serviceInfo = resolveInfo.serviceInfo;
-        ProcessRecord processRecord = BProcessManager.get().startProcessLocked(serviceInfo.packageName, serviceInfo.processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
+        ProcessRecord processRecord = BProcessManagerService.get().startProcessLocked(serviceInfo.packageName, serviceInfo.processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
         if (processRecord == null) {
             throw new RuntimeException("Unable to create " + serviceInfo.name);
         }
@@ -88,7 +88,7 @@ public class ActiveServices {
             if (resolveInfo == null)
                 return 0;
             ServiceInfo serviceInfo = resolveInfo.serviceInfo;
-            ProcessRecord processRecord = BProcessManager.get().startProcessLocked(serviceInfo.packageName, serviceInfo.processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
+            ProcessRecord processRecord = BProcessManagerService.get().startProcessLocked(serviceInfo.packageName, serviceInfo.processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
             if (processRecord == null) {
                 return 0;
             }
@@ -105,7 +105,7 @@ public class ActiveServices {
         if (resolveInfo == null)
             return intent;
         ServiceInfo serviceInfo = resolveInfo.serviceInfo;
-        ProcessRecord processRecord = BProcessManager.get().startProcessLocked(
+        ProcessRecord processRecord = BProcessManagerService.get().startProcessLocked(
                 serviceInfo.packageName,
                 serviceInfo.processName,
                 userId,
@@ -243,7 +243,7 @@ public class ActiveServices {
         RunningServiceInfo info = new RunningServiceInfo();
         for (RunningServiceRecord value : mRunningServiceRecords.values()) {
             ServiceInfo serviceInfo = value.mServiceInfo;
-            ProcessRecord processRecord = BProcessManager.get().findProcessRecord(callerPackage, serviceInfo.processName, userId);
+            ProcessRecord processRecord = BProcessManagerService.get().findProcessRecord(callerPackage, serviceInfo.processName, userId);
             if (processRecord == null)
                 continue;
             ActivityManager.RunningServiceInfo runningServiceInfo = serviceInfoMap.get(processRecord.pid);
@@ -261,7 +261,7 @@ public class ActiveServices {
         if (resolveInfo == null)
             return null;
         ProcessRecord processRecord =
-                BProcessManager.get().findProcessRecord(resolveInfo.serviceInfo.packageName, resolveInfo.serviceInfo.processName, userId);
+                BProcessManagerService.get().findProcessRecord(resolveInfo.serviceInfo.packageName, resolveInfo.serviceInfo.processName, userId);
         if (processRecord == null)
             return null;
         try {

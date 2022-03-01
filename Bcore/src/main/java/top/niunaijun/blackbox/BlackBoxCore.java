@@ -329,10 +329,10 @@ public class BlackBoxCore extends ClientConfiguration {
             return binder;
         }
         Bundle bundle = new Bundle();
-        bundle.putString("_VM_|_server_name_", name);
+        bundle.putString("_B_|_server_name_", name);
         Bundle vm = ProviderCall.callSafely(ProxyManifest.getBindProvider(), "VM", null, bundle);
         assert vm != null;
-        binder = BundleCompat.getBinder(vm, "_VM_|_server_");
+        binder = BundleCompat.getBinder(vm, "_B_|_server_");
         mServices.put(name, binder);
         return binder;
     }

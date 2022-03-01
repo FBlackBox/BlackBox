@@ -24,7 +24,7 @@ import java.util.Set;
 import black.android.app.BRActivityManagerNative;
 import black.android.app.BRIActivityManager;
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.core.system.BProcessManager;
+import top.niunaijun.blackbox.core.system.BProcessManagerService;
 import top.niunaijun.blackbox.core.system.ProcessRecord;
 import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
@@ -248,7 +248,7 @@ public class ActivityStack {
     private Intent startActivityProcess(int userId, Intent intent, ActivityInfo
             info, ActivityRecord record, int callingUid) {
         ProxyActivityRecord stubRecord = new ProxyActivityRecord(userId, info, intent, record);
-        ProcessRecord targetApp = BProcessManager.get().startProcessLocked(info.packageName, info.processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
+        ProcessRecord targetApp = BProcessManagerService.get().startProcessLocked(info.packageName, info.processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
         if (targetApp == null) {
             throw new RuntimeException("Unable to create process, name:" + info.name);
         }

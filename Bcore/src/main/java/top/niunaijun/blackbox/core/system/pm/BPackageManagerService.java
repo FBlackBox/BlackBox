@@ -30,7 +30,7 @@ import java.util.UUID;
 
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.core.env.BEnvironment;
-import top.niunaijun.blackbox.core.system.BProcessManager;
+import top.niunaijun.blackbox.core.system.BProcessManagerService;
 import top.niunaijun.blackbox.core.system.ISystemService;
 import top.niunaijun.blackbox.core.system.user.BUserHandle;
 import top.niunaijun.blackbox.core.system.user.BUserInfo;
@@ -527,7 +527,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                     return;
                 }
                 boolean removeApp = ps.getUserState().size() <= 1;
-                BProcessManager.get().killPackageAsUser(packageName, userId);
+                BProcessManagerService.get().killPackageAsUser(packageName, userId);
                 int i = BPackageInstallerService.get().uninstallPackageAsUser(ps, removeApp, userId);
                 if (i < 0) {
                     // todo
@@ -553,7 +553,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 BPackageSettings ps = mPackages.get(packageName);
                 if (ps == null)
                     return;
-                BProcessManager.get().killAllByPackageName(packageName);
+                BProcessManagerService.get().killAllByPackageName(packageName);
                 if (ps.installOption.isFlag(InstallOption.FLAG_Xposed)) {
                     for (BUserInfo user : BUserManagerService.get().getAllUsers()) {
                         int i = BPackageInstallerService.get().uninstallPackageAsUser(ps, true, user.id);
@@ -583,7 +583,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
         if (!isInstalled(packageName, userId)) {
             return;
         }
-        BProcessManager.get().killPackageAsUser(packageName, userId);
+        BProcessManagerService.get().killPackageAsUser(packageName, userId);
         BPackageSettings ps = mPackages.get(packageName);
         if (ps == null)
             return;
@@ -592,7 +592,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
 
     @Override
     public void stopPackage(String packageName, int userId) {
-        BProcessManager.get().killPackageAsUser(packageName, userId);
+        BProcessManagerService.get().killPackageAsUser(packageName, userId);
     }
 
     @Override
@@ -671,7 +671,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             BPackageSettings bPackageSettings = mSettings.getPackageLPw(aPackage.packageName, aPackage, option);
 
             // stop pkg
-            BProcessManager.get().killPackageAsUser(aPackage.packageName, userId);
+            BProcessManagerService.get().killPackageAsUser(aPackage.packageName, userId);
 
             int i = BPackageInstallerService.get().installPackageAsUser(bPackageSettings, userId);
             if (i < 0) {

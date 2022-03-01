@@ -40,7 +40,7 @@ public class ActivityManagerCommonProxy {
             Object arg = args[getIntentIndex()];
             if (arg instanceof Intent) {
                 Intent intent = (Intent) arg;
-                if (intent.getParcelableExtra("_VM_|_target_") != null) {
+                if (intent.getParcelableExtra("_B_|_target_") != null) {
                     return method.invoke(who, args);
                 }
                 if (ComponentUtils.isRequestInstall(intent)) {

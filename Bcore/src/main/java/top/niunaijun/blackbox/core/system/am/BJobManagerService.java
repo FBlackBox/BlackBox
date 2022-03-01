@@ -15,7 +15,7 @@ import java.util.Map;
 
 import black.android.app.job.BRJobInfo;
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.core.system.BProcessManager;
+import top.niunaijun.blackbox.core.system.BProcessManagerService;
 import top.niunaijun.blackbox.core.system.ISystemService;
 import top.niunaijun.blackbox.core.system.ProcessRecord;
 import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
@@ -50,9 +50,9 @@ public class BJobManagerService extends IBJobManagerService.Stub implements ISys
             return info;
         }
         ServiceInfo serviceInfo = resolveInfo.serviceInfo;
-        ProcessRecord processRecord = BProcessManager.get().findProcessRecord(serviceInfo.packageName, serviceInfo.processName, userId);
+        ProcessRecord processRecord = BProcessManagerService.get().findProcessRecord(serviceInfo.packageName, serviceInfo.processName, userId);
         if (processRecord == null) {
-            processRecord = BProcessManager.get().
+            processRecord = BProcessManagerService.get().
                     startProcessLocked(serviceInfo.packageName, serviceInfo.processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
             if (processRecord == null) {
                 throw new RuntimeException(

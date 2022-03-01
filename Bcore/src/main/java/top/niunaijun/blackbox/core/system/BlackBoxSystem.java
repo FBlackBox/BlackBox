@@ -56,6 +56,7 @@ public class BlackBoxSystem {
         BStorageManagerService.get().systemReady();
         BPackageInstallerService.get().systemReady();
         BXposedManagerService.get().systemReady();
+        BProcessManagerService.get().systemReady();
 
         List<String> preInstallPackages = AppSystemEnv.getPreInstallPackages();
         for (String preInstallPackage : preInstallPackages) {

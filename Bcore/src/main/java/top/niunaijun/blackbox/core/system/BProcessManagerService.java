@@ -39,16 +39,16 @@ import top.niunaijun.blackbox.utils.provider.ProviderCall;
  * しーＪ
  * 此处无Bug
  */
-public class BProcessManager {
+public class BProcessManagerService implements ISystemService {
     public static final String TAG = "BProcessManager";
 
-    public static BProcessManager sVProcessManager = new BProcessManager();
+    public static BProcessManagerService sBProcessManagerService = new BProcessManagerService();
     private final Map<Integer, Map<String, ProcessRecord>> mProcessMap = new HashMap<>();
     private final List<ProcessRecord> mPidsSelfLocked = new ArrayList<>();
     private final Object mProcessLock = new Object();
 
-    public static BProcessManager get() {
-        return sVProcessManager;
+    public static BProcessManagerService get() {
+        return sBProcessManagerService;
     }
 
     public ProcessRecord startProcessLocked(String packageName, String processName, int userId, int bpid, int callingUid, int callingPid) {
@@ -266,7 +266,7 @@ public class BProcessManager {
 
     public int getUserIdByCallingPid(int callingPid) {
         synchronized (mProcessLock) {
-            ProcessRecord callingProcess = BProcessManager.get().findProcessByPid(callingPid);
+            ProcessRecord callingProcess = BProcessManagerService.get().findProcessByPid(callingPid);
             if (callingProcess == null) {
                 return 0;
             }
@@ -324,5 +324,10 @@ public class BProcessManager {
 
     private static void removeProc(ProcessRecord record) {
         FileUtils.deleteDir(BEnvironment.getProcDir(record.bpid));
+    }
+
+    @Override
+    public void systemReady() {
+        FileUtils.deleteDir(BEnvironment.getProcDir());
     }
 }

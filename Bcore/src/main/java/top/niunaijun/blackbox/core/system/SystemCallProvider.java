@@ -36,8 +36,8 @@ public class SystemCallProvider extends ContentProvider {
         if (method.equals("VM")) {
             Bundle bundle = new Bundle();
             if (extras != null) {
-                String name = extras.getString("_VM_|_server_name_");
-                BundleCompat.putBinder(bundle, "_VM_|_server_", ServiceManager.getService(name));
+                String name = extras.getString("_B_|_server_name_");
+                BundleCompat.putBinder(bundle, "_B_|_server_", ServiceManager.getService(name));
             }
             return bundle;
         }

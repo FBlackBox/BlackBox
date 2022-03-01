@@ -28,17 +28,17 @@ public class ProxyActivityRecord {
     }
 
     public static void saveStub(Intent shadow, Intent target, ActivityInfo activityInfo, IBinder activityRecord, int userId) {
-        shadow.putExtra("_VM_|_user_id_", userId);
-        shadow.putExtra("_VM_|_activity_info_", activityInfo);
-        shadow.putExtra("_VM_|_target_", target);
-        BundleCompat.putBinder(shadow, "_VM_|_activity_record_v_", activityRecord);
+        shadow.putExtra("_B_|_user_id_", userId);
+        shadow.putExtra("_B_|_activity_info_", activityInfo);
+        shadow.putExtra("_B_|_target_", target);
+        BundleCompat.putBinder(shadow, "_B_|_activity_record_v_", activityRecord);
     }
 
     public static ProxyActivityRecord create(Intent intent) {
-        int userId = intent.getIntExtra("_VM_|_user_id_", 0);
-        ActivityInfo activityInfo = intent.getParcelableExtra("_VM_|_activity_info_");
-        Intent target = intent.getParcelableExtra("_VM_|_target_");
-        IBinder activityRecord = BundleCompat.getBinder(intent, "_VM_|_activity_record_v_");
+        int userId = intent.getIntExtra("_B_|_user_id_", 0);
+        ActivityInfo activityInfo = intent.getParcelableExtra("_B_|_activity_info_");
+        Intent target = intent.getParcelableExtra("_B_|_target_");
+        IBinder activityRecord = BundleCompat.getBinder(intent, "_B_|_activity_record_v_");
         return new ProxyActivityRecord(userId, activityInfo, target, activityRecord);
     }
 }
