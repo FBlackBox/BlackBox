@@ -13,8 +13,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.core.IBActivityThread;
@@ -102,16 +104,15 @@ public class BProcessManager {
     private int getUsingBPidL() {
         ActivityManager manager = (ActivityManager) BlackBoxCore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = manager.getRunningAppProcesses();
+        Set<Integer> usingPs = new HashSet<>();
+        for (ActivityManager.RunningAppProcessInfo runningAppProcess : runningAppProcesses) {
+            int i = parseBPid(runningAppProcess.processName);
+            usingPs.add(i);
+        }
         for (int i = 0; i < ProxyManifest.FREE_COUNT; i++) {
-            boolean using = false;
-            for (ProcessRecord processRecord : mPidsSelfLocked) {
-                if (processRecord.bpid == i) {
-                    using = true;
-                    break;
-                }
-            }
-            if (using)
+            if (usingPs.contains(i)) {
                 continue;
+            }
             return i;
         }
         return -1;
@@ -247,6 +248,7 @@ public class BProcessManager {
                 return;
             for (ProcessRecord value : process.values()) {
                 value.kill();
+                mPidsSelfLocked.remove(value);
             }
             mProcessMap.remove(buid);
         }
