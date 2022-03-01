@@ -15,6 +15,6 @@
 
     <item
             android:id="@+id/main_tg"
-            android:title="@string/qq_group"
+            android:title="@string/tg_group"
             app:showAsAction="never" />
 </menu>
