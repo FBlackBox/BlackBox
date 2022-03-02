@@ -217,7 +217,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
     public String getCallingPackage(IBinder token, int userId) throws RemoteException {
         UserSpace userSpace = getOrCreateSpaceLocked(userId);
         synchronized (userSpace.mStack) {
-            userSpace.mStack.
+            return userSpace.mStack.getCallingPackage(token, userId);
         }
     }
 

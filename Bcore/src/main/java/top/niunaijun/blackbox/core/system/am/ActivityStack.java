@@ -451,6 +451,20 @@ public class ActivityStack {
         }
     }
 
+    public String getCallingPackage(IBinder token, int userId) {
+        synchronized (mTasks) {
+            synchronizeTasks();
+            ActivityRecord activityRecordByToken = findActivityRecordByToken(userId, token);
+            if (activityRecordByToken != null) {
+                ActivityRecord resultTo = findActivityRecordByToken(userId, activityRecordByToken.resultTo);
+                if (resultTo != null) {
+                    return resultTo.info.packageName;
+                }
+            }
+            return BlackBoxCore.getHostPkg();
+        }
+    }
+
     private void synchronizeTasks() {
         List<ActivityManager.RecentTaskInfo> recentTasks = mAms.getRecentTasks(100, 0);
         Map<Integer, TaskRecord> newTacks = new LinkedHashMap<>();

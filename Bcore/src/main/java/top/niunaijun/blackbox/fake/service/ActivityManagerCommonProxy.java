@@ -169,8 +169,7 @@ public class ActivityManagerCommonProxy {
     public static class getCallingPackage extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-
-            return method.invoke(who, args);
+            return BlackBoxCore.getBActivityManager().getCallingPackage((IBinder) args[0], BActivityThread.getUserId());
         }
     }
 }

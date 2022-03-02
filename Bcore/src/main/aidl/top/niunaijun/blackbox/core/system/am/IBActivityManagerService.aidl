@@ -51,4 +51,6 @@ interface IBActivityManagerService {
 
     void scheduleBroadcastReceiver(in Intent intent, in PendingResultData pendingResultData, int userId);
     void finishBroadcast(in PendingResultData data);
+
+    String getCallingPackage(in IBinder token, int userId);
 }

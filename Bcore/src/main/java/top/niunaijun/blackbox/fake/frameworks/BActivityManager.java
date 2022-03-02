@@ -232,6 +232,15 @@ public class BActivityManager {
         }
     }
 
+    public String getCallingPackage(IBinder token, int userId) {
+        try {
+            return getService().getCallingPackage(token, userId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private IBActivityManagerService getService() {
         if (mService != null && mService.asBinder().isBinderAlive()) {
             return mService;
