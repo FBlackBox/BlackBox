@@ -1,6 +1,9 @@
 package top.niunaijun.blackbox.fake.service;
 
 import android.content.Context;
+import android.util.Log;
+
+import java.lang.reflect.Method;
 
 import black.android.accounts.BRIAccountManagerStub;
 import black.android.os.BRServiceManager;
@@ -16,6 +19,8 @@ import top.niunaijun.blackbox.fake.service.base.ValueMethodProxy;
  * 此处无Bug
  */
 public class IAccountManagerProxy extends BinderInvocationStub {
+    public static final String TAG = "IAccountManagerProxy";
+
     public IAccountManagerProxy() {
         super(BRServiceManager.get().getService(Context.ACCOUNT_SERVICE));
     }
@@ -43,5 +48,10 @@ public class IAccountManagerProxy extends BinderInvocationStub {
     @Override
     public boolean isBadEnv() {
         return false;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        return super.invoke(proxy, method, args);
     }
 }

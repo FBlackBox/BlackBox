@@ -39,8 +39,7 @@ public class IAlarmManagerProxy extends BinderInvocationStub {
     public static class Set extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            MethodParameterUtils.replaceFirstAppPkg(args);
-            return method.invoke(who, args);
+            return 0;
         }
     }
 

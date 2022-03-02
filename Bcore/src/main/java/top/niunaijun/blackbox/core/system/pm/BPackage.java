@@ -14,6 +14,7 @@ import android.content.pm.ProviderInfo;
 import android.content.pm.ServiceInfo;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -451,7 +452,11 @@ public class BPackage implements Parcelable {
         }
 
         public SigningDetails(PackageParser.SigningDetails signingDetails) {
-            this.signatures = signingDetails.signatures;
+            if (signingDetails.pastSigningCertificates == null) {
+                this.signatures = signingDetails.signatures;
+            } else {
+                this.signatures = signingDetails.pastSigningCertificates;
+            }
         }
 
         protected SigningDetails(Parcel in) {

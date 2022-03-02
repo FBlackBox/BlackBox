@@ -214,6 +214,14 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
     }
 
     @Override
+    public String getCallingPackage(IBinder token, int userId) throws RemoteException {
+        UserSpace userSpace = getOrCreateSpaceLocked(userId);
+        synchronized (userSpace.mStack) {
+            userSpace.mStack.
+        }
+    }
+
+    @Override
     public void onStartCommand(Intent intent, int userId) throws RemoteException {
         UserSpace userSpace = getOrCreateSpaceLocked(userId);
         synchronized (userSpace.mActiveServices) {

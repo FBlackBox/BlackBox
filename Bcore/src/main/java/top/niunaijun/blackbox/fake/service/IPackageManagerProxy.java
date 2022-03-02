@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
-import android.os.IInterface;
 import android.os.Process;
 
 import java.lang.reflect.Method;
@@ -23,8 +22,11 @@ import top.niunaijun.blackbox.core.env.AppSystemEnv;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
+import top.niunaijun.blackbox.fake.service.base.ValueMethodProxy;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 import top.niunaijun.blackbox.utils.Reflector;
+import top.niunaijun.blackbox.utils.Slog;
+import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.ParceledListSliceCompat;
 
 /**
@@ -49,7 +51,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
 
     @Override
     protected void inject(Object baseInvocation, Object proxyInvocation) {
-        BRActivityThread.get()._set_sPackageManager((IInterface) proxyInvocation);
+        BRActivityThread.get()._set_sPackageManager(proxyInvocation);
         replaceSystemService("package");
         Object systemContext = BRActivityThread.get(BlackBoxCore.mainThread()).getSystemContext();
         PackageManager packageManager = BRContextImpl.get(systemContext).mPackageManager();
@@ -88,7 +90,6 @@ public class IPackageManagerProxy extends BinderInvocationStub {
     public static class SetComponentEnabledSetting extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            // todo
             return 0;
         }
     }

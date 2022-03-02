@@ -30,6 +30,7 @@ import android.os.StrictMode;
 import android.text.TextUtils;
 
 import java.io.File;
+import java.lang.reflect.Proxy;
 import java.security.Security;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,6 +60,7 @@ import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback;
 import top.niunaijun.blackbox.app.dispatcher.AppServiceDispatcher;
 import top.niunaijun.blackbox.core.CrashHandler;
+import top.niunaijun.blackbox.core.GmsCore;
 import top.niunaijun.blackbox.core.IBActivityThread;
 import top.niunaijun.blackbox.core.IOCore;
 import top.niunaijun.blackbox.core.VMCore;
@@ -360,7 +362,6 @@ public class BActivityThread extends IBActivityThread.Stub {
             ContextCompat.fix((Context) BRActivityThread.get(BlackBoxCore.mainThread()).getSystemContext());
             ContextCompat.fix(mInitialApplication);
             installProviders(mInitialApplication, bindData.processName, bindData.providers);
-//            registerReceivers(mInitialApplication);
 
             onBeforeApplicationOnCreate(packageName, processName, application);
             AppInstrumentation.get().callApplicationOnCreate(application);
@@ -472,30 +473,7 @@ public class BActivityThread extends IBActivityThread.Stub {
         IInterface iInterface = BRContentProviderClient.get(contentProviderClient).mContentProvider();
         if (iInterface == null)
             return null;
-        IInterface proxyIInterface = new ContentProviderStub().wrapper(iInterface, BlackBoxCore.getHostPkg());
-        return proxyIInterface.asBinder();
-    }
-
-    public void registerReceivers(Application application) {
-        try {
-            Intent intent = new Intent();
-            intent.setPackage(application.getPackageName());
-            List<ResolveInfo> resolves = BlackBoxCore.getBPackageManager().queryBroadcastReceivers(intent, PackageManager.GET_RESOLVED_FILTER, null, BActivityThread.getUserId());
-            for (ResolveInfo resolve : resolves) {
-                try {
-                    if (resolve.activityInfo.processName != null && !resolve.activityInfo.processName.equals(BActivityThread.getAppProcessName())) {
-                        continue;
-                    }
-                    BroadcastReceiver broadcastReceiver = (BroadcastReceiver) mInitialApplication.getClassLoader().loadClass(resolve.activityInfo.name).newInstance();
-                    mInitialApplication.registerReceiver(broadcastReceiver, resolve.filter);
-                } catch (Throwable e) {
-                    Slog.d(TAG, "Unable to registerReceiver " + resolve.activityInfo.name
-                            + ": " + e.toString());
-                }
-            }
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
+        return iInterface.asBinder();
     }
 
     @Override

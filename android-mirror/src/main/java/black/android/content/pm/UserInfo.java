@@ -8,7 +8,7 @@ import top.niunaijun.blackreflection.annotation.BStaticField;
 @BClassName("android.content.pm.UserInfo")
 public interface UserInfo {
     @BConstructor
-    UserInfo _new(int int0, String String1, int int2);
+    Object _new(int id, String name, int flags);
 
     @BStaticField
     int FLAG_PRIMARY();

@@ -51,8 +51,9 @@ public class ILocationManagerProxy extends BinderInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            MethodParameterUtils.replaceLastAppPkg(args);
-            return method.invoke(who, args);
+//            MethodParameterUtils.replaceLastAppPkg(args);
+//            return method.invoke(who, args);
+            return true;
         }
     }
 }

@@ -35,6 +35,9 @@ public interface ActivityThread {
     @BStaticField
     IInterface sPackageManager();
 
+    @BStaticField
+    IInterface sPermissionManager();
+
     @BField
     Map<IBinder, Object> mActivities();
 

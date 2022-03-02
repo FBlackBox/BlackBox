@@ -6,7 +6,6 @@ import android.content.IIntentReceiver;
 import android.content.Intent;
 import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.util.Log;
@@ -18,9 +17,12 @@ import java.util.ArrayList;
 
 import black.android.app.BRActivityManagerNative;
 import black.android.app.BRActivityManagerOreo;
+import black.android.app.BRIActivityManagerContentProviderHolder;
 import black.android.app.BRLoadedApkReceiverDispatcher;
 import black.android.app.BRLoadedApkReceiverDispatcherInnerReceiver;
+import black.android.content.BRContentProviderHolderOreo;
 import black.android.content.BRContentProviderNative;
+import black.android.content.pm.BRUserInfo;
 import black.android.os.BRUserHandle;
 import black.android.util.BRSingleton;
 import top.niunaijun.blackbox.BlackBoxCore;
@@ -41,11 +43,10 @@ import top.niunaijun.blackbox.fake.service.context.providers.ContentProviderStub
 import top.niunaijun.blackbox.proxy.ProxyActivity;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.proxy.record.ProxyBroadcastRecord;
-import top.niunaijun.blackbox.utils.ComponentUtils;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 import top.niunaijun.blackbox.utils.Reflector;
-import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
+import top.niunaijun.blackbox.utils.compat.ParceledListSliceCompat;
 
 import static android.content.pm.PackageManager.GET_META_DATA;
 
@@ -137,18 +138,16 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                         args[authIndex] = ProxyManifest.getProxyAuthorities(appConfig.bpid);
                         args[getUserIndex()] = BRUserHandle.get().myUserId();
                     }
-                    content = method.invoke(who, args);
+                    if (providerBinder == null)
+                        return null;
 
+                    content = method.invoke(who, args);
                     Reflector.with(content)
                             .field("info")
                             .set(providerInfo);
-
-                    if (providerBinder != null) {
-                        Reflector.with(content)
-                                .field("provider")
-                                .set(BRContentProviderNative.get().asInterface(providerBinder));
-
-                    }
+                    Reflector.with(content)
+                            .field("provider")
+                            .set(BRContentProviderNative.get().asInterface(providerBinder));
                 }
 
                 return content;
@@ -226,10 +225,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
             Intent intent = (Intent) args[2];
             String resolvedType = (String) args[3];
             IServiceConnection connection = (IServiceConnection) args[4];
-            // 暂不支持gms
-            if (ComponentUtils.isGmsService(intent)) {
-                return 0;
-            }
+
             ResolveInfo resolveInfo = BlackBoxCore.getBPackageManager().resolveService(intent, 0, resolvedType, BActivityThread.getUserId());
             if (resolveInfo != null || AppSystemEnv.isOpenPackage(intent.getComponent())) {
                 Intent proxyIntent = BlackBoxCore.getBActivityManager().bindService(intent,
@@ -484,6 +480,23 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                 args[0] = new ComponentName(BlackBoxCore.getHostPkg(), ProxyManifest.getProxyService(BActivityThread.getAppPid()));
             }
             return method.invoke(who, args);
+        }
+    }
+
+    @ProxyMethod("getHistoricalProcessExitReasons")
+    public static class getHistoricalProcessExitReasons extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            return ParceledListSliceCompat.create(new ArrayList<>());
+        }
+    }
+
+    @ProxyMethod("getCurrentUser")
+    public static class getCurrentUser extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            Object blackBox = BRUserInfo.get()._new(BActivityThread.getUserId(), "BlackBox", BRUserInfo.get().FLAG_PRIMARY());
+            return blackBox;
         }
     }
 }

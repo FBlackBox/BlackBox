@@ -12,6 +12,7 @@ import android.content.pm.PackageParser;
 import android.content.pm.PermissionInfo;
 import android.content.pm.ProviderInfo;
 import android.content.pm.ServiceInfo;
+import android.content.pm.Signature;
 import android.os.Build;
 
 import java.util.HashSet;
@@ -22,6 +23,7 @@ import black.android.content.pm.BRApplicationInfoN;
 import black.android.content.pm.BRPackageParserSigningDetails;
 import black.android.content.pm.BRSigningInfo;
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.core.GmsCore;
 import top.niunaijun.blackbox.core.env.AppSystemEnv;
 import top.niunaijun.blackbox.core.env.BEnvironment;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
@@ -183,18 +185,33 @@ public class PackageManagerCompat {
                 }
             }
         }
+        if (GmsCore.isGoogleAppOrService(p.packageName)) {
+            PackageInfo base = null;
+            try {
+                base = BlackBoxCore.getContext().getPackageManager().getPackageInfo(p.packageName, flags);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
         if ((flags & PackageManager.GET_SIGNATURES) != 0) {
-            if (BuildCompat.isPie()) {
-                pi.signatures = p.mSigningDetails.signatures;
-            } else {
-                pi.signatures = p.mSignatures;
+            if (base != null) {
+                pi.signatures = base.signatures;
             }
         }
-        if (BuildCompat.isPie()) {
-            if ((flags & PackageManager.GET_SIGNING_CERTIFICATES) != 0) {
-                PackageParser.SigningDetails signingDetails = PackageParser.SigningDetails.UNKNOWN;
-                BRPackageParserSigningDetails.get(signingDetails)._set_signatures(p.mSigningDetails.signatures);
-                pi.signingInfo = BRSigningInfo.get()._new(signingDetails);
+        if ((flags & PackageManager.GET_SIGNING_CERTIFICATES) != 0) {
+            if (base != null) {
+                pi.signingInfo = base.signingInfo;
+            }
+        }
+        } else {
+            if ((flags & PackageManager.GET_SIGNATURES) != 0) {
+                pi.signatures = new Signature[]{p.mSignatures[0]};
+            }
+            if (BuildCompat.isPie()) {
+                if ((flags & PackageManager.GET_SIGNING_CERTIFICATES) != 0) {
+                    PackageParser.SigningDetails signingDetails = PackageParser.SigningDetails.UNKNOWN;
+                    BRPackageParserSigningDetails.get(signingDetails)._set_signatures(p.mSigningDetails.signatures);
+                    pi.signingInfo = BRSigningInfo.get()._new(signingDetails);
+                }
             }
         }
         return pi;

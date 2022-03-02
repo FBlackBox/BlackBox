@@ -164,4 +164,13 @@ public class ActivityManagerCommonProxy {
             return method.invoke(who, args);
         }
     }
+
+    @ProxyMethod("getCallingPackage")
+    public static class getCallingPackage extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+
+            return method.invoke(who, args);
+        }
+    }
 }

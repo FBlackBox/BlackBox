@@ -33,11 +33,6 @@ public class ComponentUtils {
         return true;
     }
 
-    public static boolean isGmsService(Intent intent) {
-        String aPackage = intent.getPackage();
-        return "com.google.android.gms".equals(aPackage);
-    }
-
     public static String getTaskAffinity(ActivityInfo info) {
         if (info.launchMode == LAUNCH_SINGLE_INSTANCE) {
             return "-SingleInstance-" + info.packageName + "/" + info.name;

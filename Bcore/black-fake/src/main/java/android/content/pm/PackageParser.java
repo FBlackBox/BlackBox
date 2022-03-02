@@ -699,5 +699,6 @@ public class PackageParser {
     public static class SigningDetails {
         public static final SigningDetails UNKNOWN = null;
         public Signature[] signatures;
+        public Signature[] pastSigningCertificates;
     }
 }

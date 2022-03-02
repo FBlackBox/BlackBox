@@ -15,6 +15,7 @@ import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Debug;
 import android.os.RemoteException;
 import android.text.TextUtils;
 
@@ -41,9 +42,11 @@ import top.niunaijun.blackbox.entity.pm.InstalledPackage;
 import top.niunaijun.blackbox.utils.AbiUtils;
 import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.Slog;
+import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
 import top.niunaijun.blackbox.utils.compat.XposedParserCompat;
 
+import static android.content.pm.PackageManager.MATCH_ALL;
 import static android.content.pm.PackageManager.MATCH_DIRECT_BOOT_UNAWARE;
 
 
@@ -56,7 +59,7 @@ import static android.content.pm.PackageManager.MATCH_DIRECT_BOOT_UNAWARE;
  * 此处无Bug
  */
 public class BPackageManagerService extends IBPackageManagerService.Stub implements ISystemService {
-    public static final String TAG = "VPackageManagerService";
+    public static final String TAG = "BPackageManagerService";
     public static BPackageManagerService sService = new BPackageManagerService();
     private final Settings mSettings = new Settings();
     private final ComponentResolver mComponentResolver;
@@ -656,9 +659,9 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
 
             boolean support = AbiUtils.isSupport(apkFile);
             if (!support) {
-                return result.installError(BlackBoxCore.is64Bit() ? "not support armeabi-v7a abi" : "not support arm64-v8a abi");
+                return result.installError(apkFile.getAbsolutePath() +
+                        (BlackBoxCore.is64Bit() ? " not support armeabi-v7a abi" : "not support arm64-v8a abi"));
             }
-
             PackageParser.Package aPackage = parserApk(apkFile.getAbsolutePath());
             if (aPackage == null) {
                 return result.installError("parser apk error.");

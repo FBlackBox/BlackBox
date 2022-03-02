@@ -32,6 +32,7 @@ import top.canyie.pine.PineConfig;
 import top.niunaijun.blackbox.app.LauncherActivity;
 import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback;
 import top.niunaijun.blackbox.app.configuration.ClientConfiguration;
+import top.niunaijun.blackbox.core.GmsCore;
 import top.niunaijun.blackbox.core.env.BEnvironment;
 import top.niunaijun.blackbox.core.system.DaemonService;
 import top.niunaijun.blackbox.core.system.ServiceManager;
@@ -125,7 +126,7 @@ public class BlackBoxCore extends ClientConfiguration {
         }
         if (BlackBoxCore.get().isVirtualProcess()) {
             BEnvironment.load();
-            if (processName.endsWith("p0")) {
+            if (processName.endsWith("p1")) {
 //                android.os.Debug.waitForDebugger();
             }
 //            android.os.Debug.waitForDebugger();
@@ -321,6 +322,24 @@ public class BlackBoxCore extends ClientConfiguration {
 
     public void addAppLifecycleCallback(AppLifecycleCallback appLifecycleCallback) {
         mAppLifecycleCallbacks.add(appLifecycleCallback);
+    }
+
+    public boolean isSupportGms() {
+        return GmsCore.isSupportGms();
+    }
+
+    public boolean isInstallGms(int userId) {
+        return GmsCore.isInstalledGoogleService(userId);
+    }
+
+    public boolean installGms(int userId) {
+        GmsCore.installGApps(userId);
+        return GmsCore.isInstalledGoogleService(userId);
+    }
+
+    public boolean uninstallGms(int userId) {
+        GmsCore.uninstallGApps(userId);
+        return !GmsCore.isInstalledGoogleService(userId);
     }
 
     public IBinder getService(String name) {

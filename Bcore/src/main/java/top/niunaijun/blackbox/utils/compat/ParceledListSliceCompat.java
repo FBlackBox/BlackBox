@@ -15,7 +15,7 @@ public class ParceledListSliceCompat {
 		return obj != null && obj.getClass() == BRParceledListSlice.getRealClass();
 	}
 
-	public static Object create(List list) {
+	public static Object create(List<?> list) {
 		Object slice = BRParceledListSlice.get()._new(list);
 		if (slice != null) {
 			return slice;

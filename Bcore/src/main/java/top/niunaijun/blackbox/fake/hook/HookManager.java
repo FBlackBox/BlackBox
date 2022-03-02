@@ -18,6 +18,7 @@ import top.niunaijun.blackbox.fake.service.IAppOpsManagerProxy;
 import top.niunaijun.blackbox.fake.service.IAppWidgetManagerProxy;
 import top.niunaijun.blackbox.fake.service.IAutofillManagerProxy;
 import top.niunaijun.blackbox.fake.service.IConnectivityManagerProxy;
+import top.niunaijun.blackbox.fake.service.IContextHubServiceProxy;
 import top.niunaijun.blackbox.fake.service.IDeviceIdentifiersPolicyProxy;
 import top.niunaijun.blackbox.fake.service.IDevicePolicyManagerProxy;
 import top.niunaijun.blackbox.fake.service.IDisplayManagerProxy;
@@ -25,10 +26,13 @@ import top.niunaijun.blackbox.fake.service.IGraphicsStatsProxy;
 import top.niunaijun.blackbox.fake.service.IJobServiceProxy;
 import top.niunaijun.blackbox.fake.service.ILauncherAppsProxy;
 import top.niunaijun.blackbox.fake.service.ILocationManagerProxy;
+import top.niunaijun.blackbox.fake.service.IMediaRouterServiceProxy;
 import top.niunaijun.blackbox.fake.service.IMediaSessionManagerProxy;
 import top.niunaijun.blackbox.fake.service.INotificationManagerProxy;
 import top.niunaijun.blackbox.fake.service.IPackageManagerProxy;
+import top.niunaijun.blackbox.fake.service.IPermissionManagerProxy;
 import top.niunaijun.blackbox.fake.service.IPhoneSubInfoProxy;
+import top.niunaijun.blackbox.fake.service.IPowerManagerProxy;
 import top.niunaijun.blackbox.fake.service.IShortcutManagerProxy;
 import top.niunaijun.blackbox.fake.service.IStorageManagerProxy;
 import top.niunaijun.blackbox.fake.service.ITelephonyManagerProxy;
@@ -39,6 +43,7 @@ import top.niunaijun.blackbox.fake.service.IWindowManagerProxy;
 import top.niunaijun.blackbox.fake.service.context.ContentServiceStub;
 import top.niunaijun.blackbox.fake.service.context.RestrictionsManagerStub;
 import top.niunaijun.blackbox.fake.service.libcore.OsStub;
+import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 
 /**
@@ -87,6 +92,10 @@ public class HookManager {
             addInjector(new IAccountManagerProxy());
             addInjector(new IConnectivityManagerProxy());
             addInjector(new IPhoneSubInfoProxy());
+            addInjector(new IMediaRouterServiceProxy());
+            addInjector(new IPowerManagerProxy());
+            addInjector(new IPermissionManagerProxy());
+            addInjector(new IContextHubServiceProxy());
 
             addInjector(AppInstrumentation.get());
 
@@ -144,6 +153,7 @@ public class HookManager {
     void injectAll() {
         for (IInjectHook value : mInjectors.values()) {
             try {
+                Slog.d(TAG, "injectHook: " + value);
                 value.injectHook();
             } catch (Exception e) {
                 e.printStackTrace();
