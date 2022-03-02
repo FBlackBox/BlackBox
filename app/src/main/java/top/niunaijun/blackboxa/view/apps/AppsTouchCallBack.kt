@@ -7,18 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 class AppsTouchCallBack(private val onMoveBlock: (from: Int, to: Int) -> Unit) :
     ItemTouchHelper.Callback() {
 
-    var canDrag = true
 
     override fun getMovementFlags(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        val flag = if (canDrag) {
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        } else {
-            0
-        }
-        return makeMovementFlags(flag, 0)
+        return makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT, 0)
 
     }
 

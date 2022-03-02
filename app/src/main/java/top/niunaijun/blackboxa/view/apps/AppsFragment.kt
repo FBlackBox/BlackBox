@@ -1,7 +1,9 @@
 package top.niunaijun.blackboxa.view.apps
 
+import android.graphics.Point
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -12,11 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.roger.catloadinglibrary.CatLoadingView
 import top.niunaijun.blackbox.BlackBoxCore
-import top.niunaijun.blackbox.utils.Slog
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.bean.AppInfo
 import top.niunaijun.blackboxa.databinding.FragmentAppsBinding
@@ -43,12 +43,14 @@ class AppsFragment : Fragment() {
 
     private lateinit var loadingView: CatLoadingView
 
+    private var popupMenu: PopupMenu? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel =
             ViewModelProvider(this, InjectionUtil.getAppsFactory()).get(AppsViewModel::class.java)
-        userID = requireArguments().getInt("userID",0)
+        userID = requireArguments().getInt("userID", 0)
     }
 
     override fun onCreateView(
@@ -77,58 +79,48 @@ class AppsFragment : Fragment() {
         }
 
 
-        interceptTouch(touchCallBack)
-
+        interceptTouch()
+        setOnLongClick()
         return viewBinding.root
     }
 
     /**
      * 拖拽优化
-     * @param touchCallBack AppsTouchCallBack
      */
-    private fun interceptTouch(touchCallBack: AppsTouchCallBack) {
-        var lastX = 0F
-        var lastY = 0F
-        var lastTime = 0L
-
-        viewBinding.recyclerView.addOnItemTouchListener(object :
-            RecyclerView.SimpleOnItemTouchListener() {
-            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                when (e.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        lastTime = System.currentTimeMillis()
+    private fun interceptTouch() {
+        val point = Point()
+        viewBinding.recyclerView.setOnTouchListener { v, e ->
+            when (e.action) {
+                MotionEvent.ACTION_UP -> {
+                    if (!isMove(point, e)) {
+                        popupMenu?.show()
                     }
+                    point.set(0, 0)
+                }
 
-                    MotionEvent.ACTION_MOVE -> {
-
-                        val offsetX = abs(e.x - lastX)
-                        val offsetY = abs(e.y - lastY)
-                        lastX = e.x
-                        lastY = e.y
-
-                        val enterTime = System.currentTimeMillis() - lastTime
-                        return if (offsetX <= 10 && offsetY <= 10 && enterTime > 300) {
-                            touchCallBack.canDrag = false
-                            viewBinding.recyclerView.findChildViewUnder(e.x, e.y)?.let {
-                                val index = viewBinding.recyclerView.getChildAdapterPosition(it)
-                                val data = mAdapter.dataList[index]
-                                showPopupMenu(it, data)
-                            }
-                            true
-                        } else {
-                            touchCallBack.canDrag = true
-                            false
-                        }
+                MotionEvent.ACTION_MOVE -> {
+                    if (point.x == 0 && point.y == 0) {
+                        point.x = e.rawX.toInt()
+                        point.y = e.rawY.toInt()
                     }
-
-                    MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
-                        touchCallBack.canDrag = true
+                    if (isMove(point, e)) {
+                        popupMenu?.dismiss()
                     }
                 }
-                return false
-
             }
-        })
+            return@setOnTouchListener false
+        }
+    }
+
+    private fun isMove(point: Point, e: MotionEvent) : Boolean {
+        val max = 20
+
+        val x = point.x
+        val y = point.y
+
+        val xU = abs(x - e.rawX)
+        val yU = abs(y - e.rawY)
+        return xU > max || yU > max
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -136,18 +128,19 @@ class AppsFragment : Fragment() {
         initData()
     }
 
-    private fun showPopupMenu(view: View, data: AppInfo) {
-        PopupMenu(requireContext(), view).also {
-            it.inflate(R.menu.app_menu)
-            it.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.app_remove -> {
-                        if (data.isXpModule) {
-                            toast(R.string.uninstall_module_toast)
-                        } else {
-                            unInstallApk(data)
+    private fun setOnLongClick() {
+        mAdapter.setOnItemLongClick { _, binding, data ->
+            popupMenu = PopupMenu(requireContext(), binding.root).also {
+                it.inflate(R.menu.app_menu)
+                it.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.app_remove -> {
+                            if (data.isXpModule) {
+                                toast(R.string.uninstall_module_toast)
+                            } else {
+                                unInstallApk(data)
+                            }
                         }
-                    }
 
                         R.id.app_clear -> {
                             clearApk(data)
@@ -163,9 +156,10 @@ class AppsFragment : Fragment() {
                     }
                     return@setOnMenuItemClickListener true
                 }
-            }.show()
+                it.show()
+            }
+        }
     }
-
     private fun initData() {
         viewBinding.stateView.showLoading()
         viewModel.getInstalledApps(userID)
