@@ -1,29 +1,20 @@
 package top.niunaijun.blackboxa.view.xp
 
+import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.Menu
-import android.view.MenuItem
-import android.webkit.URLUtil
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.switchmaterial.SwitchMaterial
-import com.roger.catloadinglibrary.CatLoadingView
 import top.niunaijun.blackbox.BlackBoxCore
-import top.niunaijun.blackbox.utils.compat.BuildCompat
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.databinding.ActivityXpBinding
 import top.niunaijun.blackboxa.util.InjectionUtil
-import top.niunaijun.blackboxa.util.LoadingUtil
 import top.niunaijun.blackboxa.util.inflate
 import top.niunaijun.blackboxa.util.toast
-import top.niunaijun.blackboxa.view.base.BaseActivity
+import top.niunaijun.blackboxa.view.base.LoadingActivity
 import top.niunaijun.blackboxa.view.list.ListActivity
 
 /**
@@ -32,11 +23,10 @@ import top.niunaijun.blackboxa.view.list.ListActivity
  * @Author: wukaicheng
  * @CreateDate: 2021/5/2 20:25
  */
-class XpActivity : BaseActivity() {
+class XpActivity : LoadingActivity() {
 
     private val viewBinding: ActivityXpBinding by inflate()
 
-    private lateinit var loadingView: CatLoadingView
 
     private lateinit var viewModel: XpViewModel
 
@@ -169,20 +159,13 @@ class XpActivity : BaseActivity() {
         }
     }
 
-    private fun showLoading() {
-        if (!this::loadingView.isInitialized) {
-            loadingView = CatLoadingView()
-        }
-
-        LoadingUtil.showLoading(loadingView, supportFragmentManager)
-    }
 
 
-    private fun hideLoading() {
-        if (this::loadingView.isInitialized) {
-            loadingView.dismiss()
+    companion object {
+        fun start(context: Context) {
+            val intent = Intent(context, XpActivity::class.java)
+            context.startActivity(intent)
         }
     }
-
 
 }

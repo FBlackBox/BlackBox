@@ -18,6 +18,11 @@
 
     <PreferenceCategory app:title="@string/other">
 
+        <Preference
+                android:key="gms_manager"
+                android:title="@string/gms_manager"
+                android:summary="@string/jump_gms"/>
+
         <SwitchPreferenceCompat
                 app:key="xp_hide"
                 app:title="@string/hide_xposed" />

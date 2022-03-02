@@ -1,5 +1,6 @@
 package top.niunaijun.blackboxa.view.main
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -17,11 +18,12 @@ import top.niunaijun.blackboxa.databinding.ActivityMainBinding
 import top.niunaijun.blackboxa.util.inflate
 import top.niunaijun.blackboxa.view.apps.AppsFragment
 import top.niunaijun.blackboxa.view.base.BaseActivity
+import top.niunaijun.blackboxa.view.base.LoadingActivity
 import top.niunaijun.blackboxa.view.list.ListActivity
 import top.niunaijun.blackboxa.view.setting.SettingActivity
 
 
-class MainActivity : BaseActivity() {
+class MainActivity : LoadingActivity() {
 
     private val viewBinding: ActivityMainBinding by inflate()
 
@@ -145,8 +147,7 @@ class MainActivity : BaseActivity() {
             }
 
             R.id.main_setting -> {
-                val intent = Intent(this, SettingActivity::class.java)
-                startActivity(intent)
+                SettingActivity.start(this)
             }
 
             R.id.main_tg -> {
@@ -159,5 +160,11 @@ class MainActivity : BaseActivity() {
         return true
     }
 
+    companion object {
+        fun start(context: Context) {
+            val intent = Intent(context, MainActivity::class.java)
+            context.startActivity(intent)
+        }
+    }
 
 }

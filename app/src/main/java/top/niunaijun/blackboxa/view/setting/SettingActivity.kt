@@ -1,5 +1,7 @@
 package top.niunaijun.blackboxa.view.setting
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.databinding.ActivitySettingBinding
@@ -17,6 +19,13 @@ class SettingActivity : BaseActivity() {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment, SettingFragment())
                 .commit()
+    }
+
+    companion object{
+        fun start(context: Context){
+            val intent = Intent(context,SettingActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 
 }

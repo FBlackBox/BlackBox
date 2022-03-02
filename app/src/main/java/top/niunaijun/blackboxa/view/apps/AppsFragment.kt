@@ -21,6 +21,7 @@ import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.bean.AppInfo
 import top.niunaijun.blackboxa.databinding.FragmentAppsBinding
 import top.niunaijun.blackboxa.util.*
+import top.niunaijun.blackboxa.view.base.LoadingActivity
 import top.niunaijun.blackboxa.view.main.MainActivity
 import kotlin.math.abs
 
@@ -209,15 +210,6 @@ class AppsFragment : Fragment() {
         viewModel.launchLiveData.value = null
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.appsLiveData.removeObservers(viewLifecycleOwner)
-        viewModel.launchLiveData.removeObservers(viewLifecycleOwner)
-        viewModel.resultLiveData.removeObservers(viewLifecycleOwner)
-        viewModel.updateSortLiveData.removeObservers(viewLifecycleOwner)
-    }
-
-
     private fun unInstallApk(info: AppInfo) {
         MaterialDialog(requireContext()).show {
             title(R.string.uninstall_app)
@@ -274,17 +266,15 @@ class AppsFragment : Fragment() {
     }
 
     private fun showLoading() {
-        if (!this::loadingView.isInitialized) {
-            loadingView = CatLoadingView()
+        if(requireActivity() is LoadingActivity){
+            (requireActivity() as LoadingActivity).showLoading()
         }
-
-        LoadingUtil.showLoading(loadingView, this)
     }
 
 
     private fun hideLoading() {
-        if (this::loadingView.isInitialized) {
-            loadingView.dismiss()
+        if(requireActivity() is LoadingActivity){
+            (requireActivity() as LoadingActivity).hideLoading()
         }
     }
 

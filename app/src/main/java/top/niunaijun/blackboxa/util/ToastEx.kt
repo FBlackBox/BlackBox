@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import top.niunaijun.blackboxa.app.App
+import java.lang.ref.WeakReference
 
 /**
  *
@@ -13,9 +14,12 @@ import top.niunaijun.blackboxa.app.App
  * @Author: wukaicheng
  * @CreateDate: 2021/5/2 0:13
  */
+var toastImpl:Toast? = null
 
 fun Context.toast(msg:String){
-    Toast.makeText(this,msg,Toast.LENGTH_LONG).show()
+    toastImpl?.cancel()
+    toastImpl = Toast.makeText(this,msg,Toast.LENGTH_SHORT)
+    toastImpl?.show()
 }
 
 fun toast(msg: String){

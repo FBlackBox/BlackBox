@@ -15,6 +15,7 @@
         android:theme="@style/Theme.BlackBox"
         tools:targetApi="n">
         <activity android:name=".view.setting.SettingActivity" />
+        <activity android:name=".view.gms.GmsManagerActivity" />
         <activity
             android:name=".view.main.WelcomeActivity"
             android:launchMode="singleTop"
