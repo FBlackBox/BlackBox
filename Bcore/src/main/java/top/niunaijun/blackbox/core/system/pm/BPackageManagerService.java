@@ -30,6 +30,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.core.GmsCore;
 import top.niunaijun.blackbox.core.env.BEnvironment;
 import top.niunaijun.blackbox.core.system.BProcessManagerService;
 import top.niunaijun.blackbox.core.system.ISystemService;
@@ -397,6 +398,8 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
 //                if (filterAppAccessLPr(ps, callingUid, userId)) {
 //                    continue;
 //                }
+                if (GmsCore.isGoogleAppOrService(ps.pkg.packageName))
+                    continue;
                 ApplicationInfo ai = PackageManagerCompat.generateApplicationInfo(ps.pkg, flags,
                         ps.readUserState(userId), userId);
                 if (ai != null) {
@@ -624,7 +627,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
         synchronized (mPackages) {
             List<InstalledPackage> installedPackages = new ArrayList<>();
             for (BPackageSettings ps : mPackages.values()) {
-                if (ps.getInstalled(userId)) {
+                if (ps.getInstalled(userId) && !GmsCore.isGoogleAppOrService(ps.pkg.packageName)) {
                     InstalledPackage installedPackage = new InstalledPackage();
                     installedPackage.userId = userId;
                     installedPackage.packageName = ps.pkg.packageName;

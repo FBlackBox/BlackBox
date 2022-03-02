@@ -192,16 +192,16 @@ public class PackageManagerCompat {
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
-        if ((flags & PackageManager.GET_SIGNATURES) != 0) {
-            if (base != null) {
-                pi.signatures = base.signatures;
+            if ((flags & PackageManager.GET_SIGNATURES) != 0) {
+                if (base != null) {
+                    pi.signatures = base.signatures;
+                }
             }
-        }
-        if ((flags & PackageManager.GET_SIGNING_CERTIFICATES) != 0) {
-            if (base != null) {
-                pi.signingInfo = base.signingInfo;
+            if ((flags & PackageManager.GET_SIGNING_CERTIFICATES) != 0) {
+                if (base != null) {
+                    pi.signingInfo = base.signingInfo;
+                }
             }
-        }
         } else {
             if ((flags & PackageManager.GET_SIGNATURES) != 0) {
                 pi.signatures = new Signature[]{p.mSignatures[0]};
