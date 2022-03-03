@@ -40,7 +40,6 @@ public class IPermissionManagerProxy extends BinderInvocationStub {
     protected void inject(Object baseInvocation, Object proxyInvocation) {
         replaceSystemService("permissionmgr");
         BRActivityThread.getWithException()._set_sPermissionManager(proxyInvocation);
-        Slog.d(TAG, proxyInvocation + "");
         Object systemContext = BRActivityThread.get(BlackBoxCore.mainThread()).getSystemContext();
         PackageManager packageManager = BRContextImpl.get(systemContext).mPackageManager();
         if (packageManager != null) {

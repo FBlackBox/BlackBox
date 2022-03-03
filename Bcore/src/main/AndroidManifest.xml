@@ -323,6 +323,7 @@
         android:name="android.permission.HARDWARE_TEST"
         tools:ignore="ProtectedPermissions" />
 
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
     <!--android11-->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
