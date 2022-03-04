@@ -9,7 +9,7 @@ public interface R {
     @BClassName("com.android.internal.R$styleable")
     interface styleable {
         @BStaticField
-        Object AccountAuthenticator();
+        int[] AccountAuthenticator();
 
         @BStaticField
         int AccountAuthenticator_accountPreferences();

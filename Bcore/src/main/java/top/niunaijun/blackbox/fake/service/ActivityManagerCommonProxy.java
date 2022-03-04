@@ -172,4 +172,12 @@ public class ActivityManagerCommonProxy {
             return BlackBoxCore.getBActivityManager().getCallingPackage((IBinder) args[0], BActivityThread.getUserId());
         }
     }
+
+    @ProxyMethod("getCallingActivity")
+    public static class getCallingActivity extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            return BlackBoxCore.getBActivityManager().getCallingActivity((IBinder) args[0], BActivityThread.getUserId());
+        }
+    }
 }

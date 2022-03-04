@@ -1,9 +1,11 @@
 package top.niunaijun.blackbox.fake.service;
 
+import android.Manifest;
 import android.app.IServiceConnection;
 import android.content.ComponentName;
 import android.content.IIntentReceiver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
 import android.os.IBinder;
@@ -45,6 +47,7 @@ import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.proxy.record.ProxyBroadcastRecord;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 import top.niunaijun.blackbox.utils.Reflector;
+import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.ParceledListSliceCompat;
 
@@ -226,7 +229,9 @@ public class IActivityManagerProxy extends ClassInvocationStub {
             String resolvedType = (String) args[3];
             IServiceConnection connection = (IServiceConnection) args[4];
 
-            ResolveInfo resolveInfo = BlackBoxCore.getBPackageManager().resolveService(intent, 0, resolvedType, BActivityThread.getUserId());
+            int userId = intent.getIntExtra("_B_|_UserId", -1);
+            userId = userId == -1 ? BActivityThread.getUserId() : userId;
+            ResolveInfo resolveInfo = BlackBoxCore.getBPackageManager().resolveService(intent, 0, resolvedType, userId);
             if (resolveInfo != null || AppSystemEnv.isOpenPackage(intent.getComponent())) {
                 Intent proxyIntent = BlackBoxCore.getBActivityManager().bindService(intent,
                         connection == null ? null : connection.asBinder(),
@@ -241,6 +246,11 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                 }
             }
             return 0;
+        }
+
+        @Override
+        protected boolean isEnable() {
+            return BlackBoxCore.get().isBlackProcess() || BlackBoxCore.get().isServerProcess();
         }
     }
 
@@ -497,6 +507,19 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Object blackBox = BRUserInfo.get()._new(BActivityThread.getUserId(), "BlackBox", BRUserInfo.get().FLAG_PRIMARY());
             return blackBox;
+        }
+    }
+
+    @ProxyMethod("checkPermission")
+    public static class checkPermission extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            String permission = (String) args[0];
+            if (permission.equals(Manifest.permission.ACCOUNT_MANAGER)
+                    || permission.equals(Manifest.permission.SEND_SMS)) {
+                return PackageManager.PERMISSION_GRANTED;
+            }
+            return method.invoke(who, args);
         }
     }
 }

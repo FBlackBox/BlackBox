@@ -33,6 +33,7 @@ interface IBPackageManagerService {
 
     List<ResolveInfo> queryIntentActivities(in Intent intent, int flags, String resolvedType, int userId);
     List<ResolveInfo> queryBroadcastReceivers(in Intent intent, int flags, String resolvedType, int userId);
+    List<ResolveInfo> queryIntentServices(in Intent intent, int flags, int userId);
     List<ProviderInfo> queryContentProviders(String processName, int uid, int flags, int userId);
 
     InstallResult installPackageAsUser(String file, in InstallOption option, int userId);

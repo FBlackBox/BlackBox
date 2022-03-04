@@ -5,6 +5,7 @@ import android.os.IBinder;
 import java.util.HashMap;
 import java.util.Map;
 
+import top.niunaijun.blackbox.core.system.accounts.BAccountManagerService;
 import top.niunaijun.blackbox.core.system.am.BActivityManagerService;
 import top.niunaijun.blackbox.core.system.am.BJobManagerService;
 import top.niunaijun.blackbox.core.system.os.BStorageManagerService;
@@ -28,6 +29,7 @@ public class ServiceManager {
     public static final String STORAGE_MANAGER = "storage_manager";
     public static final String USER_MANAGER = "user_manager";
     public static final String XPOSED_MANAGER = "xposed_manager";
+    public static final String ACCOUNT_MANAGER = "account_manager";
 
     private final Map<String, IBinder> mCaches = new HashMap<>();
 
@@ -53,6 +55,7 @@ public class ServiceManager {
         mCaches.put(STORAGE_MANAGER, BStorageManagerService.get());
         mCaches.put(USER_MANAGER, BUserManagerService.get());
         mCaches.put(XPOSED_MANAGER, BXposedManagerService.get());
+        mCaches.put(ACCOUNT_MANAGER, BAccountManagerService.get());
     }
 
     public IBinder getServiceInternal(String name) {
