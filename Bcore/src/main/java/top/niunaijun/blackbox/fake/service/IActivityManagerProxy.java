@@ -238,6 +238,9 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                         resolvedType,
                         BActivityThread.getUserId());
                 if (connection != null) {
+                    if (intent.getComponent() == null && resolveInfo != null) {
+                        intent.setComponent(new ComponentName(resolveInfo.serviceInfo.packageName, resolveInfo.serviceInfo.name));
+                    }
                     args[4] = ServiceConnectionDelegate.createProxy(connection, intent);
                 }
                 if (proxyIntent != null) {
