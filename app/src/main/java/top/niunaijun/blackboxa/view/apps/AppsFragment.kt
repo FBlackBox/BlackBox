@@ -96,6 +96,7 @@ class AppsFragment : Fragment() {
                     if (!isMove(point, e)) {
                         popupMenu?.show()
                     }
+                    popupMenu = null
                     point.set(0, 0)
                 }
 
