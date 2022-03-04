@@ -82,7 +82,7 @@ public class BPackageSettings implements Parcelable {
                 BXposedManagerService.get().isXPEnable()) {
             state.installed = true;
         }
-        if (userState.get(BUserHandle.USER_ALL) != null) {
+        if (userId == BUserHandle.USER_ALL) {
             state.installed = true;
         }
         return state;

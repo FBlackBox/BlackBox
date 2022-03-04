@@ -8,6 +8,7 @@ import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
 
+import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 
 /**
@@ -105,7 +106,7 @@ public abstract class ClassInvocationStub implements InvocationHandler, IInjectH
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         MethodHook methodHook = mMethodHookMap.get(method.getName());
-        if (methodHook == null) {
+        if (methodHook == null || !methodHook.isEnable()) {
             try {
                 return method.invoke(mBase, args);
             } catch (Throwable e) {

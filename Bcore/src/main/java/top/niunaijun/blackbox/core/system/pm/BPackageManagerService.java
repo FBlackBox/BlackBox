@@ -161,14 +161,15 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
         // reader
         synchronized (mPackages) {
             String pkgName = intent.getPackage();
-            if (pkgName == null) {
-                return null;
-            }
-            BPackageSettings bPackageSettings = mPackages.get(pkgName);
-            if (bPackageSettings != null) {
-                final BPackage pkg = bPackageSettings.pkg;
-                return mComponentResolver.queryServices(intent, resolvedType, flags, pkg.services,
-                        userId);
+            if (pkgName != null) {
+                BPackageSettings bPackageSettings = mPackages.get(pkgName);
+                if (bPackageSettings != null) {
+                    final BPackage pkg = bPackageSettings.pkg;
+                    return mComponentResolver.queryServices(intent, resolvedType, flags, pkg.services,
+                            userId);
+                }
+            } else {
+               return mComponentResolver.queryServices(intent, resolvedType, flags, userId);
             }
             return Collections.emptyList();
         }
@@ -248,6 +249,12 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
         }
     }
 
+    @Override
+    public List<ResolveInfo> queryIntentServices(
+            Intent intent, int flags, int userId) {
+        final String resolvedType = intent.resolveTypeIfNeeded(BlackBoxCore.getContext().getContentResolver());
+        return this.queryIntentServicesInternal(intent, resolvedType, flags, userId);
+    }
 
     private ActivityInfo getActivity(ComponentName component, int flags,
                                      int userId) {

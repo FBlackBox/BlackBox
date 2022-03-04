@@ -7,6 +7,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     aidlPackageWhiteList "android/app/IServiceConnection.aidl"
+    aidlPackageWhiteList "android/accounts/IAccountManagerResponse.aidl"
 
     defaultConfig {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
