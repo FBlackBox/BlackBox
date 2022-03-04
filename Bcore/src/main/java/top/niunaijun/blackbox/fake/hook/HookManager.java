@@ -67,7 +67,7 @@ public class HookManager {
     }
 
     public void init() {
-        if (BlackBoxCore.get().isVirtualProcess()) {
+        if (BlackBoxCore.get().isBlackProcess() || BlackBoxCore.get().isServerProcess()) {
             addInjector(new IDisplayManagerProxy());
             addInjector(new OsStub());
             addInjector(new IActivityManagerProxy());

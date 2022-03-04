@@ -54,6 +54,10 @@ public class BEnvironment {
         return new File(getSystemDir(), "user.conf");
     }
 
+    public static File getAccountsConf() {
+        return new File(getSystemDir(), "accounts.conf");
+    }
+
     public static File getUidConf() {
         return new File(getSystemDir(), "uid.conf");
     }

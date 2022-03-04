@@ -27,6 +27,7 @@ import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.core.system.BProcessManagerService;
 import top.niunaijun.blackbox.core.system.ProcessRecord;
 import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
+import top.niunaijun.blackbox.proxy.ProxyActivity;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.proxy.record.ProxyActivityRecord;
 import top.niunaijun.blackbox.utils.ComponentUtils;
@@ -462,6 +463,20 @@ public class ActivityStack {
                 }
             }
             return BlackBoxCore.getHostPkg();
+        }
+    }
+
+    public ComponentName getCallingActivity(IBinder token, int userId) {
+        synchronized (mTasks) {
+            synchronizeTasks();
+            ActivityRecord activityRecordByToken = findActivityRecordByToken(userId, token);
+            if (activityRecordByToken != null) {
+                ActivityRecord resultTo = findActivityRecordByToken(userId, activityRecordByToken.resultTo);
+                if (resultTo != null) {
+                    return resultTo.component;
+                }
+            }
+            return new ComponentName(BlackBoxCore.getHostPkg(), ProxyActivity.P0.class.getName());
         }
     }
 

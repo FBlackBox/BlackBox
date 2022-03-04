@@ -124,7 +124,7 @@ public class BlackBoxCore extends ClientConfiguration {
         } else {
             mProcessType = ProcessType.BAppClient;
         }
-        if (BlackBoxCore.get().isVirtualProcess()) {
+        if (BlackBoxCore.get().isBlackProcess()) {
             BEnvironment.load();
             if (processName.endsWith("p1")) {
 //                android.os.Debug.waitForDebugger();
@@ -149,7 +149,7 @@ public class BlackBoxCore extends ClientConfiguration {
 
     public void doCreate() {
         // fix contentProvider
-        if (isVirtualProcess()) {
+        if (isBlackProcess()) {
             ContentProviderDelegate.init();
         }
         if (!isServerProcess()) {
@@ -365,7 +365,7 @@ public class BlackBoxCore extends ClientConfiguration {
          */
         Server,
         /**
-         * Virtual app process
+         * Black app process
          */
         BAppClient,
         /**
@@ -374,7 +374,7 @@ public class BlackBoxCore extends ClientConfiguration {
         Main,
     }
 
-    public boolean isVirtualProcess() {
+    public boolean isBlackProcess() {
         return mProcessType == ProcessType.BAppClient;
     }
 
