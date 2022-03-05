@@ -759,7 +759,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
     }
 
     public void removePackageMonitor(PackageMonitor monitor) {
-        mPackageMonitors.add(monitor);
+        mPackageMonitors.remove(monitor);
     }
 
     void onPackageUninstalled(String packageName, boolean isRemove, int userId) {
