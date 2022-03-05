@@ -85,4 +85,17 @@ public class ILocationManagerProxy extends BinderInvocationStub {
             return method.invoke(who, args);
         }
     }
+    @ProxyMethod("requestLocationUpdates")
+    public static class RequestLocationUpdates extends MethodHook {
+
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            Log.d(TAG, "requestLocationUpdates");
+            BLocation bLocation = new BLocation();
+            return bLocation.convert2SystemLocation();
+//            Location location = new Location();
+//            MethodParameterUtils.replaceFirstAppPkg(args);
+//            return method.invoke(who, args);
+        }
+    }
 }
