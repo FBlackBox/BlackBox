@@ -10,6 +10,7 @@ import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
 import android.os.Process;
+import android.util.Log;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -236,7 +237,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             int flags = (int) args[2];
             List<ProviderInfo> providers = BlackBoxCore.getBPackageManager().
-                    queryContentProviders(BActivityThread.getAppProcessName(), Process.myUid(), flags, BActivityThread.getUserId());
+                    queryContentProviders(BActivityThread.getAppProcessName(), BActivityThread.getAppUid(), flags, BActivityThread.getUserId());
             return ParceledListSliceCompat.create(providers);
         }
     }
@@ -268,11 +269,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
     public static class GetPackagesForUid extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            int uid = (int) args[0];
-            if (uid == Process.myUid()) {
-                return new String[]{BActivityThread.getAppPackageName()};
-            }
-            return method.invoke(who, args);
+            return BlackBoxCore.getBPackageManager().getPackagesForUid(BActivityThread.getAppUid());
         }
     }
 

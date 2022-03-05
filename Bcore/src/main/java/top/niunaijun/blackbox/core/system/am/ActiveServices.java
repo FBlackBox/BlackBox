@@ -51,7 +51,7 @@ public class ActiveServices {
             return;
 //            throw new RuntimeException("resolveService service exception");
         ServiceInfo serviceInfo = resolveInfo.serviceInfo;
-        ProcessRecord processRecord = BProcessManagerService.get().startProcessLocked(serviceInfo.packageName, serviceInfo.processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
+        ProcessRecord processRecord = BProcessManagerService.get().startProcessLocked(serviceInfo.packageName, serviceInfo.processName, userId, -1, Binder.getCallingPid());
         if (processRecord == null) {
             throw new RuntimeException("Unable to create " + serviceInfo.name);
         }
@@ -88,7 +88,7 @@ public class ActiveServices {
             if (resolveInfo == null)
                 return 0;
             ServiceInfo serviceInfo = resolveInfo.serviceInfo;
-            ProcessRecord processRecord = BProcessManagerService.get().startProcessLocked(serviceInfo.packageName, serviceInfo.processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
+            ProcessRecord processRecord = BProcessManagerService.get().startProcessLocked(serviceInfo.packageName, serviceInfo.processName, userId, -1, Binder.getCallingPid());
             if (processRecord == null) {
                 return 0;
             }
@@ -109,8 +109,7 @@ public class ActiveServices {
                 serviceInfo.packageName,
                 serviceInfo.processName,
                 userId,
-                -1,
-                Binder.getCallingUid(), Binder.getCallingPid());
+                -1, Binder.getCallingPid());
 
         if (processRecord == null) {
             throw new RuntimeException("Unable to create " + serviceInfo.name);

@@ -53,7 +53,7 @@ public class BJobManagerService extends IBJobManagerService.Stub implements ISys
         ProcessRecord processRecord = BProcessManagerService.get().findProcessRecord(serviceInfo.packageName, serviceInfo.processName, userId);
         if (processRecord == null) {
             processRecord = BProcessManagerService.get().
-                    startProcessLocked(serviceInfo.packageName, serviceInfo.processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
+                    startProcessLocked(serviceInfo.packageName, serviceInfo.processName, userId, -1, Binder.getCallingPid());
             if (processRecord == null) {
                 throw new RuntimeException(
                         "Unable to create Process " + serviceInfo.processName);

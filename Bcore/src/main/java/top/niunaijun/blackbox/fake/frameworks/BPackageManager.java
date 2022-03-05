@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.core.system.ServiceManager;
 import top.niunaijun.blackbox.core.system.pm.IBPackageManagerService;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
@@ -258,6 +259,15 @@ public class BPackageManager {
             e.printStackTrace();
         }
         return Collections.emptyList();
+    }
+
+    public String[] getPackagesForUid(int uid) {
+        try {
+            return getService().getPackagesForUid(uid, BActivityThread.getUserId());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return new String[]{};
     }
 
     private void crash(Throwable e) {

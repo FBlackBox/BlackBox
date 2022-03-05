@@ -14,6 +14,7 @@ import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
+import top.niunaijun.blackbox.utils.Slog;
 
 /**
  * Created by Milk on 4/2/21.
@@ -50,7 +51,7 @@ public class IAppOpsManagerProxy extends BinderInvocationStub {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         MethodParameterUtils.replaceFirstAppPkg(args);
-        MethodParameterUtils.replaceLastUserId(args);
+        MethodParameterUtils.replaceLastUid(args);
         return super.invoke(proxy, method, args);
     }
 
@@ -68,10 +69,11 @@ public class IAppOpsManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod("checkPackage")
+    @ProxyMethod("checkOperation")
     public static class CheckOperation extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            MethodParameterUtils.replaceLastUid(args);
             return method.invoke(who, args);
         }
     }

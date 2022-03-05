@@ -30,7 +30,7 @@ public class ContextCompat {
 
             AttributionSourceStateContext attributionSourceStateContext = BRAttributionSourceState.get(mAttributionSourceState);
             attributionSourceStateContext._set_packageName(BlackBoxCore.getHostPkg());
-            attributionSourceStateContext._set_uid(Process.myUid());
+            attributionSourceStateContext._set_uid(BlackBoxCore.getHostPkg());
             fixAttributionSourceState(BRAttributionSource.get(obj).getNext());
         }
     }

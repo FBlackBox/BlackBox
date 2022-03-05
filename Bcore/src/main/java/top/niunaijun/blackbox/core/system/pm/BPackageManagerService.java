@@ -645,6 +645,21 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
         }
     }
 
+    @Override
+    public String[] getPackagesForUid(int uid, int userId) throws RemoteException {
+        if (!sUserManager.exists(userId)) return new String[]{};
+        synchronized (mPackages) {
+            List<String> packages = new ArrayList<>();
+            for (BPackageSettings ps : mPackages.values()) {
+                String packageName = ps.pkg.packageName;
+                if (ps.getInstalled(userId) && getAppId(packageName) == uid) {
+                    packages.add(packageName);
+                }
+            }
+            return packages.toArray(new String[]{});
+        }
+    }
+
     private InstallResult installPackageAsUserLocked(String file, InstallOption option, int userId) {
         InstallResult result = new InstallResult();
         File apkFile = null;

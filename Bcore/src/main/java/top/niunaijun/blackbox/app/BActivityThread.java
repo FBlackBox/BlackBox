@@ -65,6 +65,7 @@ import top.niunaijun.blackbox.core.IBActivityThread;
 import top.niunaijun.blackbox.core.IOCore;
 import top.niunaijun.blackbox.core.VMCore;
 import top.niunaijun.blackbox.core.env.VirtualRuntime;
+import top.niunaijun.blackbox.core.system.user.BUserHandle;
 import top.niunaijun.blackbox.entity.AppConfig;
 import top.niunaijun.blackbox.entity.am.ReceiverData;
 import top.niunaijun.blackbox.entity.pm.InstalledModule;
@@ -150,11 +151,11 @@ public class BActivityThread extends IBActivityThread.Stub {
     }
 
     public static int getAppUid() {
-        return getAppConfig() == null ? 10000 : getAppConfig().buid;
+        return getAppConfig() == null ? BUserHandle.AID_APP_START : getAppConfig().buid;
     }
 
-    public static int getBaseAppUid() {
-        return getAppConfig() == null ? 10000 : getAppConfig().baseBUid;
+    public static int getCallingBUid() {
+        return getAppConfig() == null ? BUserHandle.AID_APP_START : getAppConfig().callingBUid;
     }
 
     public static int getUid() {

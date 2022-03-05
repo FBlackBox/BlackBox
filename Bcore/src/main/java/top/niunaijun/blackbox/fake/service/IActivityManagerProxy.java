@@ -19,10 +19,8 @@ import java.util.ArrayList;
 
 import black.android.app.BRActivityManagerNative;
 import black.android.app.BRActivityManagerOreo;
-import black.android.app.BRIActivityManagerContentProviderHolder;
 import black.android.app.BRLoadedApkReceiverDispatcher;
 import black.android.app.BRLoadedApkReceiverDispatcherInnerReceiver;
-import black.android.content.BRContentProviderHolderOreo;
 import black.android.content.BRContentProviderNative;
 import black.android.content.pm.BRUserInfo;
 import black.android.os.BRUserHandle;
@@ -47,11 +45,11 @@ import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.proxy.record.ProxyBroadcastRecord;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 import top.niunaijun.blackbox.utils.Reflector;
-import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.ParceledListSliceCompat;
 
 import static android.content.pm.PackageManager.GET_META_DATA;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 /**
  * Created by Milk on 3/30/21.
@@ -477,7 +475,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
     public static class GrantUriPermission extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            MethodParameterUtils.replaceLastUserId(args);
+            MethodParameterUtils.replaceLastUid(args);
             return method.invoke(who, args);
         }
     }
@@ -520,6 +518,14 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                 return PackageManager.PERMISSION_GRANTED;
             }
             return method.invoke(who, args);
+        }
+    }
+
+    @ProxyMethod("checkUriPermission")
+    public static class checkUriPermission extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            return PERMISSION_GRANTED;
         }
     }
 }
