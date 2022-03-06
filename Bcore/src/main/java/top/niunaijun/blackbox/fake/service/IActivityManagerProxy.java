@@ -234,7 +234,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                 Intent proxyIntent = BlackBoxCore.getBActivityManager().bindService(intent,
                         connection == null ? null : connection.asBinder(),
                         resolvedType,
-                        BActivityThread.getUserId());
+                        userId);
                 if (connection != null) {
                     args[4] = ServiceConnectionDelegate.createProxy(connection, intent);
                 }
@@ -512,6 +512,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
     public static class checkPermission extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            MethodParameterUtils.replaceLastUid(args);
             String permission = (String) args[0];
             if (permission.equals(Manifest.permission.ACCOUNT_MANAGER)
                     || permission.equals(Manifest.permission.SEND_SMS)) {

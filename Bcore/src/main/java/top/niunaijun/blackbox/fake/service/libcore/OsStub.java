@@ -70,9 +70,9 @@ public class OsStub extends ClassInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            int appUid = BActivityThread.getAppUid();
-            if (appUid > 0 && appUid <= Process.FIRST_APPLICATION_UID)
-                return method.invoke(who, args);
+            int callUid = (int) method.invoke(who, args);
+            if (callUid > 0 && callUid <= Process.FIRST_APPLICATION_UID)
+                return callUid;
 //            Log.d(TAG, "getuid: " + BActivityThread.getAppPackageName() + ", " + BActivityThread.getAppUid());
             return BActivityThread.getAppUid();
         }
