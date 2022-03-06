@@ -24,65 +24,58 @@ import java.io.File
 
 class AppsRepository {
 
-    @Volatile
     private var mInstalledList = mutableListOf<AppInfo>()
 
-    @Volatile
-    private var isLoading = true
-
-
     fun previewInstallList() {
-        isLoading = true
-        val installedApplications: List<ApplicationInfo> = getPackageManager().getInstalledApplications(0)
-        val installedList = mutableListOf<AppInfo>()
+        synchronized(mInstalledList){
+            val installedApplications: List<ApplicationInfo> = getPackageManager().getInstalledApplications(0)
+            val installedList = mutableListOf<AppInfo>()
 
-        for (installedApplication in installedApplications) {
-            val file = File(installedApplication.sourceDir)
+            for (installedApplication in installedApplications) {
+                val file = File(installedApplication.sourceDir)
 
-            if ((installedApplication.flags and  ApplicationInfo.FLAG_SYSTEM) != 0) continue
+                if ((installedApplication.flags and  ApplicationInfo.FLAG_SYSTEM) != 0) continue
 
-            if (!AbiUtils.isSupport(file)) continue
+                if (!AbiUtils.isSupport(file)) continue
 
-            val isXpModule = BlackBoxCore.get().isXposedModule(file)
+                val isXpModule = BlackBoxCore.get().isXposedModule(file)
 
-            val info = AppInfo(
+                val info = AppInfo(
                     installedApplication.loadLabel(getPackageManager()).toString(),
                     installedApplication.loadIcon(getPackageManager()),
                     installedApplication.packageName,
                     installedApplication.sourceDir,
                     isXpModule
-            )
-            installedList.add(info)
+                )
+                installedList.add(info)
+            }
+            this.mInstalledList.clear()
+            this.mInstalledList.addAll(installedList)
         }
 
-        this.mInstalledList = installedList
-        isLoading = false
+
     }
 
     fun getInstalledAppList(previewingLiveData: MutableLiveData<Boolean>, appsLiveData: MutableLiveData<List<AppInfo>>) {
-        previewingLiveData.postValue(isLoading)
-        if (isLoading) {
-            Thread.sleep(500)
-            getInstalledAppList(previewingLiveData, appsLiveData)
-        } else {
-            previewingLiveData.postValue(isLoading)
+        previewingLiveData.postValue(true)
+        synchronized(mInstalledList) {
             appsLiveData.postValue(ArrayList(mInstalledList))
+            previewingLiveData.postValue(false)
         }
+
     }
 
     fun getInstalledModuleList(previewingLiveData: MutableLiveData<Boolean>, appsLiveData: MutableLiveData<List<AppInfo>>) {
 
-        previewingLiveData.postValue(isLoading)
-        if (isLoading) {
-            Thread.sleep(500)
-            getInstalledModuleList(previewingLiveData, appsLiveData)
-        } else {
-            previewingLiveData.postValue(isLoading)
+        previewingLiveData.postValue(true)
+        synchronized(mInstalledList) {
             val moduleList = mInstalledList.filter {
                 it.isXpModule
             }
             appsLiveData.postValue(moduleList)
+            previewingLiveData.postValue(false)
         }
+
     }
 
 
