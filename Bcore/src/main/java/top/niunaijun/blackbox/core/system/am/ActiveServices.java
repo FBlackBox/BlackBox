@@ -63,11 +63,7 @@ public class ActiveServices {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if (requireForeground && BuildCompat.isOreo()) {
-                    BlackBoxCore.getContext().startForegroundService(stubServiceIntent);
-                } else {
-                    BlackBoxCore.getContext().startService(stubServiceIntent);
-                }
+                BlackBoxCore.getContext().startService(stubServiceIntent);
             }
         }).start();
     }

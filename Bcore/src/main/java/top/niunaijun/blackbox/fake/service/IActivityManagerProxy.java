@@ -496,10 +496,11 @@ public class IActivityManagerProxy extends ClassInvocationStub {
     public static class setServiceForeground extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            if (args[0] instanceof ComponentName) {
-                args[0] = new ComponentName(BlackBoxCore.getHostPkg(), ProxyManifest.getProxyService(BActivityThread.getAppPid()));
-            }
-            return method.invoke(who, args);
+//            if (args[0] instanceof ComponentName) {
+//                args[0] = new ComponentName(BlackBoxCore.getHostPkg(), ProxyManifest.getProxyService(BActivityThread.getAppPid()));
+//            }
+//            return method.invoke(who, args);
+            return 0;
         }
     }
 

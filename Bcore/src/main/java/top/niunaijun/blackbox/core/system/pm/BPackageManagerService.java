@@ -683,10 +683,16 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 return new InstallResult().installError("not a XP module");
             }
 
+            PackageInfo packageArchiveInfo = BlackBoxCore.getPackageManager().getPackageArchiveInfo(apkFile.getAbsolutePath(), 0);
+            if (packageArchiveInfo == null) {
+                return result.installError("getPackageArchiveInfo error.Please check whether APK is normal.");
+            }
+
             boolean support = AbiUtils.isSupport(apkFile);
             if (!support) {
-                return result.installError(apkFile.getAbsolutePath() +
-                        (BlackBoxCore.is64Bit() ? " not support armeabi-v7a abi" : "not support arm64-v8a abi"));
+                String msg = packageArchiveInfo.applicationInfo.loadLabel(BlackBoxCore.getPackageManager()) + "[" + packageArchiveInfo.packageName + "]";
+                return result.installError(packageArchiveInfo.packageName,
+                        msg + (BlackBoxCore.is64Bit() ? " not support armeabi-v7a abi" : "not support arm64-v8a abi"));
             }
             PackageParser.Package aPackage = parserApk(apkFile.getAbsolutePath());
             if (aPackage == null) {

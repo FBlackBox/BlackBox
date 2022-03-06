@@ -37,7 +37,6 @@ public class ProxyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        showNotification();
         AppServiceDispatcher.get().onStartCommand(intent, flags, startId);
         return START_NOT_STICKY;
     }
