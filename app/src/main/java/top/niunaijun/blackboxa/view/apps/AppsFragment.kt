@@ -85,6 +85,16 @@ class AppsFragment : Fragment() {
         return viewBinding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initData()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.getInstalledApps(userID)
+    }
+
     /**
      * 拖拽优化
      */
@@ -128,15 +138,6 @@ class AppsFragment : Fragment() {
     }
 
     private fun isDownAndUp(point: Point, e: MotionEvent) {
-        val linearLayoutManager =
-            viewBinding.recyclerView.layoutManager as LinearLayoutManager? ?: return
-        val visCount =
-            linearLayoutManager.findLastVisibleItemPosition() - linearLayoutManager.findFirstVisibleItemPosition() + 2
-
-        if (visCount <= mAdapter.itemCount) {
-            return
-        }
-
         val min = 10
         val y = point.y
         val yU = y - e.rawY
@@ -147,10 +148,6 @@ class AppsFragment : Fragment() {
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initData()
-    }
 
     private fun setOnLongClick() {
         mAdapter.setOnItemLongClick { _, binding, data ->
@@ -196,8 +193,6 @@ class AppsFragment : Fragment() {
                 } else {
                     viewBinding.stateView.showContent()
                 }
-            } else {
-                viewBinding.stateView.showEmpty()
             }
         }
 
