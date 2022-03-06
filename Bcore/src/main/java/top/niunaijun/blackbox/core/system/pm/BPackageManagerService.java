@@ -503,8 +503,9 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 final BPackage pkg = bPackageSettings.pkg;
                 return mComponentResolver.queryReceivers(
                         intent, resolvedType, flags, pkg.receivers, userId);
+            } else {
+                return mComponentResolver.queryReceivers(intent, resolvedType, flags, userId);
             }
-            return Collections.emptyList();
         }
     }
 
