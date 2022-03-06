@@ -317,7 +317,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             MethodParameterUtils.replaceFirstAppPkg(args);
-            Intent[] intents = (Intent[]) args[getIntentsIndex()];
+            Intent[] intents = (Intent[]) args[getIntentsIndex(args)];
 
             // todo
             for (Intent intent : intents) {
@@ -326,13 +326,22 @@ public class IActivityManagerProxy extends ClassInvocationStub {
             return method.invoke(who, args);
         }
 
-        private int getIntentsIndex() {
+        private int getIntentsIndex(Object[] args) {
+            for (int i = 0; i < args.length; i++) {
+                if (args[i] instanceof Intent[]) {
+                    return i;
+                }
+            }
             if (BuildCompat.isR()) {
                 return 6;
             } else {
                 return 5;
             }
         }
+    }
+
+    @ProxyMethod("getIntentSenderWithSourceToken")
+    public static class GetIntentSenderWithSourceToken extends GetIntentSender {
     }
 
     @ProxyMethod("getIntentSenderWithFeature")
