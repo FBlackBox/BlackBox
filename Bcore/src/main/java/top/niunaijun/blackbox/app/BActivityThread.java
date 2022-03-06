@@ -155,7 +155,7 @@ public class BActivityThread extends IBActivityThread.Stub {
     }
 
     public static int getCallingBUid() {
-        return getAppConfig() == null ? BUserHandle.AID_APP_START : getAppConfig().callingBUid;
+        return getAppConfig() == null ? BlackBoxCore.getHostUid() : getAppConfig().callingBUid;
     }
 
     public static int getUid() {
