@@ -8,6 +8,6 @@ fun getString(@StringRes id:Int,vararg arg:String):String{
     if(arg.isEmpty()){
         return App.getContext().getString(id)
     }
-    return App.getContext().getString(id,arg)
+    return App.getContext().getString(id,*arg)
 }
 

@@ -2,6 +2,7 @@ package top.niunaijun.blackboxa.view.gms
 
 import androidx.lifecycle.MutableLiveData
 import top.niunaijun.blackboxa.bean.GmsBean
+import top.niunaijun.blackboxa.bean.GmsInstallBean
 import top.niunaijun.blackboxa.data.GmsRepository
 import top.niunaijun.blackboxa.view.base.BaseViewModel
 
@@ -13,11 +14,9 @@ import top.niunaijun.blackboxa.view.base.BaseViewModel
  */
 class GmsViewModel(private val mRepo: GmsRepository) : BaseViewModel() {
 
-    val mResultLiveData = MutableLiveData<String>()
-
     val mInstalledLiveData = MutableLiveData<List<GmsBean>>()
 
-    val mUpdateInstalledLiveData = MutableLiveData<Pair<Int,Boolean>>()
+    val mUpdateInstalledLiveData = MutableLiveData<GmsInstallBean>()
 
     fun getInstalledUser() {
         launchOnUI {
@@ -27,13 +26,13 @@ class GmsViewModel(private val mRepo: GmsRepository) : BaseViewModel() {
 
     fun installGms(userID: Int) {
         launchOnUI {
-            mRepo.installGms(userID, mResultLiveData,mUpdateInstalledLiveData)
+            mRepo.installGms(userID,mUpdateInstalledLiveData)
         }
     }
 
     fun uninstallGms(userID: Int) {
         launchOnUI {
-            mRepo.uninstallGms(userID, mResultLiveData,mUpdateInstalledLiveData)
+            mRepo.uninstallGms(userID,mUpdateInstalledLiveData)
         }
     }
 }

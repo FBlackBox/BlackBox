@@ -11,6 +11,7 @@ import top.niunaijun.blackbox.utils.AbiUtils
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.app.AppManager
 import top.niunaijun.blackboxa.bean.AppInfo
+import top.niunaijun.blackboxa.bean.InstalledAppBean
 import top.niunaijun.blackboxa.util.getString
 import java.io.File
 
@@ -24,65 +25,68 @@ import java.io.File
 
 class AppsRepository {
 
-    @Volatile
     private var mInstalledList = mutableListOf<AppInfo>()
 
-    @Volatile
-    private var isLoading = true
-
-
     fun previewInstallList() {
-        isLoading = true
-        val installedApplications: List<ApplicationInfo> = getPackageManager().getInstalledApplications(0)
-        val installedList = mutableListOf<AppInfo>()
+        synchronized(mInstalledList){
+            val installedApplications: List<ApplicationInfo> = getPackageManager().getInstalledApplications(0)
+            val installedList = mutableListOf<AppInfo>()
 
-        for (installedApplication in installedApplications) {
-            val file = File(installedApplication.sourceDir)
+            for (installedApplication in installedApplications) {
+                val file = File(installedApplication.sourceDir)
 
-            if ((installedApplication.flags and  ApplicationInfo.FLAG_SYSTEM) != 0) continue
+                if ((installedApplication.flags and  ApplicationInfo.FLAG_SYSTEM) != 0) continue
 
-            if (!AbiUtils.isSupport(file)) continue
+                if (!AbiUtils.isSupport(file)) continue
 
-            val isXpModule = BlackBoxCore.get().isXposedModule(file)
+                val isXpModule = BlackBoxCore.get().isXposedModule(file)
 
-            val info = AppInfo(
+                val info = AppInfo(
                     installedApplication.loadLabel(getPackageManager()).toString(),
                     installedApplication.loadIcon(getPackageManager()),
                     installedApplication.packageName,
                     installedApplication.sourceDir,
                     isXpModule
-            )
-            installedList.add(info)
+                )
+                installedList.add(info)
+            }
+            this.mInstalledList.clear()
+            this.mInstalledList.addAll(installedList)
         }
 
-        this.mInstalledList = installedList
-        isLoading = false
+
     }
 
-    fun getInstalledAppList(previewingLiveData: MutableLiveData<Boolean>, appsLiveData: MutableLiveData<List<AppInfo>>) {
-        previewingLiveData.postValue(isLoading)
-        if (isLoading) {
-            Thread.sleep(500)
-            getInstalledAppList(previewingLiveData, appsLiveData)
-        } else {
-            previewingLiveData.postValue(isLoading)
-            appsLiveData.postValue(ArrayList(mInstalledList))
+    fun getInstalledAppList(userID: Int,loadingLiveData: MutableLiveData<Boolean>, appsLiveData: MutableLiveData<List<InstalledAppBean>>) {
+        loadingLiveData.postValue(true)
+        synchronized(mInstalledList) {
+            val blackBoxCore = BlackBoxCore.get()
+            val newInstalledList = mInstalledList.map {
+                InstalledAppBean(it.name,it.icon,it.packageName,it.sourceDir,blackBoxCore.isInstalled(it.packageName,userID))
+            }
+            appsLiveData.postValue(newInstalledList)
+            loadingLiveData.postValue(false)
         }
+
     }
 
-    fun getInstalledModuleList(previewingLiveData: MutableLiveData<Boolean>, appsLiveData: MutableLiveData<List<AppInfo>>) {
+    fun getInstalledModuleList(
+        loadingLiveData: MutableLiveData<Boolean>,
+        appsLiveData: MutableLiveData<List<InstalledAppBean>>
+    ) {
 
-        previewingLiveData.postValue(isLoading)
-        if (isLoading) {
-            Thread.sleep(500)
-            getInstalledModuleList(previewingLiveData, appsLiveData)
-        } else {
-            previewingLiveData.postValue(isLoading)
+        loadingLiveData.postValue(true)
+        synchronized(mInstalledList) {
+            val blackBoxCore = BlackBoxCore.get()
             val moduleList = mInstalledList.filter {
                 it.isXpModule
+            }.map {
+                InstalledAppBean(it.name,it.icon,it.packageName,it.sourceDir,blackBoxCore.isInstalledXposedModule(it.packageName))
             }
             appsLiveData.postValue(moduleList)
+            loadingLiveData.postValue(false)
         }
+
     }
 
 

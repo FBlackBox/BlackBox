@@ -6,6 +6,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.TranslateAnimation
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.edit
 import androidx.viewpager2.widget.ViewPager2
@@ -83,6 +86,7 @@ class MainActivity : LoadingActivity() {
                 super.onPageSelected(position)
                 currentUser = fragmentList[position].userID
                 updateUserRemark(currentUser)
+                showFloatButton(true)
             }
         })
 
@@ -92,8 +96,31 @@ class MainActivity : LoadingActivity() {
         viewBinding.fab.setOnClickListener {
             val userId = viewBinding.viewPager.currentItem
             val intent = Intent(this, ListActivity::class.java)
-            intent.putExtra("userId", userId)
+            intent.putExtra("userID", userId)
             apkPathResult.launch(intent)
+        }
+    }
+
+    fun showFloatButton(show:Boolean) {
+        val translateAnimation:TranslateAnimation
+
+        val vis = if (show){
+            translateAnimation = TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+                -1.0f, Animation.RELATIVE_TO_SELF, -0.0f)
+            View.VISIBLE
+        }else{
+            translateAnimation = TranslateAnimation(Animation.RELATIVE_TO_SELF,
+                0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+                -1.0f)
+            View.GONE
+        }
+
+        translateAnimation.duration=500
+        if(viewBinding.fab.visibility!=vis){
+            viewBinding.fab.startAnimation(translateAnimation)
+            viewBinding.fab.visibility = vis
         }
     }
 
@@ -123,7 +150,7 @@ class MainActivity : LoadingActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
                 it.data?.let { data ->
-                    val userId = data.getIntExtra("userId", 0)
+                    val userId = data.getIntExtra("userID", 0)
                     val source = data.getStringExtra("source")
                     if (source != null) {
                         fragmentList[userId].installApk(source)

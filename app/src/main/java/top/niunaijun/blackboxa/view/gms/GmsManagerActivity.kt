@@ -43,29 +43,37 @@ class GmsManagerActivity : LoadingActivity() {
         viewModel = ViewModelProvider(this, InjectionUtil.getGmsFactory())[GmsViewModel::class.java]
         showLoading()
 
-        viewModel.mResultLiveData.observe(this) {
-            hideLoading()
-            toast(it)
-        }
-
         viewModel.mInstalledLiveData.observe(this) {
             hideLoading()
             mAdapter.replaceData(it)
         }
 
         viewModel.mUpdateInstalledLiveData.observe(this) { result ->
-            if (result == null && result?.second == false) {
+            if (result == null) {
                 return@observe
             }
 
-            for (index in mAdapter.dataList.indices){
+            for (index in mAdapter.dataList.indices) {
                 val bean = mAdapter.dataList[index]
-                if (bean.userID == result.first){
-                    bean.isInstalledGms = !bean.isInstalledGms
-                    mAdapter.updateData(bean,index)
+                if (bean.userID == result.userID) {
+                    if (result.success) {
+                        bean.isInstalledGms = !bean.isInstalledGms
+                    }
+                    mAdapter.updateData(bean, index)
                     break
                 }
+            }
 
+            hideLoading()
+
+            if (result.success) {
+                toast(result.msg)
+            } else {
+                MaterialDialog(this).show {
+                    title(R.string.gms_manager)
+                    message(text = result.msg)
+                    positiveButton(R.string.done)
+                }
             }
         }
 

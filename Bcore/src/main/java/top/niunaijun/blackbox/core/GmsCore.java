@@ -1,6 +1,5 @@
 package top.niunaijun.blackbox.core;
 
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
 import java.util.HashSet;
@@ -75,11 +74,16 @@ public class GmsCore {
     }
 
     public static InstallResult installGApps(int userId) {
-        InstallResult installResult = installPackages(GOOGLE_SERVICE, userId);
+        Set<String> googleApps = new HashSet<>();
+
+        googleApps.addAll(GOOGLE_SERVICE);
+        googleApps.addAll(GOOGLE_APP);
+
+        InstallResult installResult = installPackages(googleApps, userId);
         if (!installResult.success) {
+            uninstallGApps(userId);
             return installResult;
         }
-        installResult = installPackages(GOOGLE_APP, userId);
         return installResult;
     }
 
