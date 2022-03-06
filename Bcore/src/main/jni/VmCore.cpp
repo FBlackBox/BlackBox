@@ -73,7 +73,7 @@ void nativeHook(JNIEnv *env) {
     UnixFileSystemHook::init(env);
     VMClassLoaderHook::init(env);
 //    RuntimeHook::init(env);
-//    BinderHook::init(env);
+    BinderHook::init(env);
 }
 
 void hideXposed(JNIEnv *env, jclass clazz) {

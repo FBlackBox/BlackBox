@@ -22,7 +22,7 @@ public class AppConfig implements Parcelable {
     public int buid;
     public int uid;
     public int userId;
-    public int baseBUid;
+    public int callingBUid;
     public IBinder token;
 
     @Override
@@ -38,7 +38,7 @@ public class AppConfig implements Parcelable {
         dest.writeInt(this.buid);
         dest.writeInt(this.uid);
         dest.writeInt(this.userId);
-        dest.writeInt(this.baseBUid);
+        dest.writeInt(this.callingBUid);
         dest.writeStrongBinder(token);
     }
 
@@ -52,7 +52,7 @@ public class AppConfig implements Parcelable {
         this.buid = in.readInt();
         this.uid = in.readInt();
         this.userId = in.readInt();
-        this.baseBUid = in.readInt();
+        this.callingBUid = in.readInt();
         this.token = in.readStrongBinder();
     }
 

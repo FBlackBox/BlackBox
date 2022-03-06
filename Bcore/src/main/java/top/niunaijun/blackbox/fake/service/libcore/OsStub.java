@@ -1,10 +1,16 @@
 package top.niunaijun.blackbox.fake.service.libcore;
 
+import android.os.Process;
+import android.util.Log;
+
 import java.lang.reflect.Method;
 
 import black.libcore.io.BRLibcore;
+import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.core.IOCore;
 import top.niunaijun.blackbox.fake.hook.ClassInvocationStub;
+import top.niunaijun.blackbox.fake.hook.MethodHook;
+import top.niunaijun.blackbox.fake.hook.ProxyMethod;
 
 /**
  * Created by Milk on 4/9/21.
@@ -57,5 +63,18 @@ public class OsStub extends ClassInvocationStub {
             }
         }
         return super.invoke(proxy, method, args);
+    }
+
+    @ProxyMethod("getuid")
+    public static class getuid extends MethodHook {
+
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            int callUid = (int) method.invoke(who, args);
+            if (callUid > 0 && callUid <= Process.FIRST_APPLICATION_UID)
+                return callUid;
+//            Log.d(TAG, "getuid: " + BActivityThread.getAppPackageName() + ", " + BActivityThread.getAppUid());
+            return BActivityThread.getAppUid();
+        }
     }
 }

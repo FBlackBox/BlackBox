@@ -77,6 +77,7 @@ public class BlackBoxCore extends ClientConfiguration {
     private ClientConfiguration mClientConfiguration;
     private final List<AppLifecycleCallback> mAppLifecycleCallbacks = new ArrayList<>();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
+    private final int mHostUid = Process.myUid();
 
     public static BlackBoxCore get() {
         return sBlackBoxCore;
@@ -92,6 +93,10 @@ public class BlackBoxCore extends ClientConfiguration {
 
     public static String getHostPkg() {
         return get().getHostPackageName();
+    }
+
+    public static int getHostUid() {
+        return get().mHostUid;
     }
 
     public static Context getContext() {
