@@ -3,7 +3,6 @@ package top.niunaijun.blackboxa.view.apps
 import android.graphics.Point
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -14,13 +13,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
-import com.roger.catloadinglibrary.CatLoadingView
 import top.niunaijun.blackbox.BlackBoxCore
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.bean.AppInfo
 import top.niunaijun.blackboxa.databinding.FragmentAppsBinding
-import top.niunaijun.blackboxa.util.*
+import top.niunaijun.blackboxa.util.InjectionUtil
+import top.niunaijun.blackboxa.util.ShortcutUtil
+import top.niunaijun.blackboxa.util.inflate
+import top.niunaijun.blackboxa.util.toast
 import top.niunaijun.blackboxa.view.base.LoadingActivity
 import top.niunaijun.blackboxa.view.main.MainActivity
 import kotlin.math.abs
@@ -41,8 +43,6 @@ class AppsFragment : Fragment() {
     private lateinit var mAdapter: AppsAdapter
 
     private val viewBinding: FragmentAppsBinding by inflate()
-
-    private lateinit var loadingView: CatLoadingView
 
     private var popupMenu: PopupMenu? = null
 
@@ -105,6 +105,8 @@ class AppsFragment : Fragment() {
                         point.x = e.rawX.toInt()
                         point.y = e.rawY.toInt()
                     }
+                    isDownAndUp(point, e)
+
                     if (isMove(point, e)) {
                         popupMenu?.dismiss()
                     }
@@ -114,7 +116,7 @@ class AppsFragment : Fragment() {
         }
     }
 
-    private fun isMove(point: Point, e: MotionEvent) : Boolean {
+    private fun isMove(point: Point, e: MotionEvent): Boolean {
         val max = 20
 
         val x = point.x
@@ -123,6 +125,26 @@ class AppsFragment : Fragment() {
         val xU = abs(x - e.rawX)
         val yU = abs(y - e.rawY)
         return xU > max || yU > max
+    }
+
+    private fun isDownAndUp(point: Point, e: MotionEvent) {
+        val linearLayoutManager =
+            viewBinding.recyclerView.layoutManager as LinearLayoutManager? ?: return
+        val visCount =
+            linearLayoutManager.findLastVisibleItemPosition() - linearLayoutManager.findFirstVisibleItemPosition() + 2
+
+        if (visCount <= mAdapter.itemCount) {
+            return
+        }
+
+        val min = 10
+        val y = point.y
+        val yU = y - e.rawY
+
+        if (abs(yU) > min) {
+            (requireActivity() as MainActivity).showFloatButton(yU < 0)
+        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
