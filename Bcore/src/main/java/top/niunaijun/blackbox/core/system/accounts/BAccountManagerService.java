@@ -62,6 +62,7 @@ import top.niunaijun.blackbox.core.system.BProcessManagerService;
 import top.niunaijun.blackbox.core.system.ISystemService;
 import top.niunaijun.blackbox.core.system.ProcessRecord;
 import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
+import top.niunaijun.blackbox.core.system.pm.PackageMonitor;
 import top.niunaijun.blackbox.core.system.user.BUserHandle;
 import top.niunaijun.blackbox.utils.ArrayUtils;
 import top.niunaijun.blackbox.utils.CloseUtils;
@@ -73,7 +74,7 @@ import top.niunaijun.blackbox.utils.compat.AccountManagerCompat;
  * Created by BlackBox on 2022/3/3.
  */
 @SuppressLint("InlinedApi")
-public class BAccountManagerService extends IBAccountManagerService.Stub implements ISystemService {
+public class BAccountManagerService extends IBAccountManagerService.Stub implements ISystemService , PackageMonitor {
     private static final String TAG = "AccountManagerService";
 
     private static BAccountManagerService sService = new BAccountManagerService();
@@ -107,6 +108,17 @@ public class BAccountManagerService extends IBAccountManagerService.Stub impleme
     public void systemReady() {
         loadAccounts();
         loadAuthenticatorCache(null);
+        mPms.addPackageMonitor(this);
+    }
+
+    @Override
+    public void onPackageUninstalled(String packageName, boolean isRemove, int userId) {
+        loadAuthenticatorCache(null);
+    }
+
+    @Override
+    public void onPackageInstalled(String packageName, int userId) {
+        loadAuthenticatorCache(packageName);
     }
 
     private void loadAccounts() {
