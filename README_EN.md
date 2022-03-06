@@ -15,6 +15,8 @@ BlackBox is a virtual engine, it can clone and run virtual application on Androi
 ## Support
 Currently we don't consider supporting Android 4.x, it supports Android 5.0 ～ 12.0.
 
+If conditions permit, downgrade targetSdkVersion to 28 or below for better compatibility.
+
 ## Special Instruction
 
 This project distinguishes between 32-bit and 64-bit, it was compiled to 2 different demos. If you can not find your target in application list, please use another architecture.
