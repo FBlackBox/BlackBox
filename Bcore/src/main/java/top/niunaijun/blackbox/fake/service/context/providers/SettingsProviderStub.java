@@ -57,7 +57,7 @@ public class SettingsProviderStub extends ClassInvocationStub implements BConten
             if (arg instanceof String) {
                 args[0] = BlackBoxCore.getHostPkg();
             } else if (arg.getClass().getName().equals(BRAttributionSource.getRealClass().getName())) {
-                ContextCompat.fixAttributionSourceState(arg);
+                ContextCompat.fixAttributionSourceState(arg, BlackBoxCore.getHostUid());
             }
         }
         return method.invoke(mBase, args);
