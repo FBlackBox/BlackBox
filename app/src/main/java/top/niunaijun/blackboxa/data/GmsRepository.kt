@@ -2,6 +2,7 @@ package top.niunaijun.blackboxa.data
 
 import androidx.lifecycle.MutableLiveData
 import top.niunaijun.blackbox.BlackBoxCore
+import top.niunaijun.blackbox.entity.pm.InstallResult
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.app.AppManager
 import top.niunaijun.blackboxa.bean.GmsBean
@@ -36,19 +37,16 @@ class GmsRepository {
         mResultLiveData: MutableLiveData<String>,
         mUpdateInstalledLiveData: MutableLiveData<Pair<Int, Boolean>>
     ) {
-        var isSuccess = false
-        if (!BlackBoxCore.get().isInstallGms(userID)) {
-            isSuccess = BlackBoxCore.get().installGms(userID)
-        }
+        val installResult = BlackBoxCore.get().installGms(userID)
 
-        val result = if (isSuccess) {
+        val result = if (installResult.success) {
             getString(R.string.install_success)
         } else {
-            getString(R.string.install_fail_no_msg)
+            installResult.packageName + " install Fail: " + installResult.msg
         }
 
         mResultLiveData.postValue(result)
-        mUpdateInstalledLiveData.postValue(userID to isSuccess)
+        mUpdateInstalledLiveData.postValue(userID to installResult.success)
     }
 
     fun uninstallGms(

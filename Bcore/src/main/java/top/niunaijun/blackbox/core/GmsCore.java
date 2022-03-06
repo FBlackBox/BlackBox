@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.entity.pm.InstallResult;
 
 public class GmsCore {
     private static final String TAG = "GmsCore";
@@ -46,7 +47,7 @@ public class GmsCore {
         return GOOGLE_APP.contains(str) || GOOGLE_SERVICE.contains(str);
     }
 
-    private static void installPackages(Set<String> list, int userId) {
+    private static InstallResult installPackages(Set<String> list, int userId) {
         BlackBoxCore blackBoxCore = BlackBoxCore.get();
         for (String packageName : list) {
             if (blackBoxCore.isInstalled(packageName, userId)) {
@@ -58,8 +59,12 @@ public class GmsCore {
                 // Ignore
                 continue;
             }
-            blackBoxCore.installPackageAsUser(packageName, userId);
+            InstallResult installResult = blackBoxCore.installPackageAsUser(packageName, userId);
+            if (!installResult.success) {
+                return installResult;
+            }
         }
+        return new InstallResult();
     }
 
     private static void uninstallPackages(Set<String> list, int userId) {
@@ -69,9 +74,13 @@ public class GmsCore {
         }
     }
 
-    public static void installGApps(int userId) {
-        installPackages(GOOGLE_SERVICE, userId);
-        installPackages(GOOGLE_APP, userId);
+    public static InstallResult installGApps(int userId) {
+        InstallResult installResult = installPackages(GOOGLE_SERVICE, userId);
+        if (!installResult.success) {
+            return installResult;
+        }
+        installResult = installPackages(GOOGLE_APP, userId);
+        return installResult;
     }
 
     public static void uninstallGApps(int userId) {

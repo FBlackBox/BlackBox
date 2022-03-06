@@ -332,9 +332,8 @@ public class BlackBoxCore extends ClientConfiguration {
         return GmsCore.isInstalledGoogleService(userId);
     }
 
-    public boolean installGms(int userId) {
-        GmsCore.installGApps(userId);
-        return GmsCore.isInstalledGoogleService(userId);
+    public InstallResult installGms(int userId) {
+        return GmsCore.installGApps(userId);
     }
 
     public boolean uninstallGms(int userId) {
