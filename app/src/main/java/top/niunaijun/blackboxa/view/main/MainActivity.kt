@@ -16,11 +16,12 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import top.niunaijun.blackbox.BlackBoxCore
 import top.niunaijun.blackboxa.R
+import top.niunaijun.blackboxa.app.App
 import top.niunaijun.blackboxa.app.AppManager
 import top.niunaijun.blackboxa.databinding.ActivityMainBinding
+import top.niunaijun.blackboxa.util.Resolution
 import top.niunaijun.blackboxa.util.inflate
 import top.niunaijun.blackboxa.view.apps.AppsFragment
-import top.niunaijun.blackboxa.view.base.BaseActivity
 import top.niunaijun.blackboxa.view.base.LoadingActivity
 import top.niunaijun.blackboxa.view.list.ListActivity
 import top.niunaijun.blackboxa.view.setting.SettingActivity
@@ -101,26 +102,15 @@ class MainActivity : LoadingActivity() {
         }
     }
 
-    fun showFloatButton(show:Boolean) {
-        val translateAnimation:TranslateAnimation
-
-        val vis = if (show){
-            translateAnimation = TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
-                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
-                -1.0f, Animation.RELATIVE_TO_SELF, -0.0f)
-            View.VISIBLE
-        }else{
-            translateAnimation = TranslateAnimation(Animation.RELATIVE_TO_SELF,
-                0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
-                -1.0f)
-            View.GONE
-        }
-
-        translateAnimation.duration=500
-        if(viewBinding.fab.visibility!=vis){
-            viewBinding.fab.startAnimation(translateAnimation)
-            viewBinding.fab.visibility = vis
+    fun showFloatButton(show: Boolean) {
+        val tranY: Float = Resolution.convertDpToPixel(120F, App.getContext())
+        val time = 200L
+        if (show) {
+            viewBinding.fab.animate().translationY(0f).alpha(1f).setDuration(time)
+                .start()
+        } else {
+            viewBinding.fab.animate().translationY(tranY).alpha(0f).setDuration(time)
+                .start()
         }
     }
 

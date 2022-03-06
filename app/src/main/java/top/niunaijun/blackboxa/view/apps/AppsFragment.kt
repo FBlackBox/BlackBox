@@ -145,7 +145,6 @@ class AppsFragment : Fragment() {
         if (abs(yU) > min) {
             (requireActivity() as MainActivity).showFloatButton(yU < 0)
         }
-
     }
 
 

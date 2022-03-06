@@ -48,7 +48,7 @@
     <string name="gms_manager">GMS管理</string>
     <string name="jump_gms">跳转到GMS管理界面</string>
     <string name="enable_gms">开启服务</string>
-    <string name="enable_gms_hint">当前版本简单的GMS实现，目前可以让Youtube等强依赖Google Play Services的软件能正常运行。由于AccountManager尚未实现，暂时还无法登录Google账号。</string>
+    <string name="enable_gms_hint">开启Google服务，可以让Youtube等强依赖Google Play Services的软件能正常运行。</string>
     <string name="disable_gms">关闭服务</string>
     <string name="disable_gms_hint">是否清除当前Google服务环境？Google服务数据将被清空。</string>
     <string name="no_gms">当前手机没有Google服务环境。</string>

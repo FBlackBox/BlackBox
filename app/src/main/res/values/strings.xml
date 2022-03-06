@@ -48,7 +48,7 @@
     <string name="gms_manager">GMS Manager</string>
     <string name="jump_gms">Go to Gms Manager</string>
     <string name="enable_gms">Enable Service</string>
-    <string name="enable_gms_hint">he simple GMS implementation of the current version can make youtube and other software that strongly rely on Google play services run normally. Because the AccountManager has not been implemented, it is not possible to log in to the Google account for the time being.</string>
+    <string name="enable_gms_hint">Opening Google services can make youtube and other software that strongly rely on Google play services run normally.</string>
     <string name="disable_gms">Disable Service</string>
     <string name="disable_gms_hint">Clear the current Google service environment? Google service data will be cleared.</string>
     <string name="no_gms">Currently, there is no Google service environment on mobile phones.</string>
