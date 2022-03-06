@@ -18,6 +18,6 @@ HOOK_JNI(jint, getCallingUid, JNIEnv *env, jobject obj) {
 
 void BinderHook::init(JNIEnv *env) {
     const char *clazz = "android/os/Binder";
-//    JniHook::HookJniFun(env, clazz, "getCallingUid", "()I", (void *) new_getCallingUid,
-//                        (void **) (&orig_getCallingUid), true);
+    JniHook::HookJniFun(env, clazz, "getCallingUid", "()I", (void *) new_getCallingUid,
+                        (void **) (&orig_getCallingUid), true);
 }

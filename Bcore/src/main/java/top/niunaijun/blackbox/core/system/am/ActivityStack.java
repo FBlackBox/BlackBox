@@ -247,9 +247,9 @@ public class ActivityStack {
     }
 
     private Intent startActivityProcess(int userId, Intent intent, ActivityInfo
-            info, ActivityRecord record, int callingUid) {
+            info, ActivityRecord record) {
         ProxyActivityRecord stubRecord = new ProxyActivityRecord(userId, info, intent, record);
-        ProcessRecord targetApp = BProcessManagerService.get().startProcessLocked(info.packageName, info.processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
+        ProcessRecord targetApp = BProcessManagerService.get().startProcessLocked(info.packageName, info.processName, userId, -1, Binder.getCallingPid());
         if (targetApp == null) {
             throw new RuntimeException("Unable to create process, name:" + info.name);
         }
@@ -259,7 +259,7 @@ public class ActivityStack {
     private int startActivityInNewTaskLocked(int userId, Intent intent, ActivityInfo
             activityInfo, IBinder resultTo, int launchMode) {
         ActivityRecord record = newActivityRecord(intent, activityInfo, resultTo, userId);
-        Intent shadow = startActivityProcess(userId, intent, activityInfo, record, Process.myUid());
+        Intent shadow = startActivityProcess(userId, intent, activityInfo, record);
 
         shadow.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         shadow.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
@@ -275,7 +275,7 @@ public class ActivityStack {
                                           Bundle options,
                                           int userId, ActivityRecord sourceRecord, ActivityInfo activityInfo, int launchMode) {
         ActivityRecord selfRecord = newActivityRecord(intent, activityInfo, resultTo, userId);
-        Intent shadow = startActivityProcess(userId, intent, activityInfo, selfRecord, Process.myUid());
+        Intent shadow = startActivityProcess(userId, intent, activityInfo, selfRecord);
         shadow.addFlags(launchMode);
         return realStartActivityLocked(sourceRecord.processRecord.appThread, shadow, resolvedType, resultTo, resultWho, requestCode, flags, options);
     }

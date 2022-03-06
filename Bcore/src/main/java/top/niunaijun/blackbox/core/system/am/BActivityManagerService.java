@@ -69,7 +69,6 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
                 providerInfo.processName,
                 BProcessManagerService.get().getUserIdByCallingPid(callingPid),
                 -1,
-                Binder.getCallingUid(),
                 Binder.getCallingPid());
         if (processRecord == null) {
             throw new RuntimeException("Unable to create process " + providerInfo.name);
@@ -287,7 +286,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
 
     @Override
     public AppConfig initProcess(String packageName, String processName, int userId) throws RemoteException {
-        ProcessRecord processRecord = BProcessManagerService.get().startProcessLocked(packageName, processName, userId, -1, Binder.getCallingUid(), Binder.getCallingPid());
+        ProcessRecord processRecord = BProcessManagerService.get().startProcessLocked(packageName, processName, userId, -1, Binder.getCallingPid());
         if (processRecord == null)
             return null;
         return processRecord.getClientConfig();

@@ -15,6 +15,7 @@ import android.content.pm.ProviderInfo;
 import android.content.pm.ServiceInfo;
 import android.content.pm.Signature;
 import android.os.Build;
+import android.os.Process;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -288,8 +289,8 @@ public class PackageManagerCompat {
         ai.processName = BPackageManagerService.fixProcessName(p.packageName, ai.packageName);
         ai.publicSourceDir = sourceDir;
         ai.sourceDir = sourceDir;
-//        ai.uid = p.mExtras.appId;
-        ai.uid = baseApplication.uid;
+        ai.uid = p.mExtras.appId;
+//        ai.uid = baseApplication.uid;
 
         if (BuildCompat.isL()) {
             BRApplicationInfoL.get(ai)._set_primaryCpuAbi(Build.CPU_ABI);

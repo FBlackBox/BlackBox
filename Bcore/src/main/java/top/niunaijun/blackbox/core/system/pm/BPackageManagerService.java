@@ -503,8 +503,9 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 final BPackage pkg = bPackageSettings.pkg;
                 return mComponentResolver.queryReceivers(
                         intent, resolvedType, flags, pkg.receivers, userId);
+            } else {
+                return mComponentResolver.queryReceivers(intent, resolvedType, flags, userId);
             }
-            return Collections.emptyList();
         }
     }
 
@@ -642,6 +643,21 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 }
             }
             return installedPackages;
+        }
+    }
+
+    @Override
+    public String[] getPackagesForUid(int uid, int userId) throws RemoteException {
+        if (!sUserManager.exists(userId)) return new String[]{};
+        synchronized (mPackages) {
+            List<String> packages = new ArrayList<>();
+            for (BPackageSettings ps : mPackages.values()) {
+                String packageName = ps.pkg.packageName;
+                if (ps.getInstalled(userId) && getAppId(packageName) == uid) {
+                    packages.add(packageName);
+                }
+            }
+            return packages.toArray(new String[]{});
         }
     }
 

@@ -469,8 +469,8 @@ public class ComponentResolver {
                 BPackage.ActivityIntentInfo intent = a.intents.get(j);
                 if (newIntents != null && "activity".equals(type)) {
                     newIntents.add(intent);
-                    addFilter(intent);
                 }
+                addFilter(intent);
             }
         }
 

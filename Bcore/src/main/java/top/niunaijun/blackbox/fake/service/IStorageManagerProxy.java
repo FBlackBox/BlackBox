@@ -56,7 +56,7 @@ public class IStorageManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             if (args == null) {
-                StorageVolume[] volumeList = BlackBoxCore.getBStorageManager().getVolumeList(Process.myUid(), null, 0, BActivityThread.getUserId());
+                StorageVolume[] volumeList = BlackBoxCore.getBStorageManager().getVolumeList(BActivityThread.getAppUid(), null, 0, BActivityThread.getUserId());
                 if (volumeList == null) {
                     return method.invoke(who, args);
                 }
