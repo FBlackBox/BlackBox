@@ -22,7 +22,7 @@ import top.niunaijun.blackbox.utils.MethodParameterUtils;
  * 此处无Bug
  */
 public class ILocationManagerProxy extends BinderInvocationStub {
-
+    public static final String TAG = "ILocationManagerProxy";
     public ILocationManagerProxy() {
         super(BRServiceManager.get().getService(Context.LOCATION_SERVICE));
     }
@@ -91,11 +91,11 @@ public class ILocationManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Log.d(TAG, "requestLocationUpdates");
-            BLocation bLocation = new BLocation();
-            return bLocation.convert2SystemLocation();
+//            BLocation bLocation = new BLocation();
+//            return bLocation.convert2SystemLocation();
 //            Location location = new Location();
-//            MethodParameterUtils.replaceFirstAppPkg(args);
-//            return method.invoke(who, args);
+            MethodParameterUtils.replaceFirstAppPkg(args);
+            return method.invoke(who, args);
         }
     }
 }
