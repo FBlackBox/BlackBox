@@ -11,6 +11,7 @@ import top.niunaijun.blackbox.utils.AbiUtils
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.app.AppManager
 import top.niunaijun.blackboxa.bean.AppInfo
+import top.niunaijun.blackboxa.bean.InstalledAppBean
 import top.niunaijun.blackboxa.util.getString
 import java.io.File
 
@@ -56,24 +57,34 @@ class AppsRepository {
 
     }
 
-    fun getInstalledAppList(previewingLiveData: MutableLiveData<Boolean>, appsLiveData: MutableLiveData<List<AppInfo>>) {
-        previewingLiveData.postValue(true)
+    fun getInstalledAppList(userID: Int,loadingLiveData: MutableLiveData<Boolean>, appsLiveData: MutableLiveData<List<InstalledAppBean>>) {
+        loadingLiveData.postValue(true)
         synchronized(mInstalledList) {
-            appsLiveData.postValue(ArrayList(mInstalledList))
-            previewingLiveData.postValue(false)
+            val blackBoxCore = BlackBoxCore.get()
+            val newInstalledList = mInstalledList.map {
+                InstalledAppBean(it.name,it.icon,it.packageName,it.sourceDir,blackBoxCore.isInstalled(it.packageName,userID))
+            }
+            appsLiveData.postValue(newInstalledList)
+            loadingLiveData.postValue(false)
         }
 
     }
 
-    fun getInstalledModuleList(previewingLiveData: MutableLiveData<Boolean>, appsLiveData: MutableLiveData<List<AppInfo>>) {
+    fun getInstalledModuleList(
+        loadingLiveData: MutableLiveData<Boolean>,
+        appsLiveData: MutableLiveData<List<InstalledAppBean>>
+    ) {
 
-        previewingLiveData.postValue(true)
+        loadingLiveData.postValue(true)
         synchronized(mInstalledList) {
+            val blackBoxCore = BlackBoxCore.get()
             val moduleList = mInstalledList.filter {
                 it.isXpModule
+            }.map {
+                InstalledAppBean(it.name,it.icon,it.packageName,it.sourceDir,blackBoxCore.isInstalledXposedModule(it.packageName))
             }
             appsLiveData.postValue(moduleList)
-            previewingLiveData.postValue(false)
+            loadingLiveData.postValue(false)
         }
 
     }

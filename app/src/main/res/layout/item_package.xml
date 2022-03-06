@@ -6,13 +6,30 @@
         android:padding="8dp"
         android:layout_height="wrap_content">
 
-    <ImageView
-            android:id="@+id/icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
 
+    <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:id="@+id/icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+
+        <com.othershe.cornerlabelview.CornerLabelView
+                android:id="@+id/cornerLabel"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="top|start"
+                android:visibility="invisible"
+                app:bg_color="@color/primary"
+                app:position="left_top"
+                app:text="*"
+                app:side_length="22dp" />
+    </FrameLayout>
 
     <LinearLayout
+            android:layout_weight="1"
             android:orientation="vertical"
             android:layout_gravity="center"
             android:layout_marginStart="8dp"

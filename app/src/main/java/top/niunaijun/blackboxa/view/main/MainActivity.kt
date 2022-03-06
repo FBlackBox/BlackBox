@@ -92,7 +92,7 @@ class MainActivity : LoadingActivity() {
         viewBinding.fab.setOnClickListener {
             val userId = viewBinding.viewPager.currentItem
             val intent = Intent(this, ListActivity::class.java)
-            intent.putExtra("userId", userId)
+            intent.putExtra("userID", userId)
             apkPathResult.launch(intent)
         }
     }
@@ -123,7 +123,7 @@ class MainActivity : LoadingActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
                 it.data?.let { data ->
-                    val userId = data.getIntExtra("userId", 0)
+                    val userId = data.getIntExtra("userID", 0)
                     val source = data.getStringExtra("source")
                     if (source != null) {
                         fragmentList[userId].installApk(source)
