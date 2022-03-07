@@ -15,7 +15,6 @@ import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
 import android.net.Uri;
 import android.os.Binder;
-import android.os.Debug;
 import android.os.RemoteException;
 import android.text.TextUtils;
 
@@ -43,11 +42,9 @@ import top.niunaijun.blackbox.entity.pm.InstalledPackage;
 import top.niunaijun.blackbox.utils.AbiUtils;
 import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.Slog;
-import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
 import top.niunaijun.blackbox.utils.compat.XposedParserCompat;
 
-import static android.content.pm.PackageManager.MATCH_ALL;
 import static android.content.pm.PackageManager.MATCH_DIRECT_BOOT_UNAWARE;
 
 
@@ -534,7 +531,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 BPackageSettings ps = mPackages.get(packageName);
                 if (ps == null)
                     return;
-                if (ps.installOption.isFlag(InstallOption.FLAG_Xposed) && userId != BUserHandle.USER_XPOSED) {
+                if (ps.installOption.isFlag(InstallOption.FLAG_XPOSED) && userId != BUserHandle.USER_XPOSED) {
                     return;
                 }
                 if (!isInstalled(packageName, userId)) {
@@ -568,7 +565,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 if (ps == null)
                     return;
                 BProcessManagerService.get().killAllByPackageName(packageName);
-                if (ps.installOption.isFlag(InstallOption.FLAG_Xposed)) {
+                if (ps.installOption.isFlag(InstallOption.FLAG_XPOSED)) {
                     for (BUserInfo user : BUserManagerService.get().getAllUsers()) {
                         int i = BPackageInstallerService.get().uninstallPackageAsUser(ps, true, user.id);
                         if (i < 0) {
@@ -662,6 +659,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
     }
 
     private InstallResult installPackageAsUserLocked(String file, InstallOption option, int userId) {
+        long l = System.currentTimeMillis();
         InstallResult result = new InstallResult();
         File apkFile = null;
         try {
@@ -676,10 +674,10 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 apkFile = new File(file);
             }
 
-            if (option.isFlag(InstallOption.FLAG_Xposed) && userId != BUserHandle.USER_XPOSED) {
+            if (option.isFlag(InstallOption.FLAG_XPOSED) && userId != BUserHandle.USER_XPOSED) {
                 return new InstallResult().installError("Please install the XP module in XP module management");
             }
-            if (option.isFlag(InstallOption.FLAG_Xposed) && !XposedParserCompat.isXPModule(apkFile.getAbsolutePath())) {
+            if (option.isFlag(InstallOption.FLAG_XPOSED) && !XposedParserCompat.isXPModule(apkFile.getAbsolutePath())) {
                 return new InstallResult().installError("not a XP module");
             }
 
@@ -716,8 +714,9 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 bPackageSettings.setInstalled(true, userId);
                 bPackageSettings.save();
             }
+            mComponentResolver.removeAllComponents(bPackageSettings.pkg);
             mComponentResolver.addAllComponents(bPackageSettings.pkg);
-            mSettings.scanPackage();
+            mSettings.scanPackage(aPackage.packageName);
             onPackageInstalled(bPackageSettings.pkg.packageName, userId);
             return result;
         } catch (Throwable t) {
@@ -726,6 +725,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             if (apkFile != null && option.isFlag(InstallOption.FLAG_URI_FILE)) {
                 FileUtils.deleteDir(apkFile);
             }
+            Slog.d(TAG, "install finish: " + (System.currentTimeMillis() - l) + "ms");
         }
         return result;
     }

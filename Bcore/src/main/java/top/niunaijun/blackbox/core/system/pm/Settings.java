@@ -154,8 +154,14 @@ import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
                 if (!app.isDirectory()) {
                     continue;
                 }
-                updatePackageLP(app);
+                scanPackage(app.getName());
             }
+        }
+    }
+
+    public void scanPackage(String packageName) {
+        synchronized (mPackages) {
+            updatePackageLP(BEnvironment.getAppDir(packageName));
         }
     }
 
