@@ -51,6 +51,17 @@ public class MethodParameterUtils {
         }
     }
 
+    public static void replaceFirstUid(Object[] args) {
+        for (int i = 0; i < args.length; i++) {
+            if (args[i] instanceof Integer) {
+                int uid = (int) args[i];
+                if (uid == BActivityThread.getBUid()) {
+                    args[i] = BlackBoxCore.getHostUid();
+                }
+            }
+        }
+    }
+
     public static void replaceLastUid(Object[] args) {
         int index = ArrayUtils.indexOfLast(args, Integer.class);
         if (index != -1) {
