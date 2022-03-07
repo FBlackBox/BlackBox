@@ -96,4 +96,18 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
             return Md5Utils.md5(BlackBoxCore.getHostPkg());
         }
     }
+    @ProxyMethod("getCellLocation")
+    public static class GetCellLocation extends MethodHook{
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            return method.invoke(who, args);
+        }
+    }
+    @ProxyMethod("getAllCellInfo")
+    public static class GetAllCellInfo extends MethodHook{
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            return method.invoke(who, args);
+        }
+    }
 }
