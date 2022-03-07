@@ -547,7 +547,6 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 if (removeApp) {
                     mPackages.remove(packageName);
                     mComponentResolver.removeAllComponents(ps.pkg);
-                    mSettings.scanPackage();
                 } else {
                     ps.removeUser(userId);
                     ps.save();
@@ -584,7 +583,6 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 }
                 mPackages.remove(packageName);
                 mComponentResolver.removeAllComponents(ps.pkg);
-                mSettings.scanPackage();
             }
         }
     }
