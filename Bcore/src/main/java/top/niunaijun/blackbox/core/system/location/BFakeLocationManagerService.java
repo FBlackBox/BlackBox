@@ -38,30 +38,43 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
             return mBLocationConfig.pattern;
         }
     }
+
     @Override
     public void setPattern(int userId, String pkg, int pattern){
         synchronized (mLocationConfigs) {
             getOrCreateConfig(userId, pkg).pattern = pattern;
         }
     }
+
     @Override
     public void setCell(int userId, String pkg,BCell cell) {
         getOrCreateConfig(userId, pkg).cell = cell;
     }
+
     @Override
     public void setAllCell(int userId, String pkg, List<BCell> cells){
         getOrCreateConfig(userId, pkg).allCell = cells;
     }
 
     @Override
+    public void setSurroundingCell(int userId, String pkg,List<BCell> cells){
+        getOrCreateConfig(userId, pkg).surroundingCell = cells;
+    }
+
+    @Override
     public void setGlobalCell(BCell cell) {
         mGlobalConfig.cell = cell;
     }
+
     @Override
     public void setGlobalAllCell(List<BCell> cells) {
         mGlobalConfig.allCell = cells;
     }
 
+    @Override
+    public void setGlobalSurroundingCell(List<BCell> cells){
+        mGlobalConfig.surroundingCell = cells;
+    }
     @Override
     public BCell getCell(int userId, String pkg) {
         BLocationConfig mBLocationConfig = getOrCreateConfig(userId, pkg);
@@ -75,6 +88,7 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
                 return null;
         }
     }
+
     @Override
     public List<BCell> getAllCell(int userId, String pkg){
         BLocationConfig mBLocationConfig = getOrCreateConfig(userId, pkg);
@@ -88,10 +102,12 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
                 return null;
         }
     }
+
     @Override
     public void setLocation(int userId, String pkg,BLocation location){
         getOrCreateConfig(userId, pkg).location = location;
     }
+
     @Override
     public BLocation getLocation(int userId, String pkg){
         BLocationConfig mBLocationConfig = getOrCreateConfig(userId, pkg);
@@ -105,10 +121,12 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
                 return null;
         }
     }
+
     @Override
     public void setGlobalLocation(BLocation location){
         mGlobalConfig.location = location;
     }
+
     @Override
     public BLocation getGlobalLocation() {
         return mGlobalConfig.location;

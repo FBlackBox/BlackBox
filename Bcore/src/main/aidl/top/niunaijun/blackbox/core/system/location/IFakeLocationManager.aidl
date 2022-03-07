@@ -16,9 +16,13 @@ interface IFakeLocationManager {
 
     void setAllCell(int userId, String pkg,in  List<BCell> cell);
 
+    void setSurroundingCell(int userId, String pkg,in  List<BCell> cells);
+
     void setGlobalCell(in BCell cell);
 
     void setGlobalAllCell(in List<BCell> cell);
+
+    void setGlobalSurroundingCell(in List<BCell> cell);
 
     BCell getCell(int userId, String pkg);
 
