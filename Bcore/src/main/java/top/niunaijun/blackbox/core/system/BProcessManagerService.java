@@ -273,7 +273,7 @@ public class BProcessManagerService implements ISystemService {
             if (callingProcess == null) {
                 return BPackageManagerService.get().getAppId(packageName);
             }
-            return callingProcess.buid;
+            return BUserHandle.getAppId(callingProcess.buid);
         }
     }
 

@@ -9,8 +9,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
-import android.os.Process;
-import android.util.Log;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -23,11 +21,8 @@ import top.niunaijun.blackbox.core.env.AppSystemEnv;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
-import top.niunaijun.blackbox.fake.service.base.ValueMethodProxy;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 import top.niunaijun.blackbox.utils.Reflector;
-import top.niunaijun.blackbox.utils.Slog;
-import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.ParceledListSliceCompat;
 
 /**
@@ -237,7 +232,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             int flags = (int) args[2];
             List<ProviderInfo> providers = BlackBoxCore.getBPackageManager().
-                    queryContentProviders(BActivityThread.getAppProcessName(), BActivityThread.getAppUid(), flags, BActivityThread.getUserId());
+                    queryContentProviders(BActivityThread.getAppProcessName(), BActivityThread.getBUid(), flags, BActivityThread.getUserId());
             return ParceledListSliceCompat.create(providers);
         }
     }
@@ -269,7 +264,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
     public static class GetPackagesForUid extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            return BlackBoxCore.getBPackageManager().getPackagesForUid(BActivityThread.getAppUid());
+            return BlackBoxCore.getBPackageManager().getPackagesForUid(BActivityThread.getBUid());
         }
     }
 

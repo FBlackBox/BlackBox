@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import black.android.app.BRActivityThread;
+import black.android.os.BRUserHandle;
 import me.weishu.reflection.Reflection;
 import top.canyie.pine.PineConfig;
 import top.niunaijun.blackbox.app.LauncherActivity;
@@ -80,6 +81,7 @@ public class BlackBoxCore extends ClientConfiguration {
     private final List<AppLifecycleCallback> mAppLifecycleCallbacks = new ArrayList<>();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final int mHostUid = Process.myUid();
+    private final int mHostUserId = BRUserHandle.get().myUserId();
 
     public static BlackBoxCore get() {
         return sBlackBoxCore;
@@ -99,6 +101,10 @@ public class BlackBoxCore extends ClientConfiguration {
 
     public static int getHostUid() {
         return get().mHostUid;
+    }
+
+    public static int getHostUserId() {
+        return get().mHostUserId;
     }
 
     public static Context getContext() {
@@ -133,7 +139,7 @@ public class BlackBoxCore extends ClientConfiguration {
         }
         if (BlackBoxCore.get().isBlackProcess()) {
             BEnvironment.load();
-            if (processName.endsWith("p1")) {
+            if (processName.endsWith("p0")) {
 //                android.os.Debug.waitForDebugger();
             }
 //            android.os.Debug.waitForDebugger();

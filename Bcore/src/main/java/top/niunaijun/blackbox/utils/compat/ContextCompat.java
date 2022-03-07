@@ -2,7 +2,6 @@ package top.niunaijun.blackbox.utils.compat;
 
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.os.Process;
 
 import black.android.app.BRContextImpl;
 import black.android.app.BRContextImplKitkat;
@@ -58,7 +57,7 @@ public class ContextCompat {
             BRContentResolver.get(context.getContentResolver())._set_mPackageName(BlackBoxCore.getHostPkg());
 
             if (BuildCompat.isS()) {
-                fixAttributionSourceState(BRContextImpl.get(context).getAttributionSource(), BActivityThread.getAppUid());
+                fixAttributionSourceState(BRContextImpl.get(context).getAttributionSource(), BActivityThread.getBUid());
             }
         } catch (Exception e) {
             e.printStackTrace();

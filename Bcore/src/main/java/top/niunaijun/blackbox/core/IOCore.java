@@ -104,7 +104,7 @@ public class IOCore {
 
         try {
             ApplicationInfo packageInfo = BlackBoxCore.getBPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA, BActivityThread.getUserId());
-            int systemUserId = BRUserHandle.get().myUserId();
+            int systemUserId = BlackBoxCore.getHostUserId();
             rule.put(String.format("/data/data/%s/lib", packageName), packageInfo.nativeLibraryDir);
             rule.put(String.format("/data/user/%d/%s/lib", systemUserId, packageName), packageInfo.nativeLibraryDir);
 

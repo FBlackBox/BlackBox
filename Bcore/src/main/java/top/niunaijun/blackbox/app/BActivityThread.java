@@ -150,8 +150,12 @@ public class BActivityThread extends IBActivityThread.Stub {
         return getAppConfig() == null ? -1 : getAppConfig().bpid;
     }
 
-    public static int getAppUid() {
+    public static int getBUid() {
         return getAppConfig() == null ? BUserHandle.AID_APP_START : getAppConfig().buid;
+    }
+
+    public static int getBAppId() {
+        return BUserHandle.getAppId(getBUid());
     }
 
     public static int getCallingBUid() {

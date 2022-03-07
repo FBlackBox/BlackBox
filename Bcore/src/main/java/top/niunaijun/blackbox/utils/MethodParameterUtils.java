@@ -1,7 +1,5 @@
 package top.niunaijun.blackbox.utils;
 
-import android.os.Process;
-
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -57,7 +55,7 @@ public class MethodParameterUtils {
         int index = ArrayUtils.indexOfLast(args, Integer.class);
         if (index != -1) {
             int uid = (int) args[index];
-            if (uid == BActivityThread.getAppUid()) {
+            if (uid == BActivityThread.getBUid()) {
                 args[index] = BlackBoxCore.getHostUid();
             }
         }

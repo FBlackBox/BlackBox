@@ -75,7 +75,7 @@ public class OsStub extends ClassInvocationStub {
                 return callUid;
 //            Log.d(TAG, "getuid: " + BActivityThread.getAppPackageName() + ", " + BActivityThread.getAppUid());
             if (BActivityThread.currentActivityThread().isInit()) {
-                return BActivityThread.getAppUid();
+                return BActivityThread.getBAppId();
             } else {
                 return callUid;
             }
