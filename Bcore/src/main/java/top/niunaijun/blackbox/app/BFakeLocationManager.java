@@ -1,7 +1,9 @@
 package top.niunaijun.blackbox.app;
 
 import top.niunaijun.blackbox.core.system.location.IFakeLocationManager;
-
+/**
+ * Created by BlackBoxing on 3/8/22.
+ **/
 public class BFakeLocationManager {
     private static final BFakeLocationManager sBFakeLocationManager = new BFakeLocationManager();
 

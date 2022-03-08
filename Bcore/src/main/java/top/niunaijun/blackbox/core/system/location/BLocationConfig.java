@@ -7,7 +7,9 @@ import java.util.List;
 
 import top.niunaijun.blackbox.entity.BCell;
 import top.niunaijun.blackbox.entity.BLocation;
-
+/**
+ * Created by BlackBoxing on 3/8/22.
+ **/
 public class BLocationConfig implements Parcelable {
     int pattern;
     BCell cell;

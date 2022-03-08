@@ -9,7 +9,9 @@ import java.util.List;
 import top.niunaijun.blackbox.app.BFakeLocationManager;
 import top.niunaijun.blackbox.entity.BCell;
 import top.niunaijun.blackbox.entity.BLocation;
-
+/**
+ * Created by BlackBoxing on 3/8/22.
+ **/
 public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
     private static final BFakeLocationManagerService sService = new BFakeLocationManagerService();
     private final SparseArray<ArrayMap<String, BLocationConfig>> mLocationConfigs = new SparseArray<>();
