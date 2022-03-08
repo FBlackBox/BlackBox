@@ -95,7 +95,6 @@ public class HookManager {
             addInjector(new IDevicePolicyManagerProxy());
             addInjector(new IAccountManagerProxy());
             addInjector(new IConnectivityManagerProxy());
-            addInjector(new IWifiManagerProxy());
             addInjector(new IPhoneSubInfoProxy());
             addInjector(new IMediaRouterServiceProxy());
             addInjector(new IPowerManagerProxy());
@@ -104,6 +103,12 @@ public class HookManager {
             addInjector(new IVibratorServiceProxy());
 
             addInjector(AppInstrumentation.get());
+            /*
+            * It takes time to test and enhance the compatibility of WifiManager
+            * (only tested in Android 10).
+            * commented by BlackBoxing at 2022/03/08
+            * */
+            addInjector(new IWifiManagerProxy());
 
             // 12.0
             if (BuildCompat.isS()) {
