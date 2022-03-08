@@ -7,5 +7,5 @@ import top.niunaijun.blackreflection.annotation.BStaticMethod;
 @BClassName("android.net.wifi.WifiSsid")
 public interface WifiSsid {
     @BStaticMethod
-    Object createFromAsciiEncoded();
+    Object createFromAsciiEncoded(String asciiEncoded);
 }
