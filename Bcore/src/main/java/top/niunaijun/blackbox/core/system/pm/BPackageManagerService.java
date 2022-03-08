@@ -402,8 +402,8 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
 //                if (filterAppAccessLPr(ps, callingUid, userId)) {
 //                    continue;
 //                }
-//                if (GmsCore.isGoogleAppOrService(ps.pkg.packageName))
-//                    continue;
+                if (GmsCore.isGoogleAppOrService(ps.pkg.packageName))
+                    continue;
                 ApplicationInfo ai = PackageManagerCompat.generateApplicationInfo(ps.pkg, flags,
                         ps.readUserState(userId), userId);
                 if (ai != null) {
