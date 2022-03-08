@@ -20,7 +20,10 @@ public class RegisteredServicesParser {
             int xmlId = meta.getInt(name);
             if (xmlId != 0) {
                 try {
-                    return getResources(context, serviceInfo.applicationInfo).getXml(xmlId);
+                    Resources resources = getResources(context, serviceInfo.applicationInfo);
+                    if (resources == null)
+                        return null;
+                    return resources.getXml(xmlId);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
