@@ -42,6 +42,7 @@ import top.niunaijun.blackbox.fake.service.ITelephonyRegistryProxy;
 import top.niunaijun.blackbox.fake.service.IUserManagerProxy;
 import top.niunaijun.blackbox.fake.service.IVibratorServiceProxy;
 import top.niunaijun.blackbox.fake.service.IVpnManagerProxy;
+import top.niunaijun.blackbox.fake.service.IWifiManagerProxy;
 import top.niunaijun.blackbox.fake.service.IWindowManagerProxy;
 import top.niunaijun.blackbox.fake.service.context.ContentServiceStub;
 import top.niunaijun.blackbox.fake.service.context.RestrictionsManagerStub;
@@ -102,6 +103,12 @@ public class HookManager {
             addInjector(new IVibratorServiceProxy());
 
             addInjector(AppInstrumentation.get());
+            /*
+            * It takes time to test and enhance the compatibility of WifiManager
+            * (only tested in Android 10).
+            * commented by BlackBoxing at 2022/03/08
+            * */
+            addInjector(new IWifiManagerProxy());
 
             // 12.0
             if (BuildCompat.isS()) {

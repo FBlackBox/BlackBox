@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 
 import black.android.location.BRILocationManagerStub;
 import black.android.os.BRServiceManager;
+import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.entity.BLocation;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
@@ -65,6 +66,7 @@ public class ILocationManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Log.d(TAG, "getLastLocation");
+            Log.d(TAG,BlackBoxCore.getHostPkg());
 
 //            BLocation bLocation = new BLocation(20.15154, 45.58584);
 //            return bLocation.convert2SystemLocation();
@@ -78,6 +80,8 @@ public class ILocationManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Log.d(TAG, "getLastKnownLocation");
+
+            Log.d(TAG,BlackBoxCore.getHostPkg());
 //            BLocation bLocation = new BLocation(20.15154, 45.58584);
 //            return bLocation.convert2SystemLocation();
 //            Location location = new Location();
