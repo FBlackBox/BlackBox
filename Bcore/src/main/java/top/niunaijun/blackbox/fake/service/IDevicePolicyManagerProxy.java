@@ -59,12 +59,29 @@ public class IDevicePolicyManagerProxy extends BinderInvocationStub {
         }
     }
 
+    @ProxyMethod("getDeviceOwnerName")
+    public static class getDeviceOwnerName extends MethodHook {
+
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            return "BlackBox";
+        }
+    }
+
     @ProxyMethod("getProfileOwnerName")
     public static class getProfileOwnerName extends MethodHook {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             return "BlackBox";
+        }
+    }
+
+    @ProxyMethod("isDeviceProvisioned")
+    public static class isDeviceProvisioned extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            return true;
         }
     }
 }

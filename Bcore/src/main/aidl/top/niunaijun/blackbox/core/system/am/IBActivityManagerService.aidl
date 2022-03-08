@@ -54,4 +54,8 @@ interface IBActivityManagerService {
 
     String getCallingPackage(in IBinder token, int userId);
     ComponentName getCallingActivity(in IBinder token, int userId);
+
+    void getIntentSender(in IBinder target, String packageName, int uid, int userId);
+    String getPackageForIntentSender(in IBinder target, int userId);
+    int getUidForIntentSender(in IBinder target, int userId);
 }

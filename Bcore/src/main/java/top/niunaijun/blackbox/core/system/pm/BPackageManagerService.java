@@ -402,8 +402,8 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
 //                if (filterAppAccessLPr(ps, callingUid, userId)) {
 //                    continue;
 //                }
-                if (GmsCore.isGoogleAppOrService(ps.pkg.packageName))
-                    continue;
+//                if (GmsCore.isGoogleAppOrService(ps.pkg.packageName))
+//                    continue;
                 ApplicationInfo ai = PackageManagerCompat.generateApplicationInfo(ps.pkg, flags,
                         ps.readUserState(userId), userId);
                 if (ai != null) {
@@ -545,7 +545,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 }
 
                 if (removeApp) {
-                    mPackages.remove(packageName);
+                    mSettings.removePackage(packageName);
                     mComponentResolver.removeAllComponents(ps.pkg);
                 } else {
                     ps.removeUser(userId);
@@ -581,7 +581,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                         onPackageUninstalled(packageName, true, userId);
                     }
                 }
-                mPackages.remove(packageName);
+                mSettings.removePackage(packageName);
                 mComponentResolver.removeAllComponents(ps.pkg);
             }
         }

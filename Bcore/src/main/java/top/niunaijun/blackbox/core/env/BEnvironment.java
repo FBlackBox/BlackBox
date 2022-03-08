@@ -62,6 +62,10 @@ public class BEnvironment {
         return new File(getSystemDir(), "uid.conf");
     }
 
+    public static File getSharedUserConf() {
+        return new File(getSystemDir(), "shared-user.conf");
+    }
+
     public static File getXPModuleConf() {
         return new File(getSystemDir(), "xposed-module.conf");
     }

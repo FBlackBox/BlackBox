@@ -472,13 +472,16 @@ public class BActivityThread extends IBActivityThread.Stub {
         if (!isInit()) {
             bindApplication(BActivityThread.getAppConfig().packageName, BActivityThread.getAppConfig().processName);
         }
-        ContentProviderClient contentProviderClient = BlackBoxCore.getContext()
-                .getContentResolver().acquireContentProviderClient(providerInfo.authority);
-
-        IInterface iInterface = BRContentProviderClient.get(contentProviderClient).mContentProvider();
-        if (iInterface == null)
-            return null;
-        return iInterface.asBinder();
+        String[] split = providerInfo.authority.split(";");
+        for (String auth : split) {
+            ContentProviderClient contentProviderClient = BlackBoxCore.getContext()
+                    .getContentResolver().acquireContentProviderClient(auth);
+            IInterface iInterface = BRContentProviderClient.get(contentProviderClient).mContentProvider();
+            if (iInterface == null)
+                continue;
+            return iInterface.asBinder();
+        }
+        return null;
     }
 
     @Override

@@ -37,11 +37,13 @@ import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
 
     final ArrayMap<String, BPackageSettings> mPackages = new ArrayMap<>();
     private final Map<String, Integer> mAppIds = new HashMap<>();
+    private final Map<String, SharedUserSetting> mSharedUsers = SharedUserSetting.sSharedUsers;
     private int mCurrUid = 0;
 
     public Settings() {
         synchronized (mPackages) {
             loadUidLP();
+            SharedUserSetting.loadSharedUsers();
         }
     }
 
@@ -70,10 +72,23 @@ import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
 
     boolean registerAppIdLPw(BPackageSettings p) {
         boolean createdNew = false;
+        String sharedUserId = p.pkg.mSharedUserId;
+        SharedUserSetting sharedUserSetting = null;
+        if (sharedUserId != null) {
+            sharedUserSetting = mSharedUsers.get(sharedUserId);
+            if (sharedUserSetting == null) {
+                sharedUserSetting = new SharedUserSetting(sharedUserId);
+                sharedUserSetting.userId = acquireAndRegisterNewAppIdLPw(p);
+                mSharedUsers.put(sharedUserId, sharedUserSetting);
+            }
+        }
+        if (sharedUserSetting != null) {
+            p.appId = sharedUserSetting.userId;
+            Slog.d(TAG, p.pkg.packageName + " sharedUserId = " + sharedUserId + ", setAppId = " + p.appId);
+        }
         if (p.appId == 0) {
             // Assign new user ID
             p.appId = acquireAndRegisterNewAppIdLPw(p);
-            createdNew = true;
         }
         if (p.appId < 0) {
             createdNew = false;
@@ -81,8 +96,11 @@ import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
 //                    "Package " + p.name + " could not be assigned a valid UID");
 //            throw new PackageManagerException(INSTALL_FAILED_INSUFFICIENT_STORAGE,
 //                    "Package " + p.name + " could not be assigned a valid UID");
+        } else {
+            createdNew = true;
         }
         saveUidLP();
+        SharedUserSetting.saveSharedUsers();
         return createdNew;
     }
 
@@ -196,7 +214,7 @@ import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
             e.printStackTrace();
             // bad package
             FileUtils.deleteDir(app);
-            mPackages.remove(packageName);
+            removePackage(packageName);
             BProcessManagerService.get().killAllByPackageName(packageName);
             BPackageManagerService.get().onPackageUninstalled(packageName, true, BUserHandle.USER_ALL);
             Slog.d(TAG, "bad Package: " + packageName);
@@ -213,6 +231,10 @@ import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
         }
         aPackage.applicationInfo = BlackBoxCore.getPackageManager().getPackageInfo(aPackage.packageName, 0).applicationInfo;
         return getPackageLPw(aPackage.packageName, aPackage, option);
+    }
+
+    public void removePackage(String packageName) {
+        mPackages.remove(packageName);
     }
 
     private PackageParser.Package parserApk(String file) {

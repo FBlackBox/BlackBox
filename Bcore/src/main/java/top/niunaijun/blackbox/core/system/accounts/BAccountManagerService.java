@@ -672,11 +672,11 @@ public class BAccountManagerService extends IBAccountManagerService.Stub impleme
         if (response == null) throw new IllegalArgumentException("response is null");
         if (accountType == null) throw new IllegalArgumentException("accountType is null");
 
-        final int pid = Binder.getCallingPid();
-        final int uid = Binder.getCallingUid();
+//        final int pid = Binder.getCallingPid();
+//        final int uid = Binder.getCallingUid();
         final Bundle options = (optionsIn == null) ? new Bundle() : optionsIn;
-        options.putInt(AccountManager.KEY_CALLER_UID, uid);
-        options.putInt(AccountManager.KEY_CALLER_PID, pid);
+//        options.putInt(AccountManager.KEY_CALLER_UID, uid);
+//        options.putInt(AccountManager.KEY_CALLER_PID, pid);
 
         BUserAccounts accounts = getUserAccounts(userId);
         new Session(accounts, response, accountType, expectActivityLaunch,

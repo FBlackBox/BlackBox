@@ -23,7 +23,6 @@ import black.android.app.BRLoadedApkReceiverDispatcher;
 import black.android.app.BRLoadedApkReceiverDispatcherInnerReceiver;
 import black.android.content.BRContentProviderNative;
 import black.android.content.pm.BRUserInfo;
-import black.android.os.BRUserHandle;
 import black.android.util.BRSingleton;
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.BActivityThread;
@@ -35,6 +34,7 @@ import top.niunaijun.blackbox.fake.delegate.ContentProviderDelegate;
 import top.niunaijun.blackbox.fake.delegate.InnerReceiverDelegate;
 import top.niunaijun.blackbox.fake.delegate.ServiceConnectionDelegate;
 import top.niunaijun.blackbox.fake.frameworks.BActivityManager;
+import top.niunaijun.blackbox.fake.frameworks.BPackageManager;
 import top.niunaijun.blackbox.fake.hook.ClassInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
@@ -43,8 +43,11 @@ import top.niunaijun.blackbox.fake.service.context.providers.ContentProviderStub
 import top.niunaijun.blackbox.proxy.ProxyActivity;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.proxy.record.ProxyBroadcastRecord;
+import top.niunaijun.blackbox.proxy.record.ProxyPendingActivityRecord;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 import top.niunaijun.blackbox.utils.Reflector;
+import top.niunaijun.blackbox.utils.Slog;
+import top.niunaijun.blackbox.utils.compat.ActivityManagerCompat;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.ParceledListSliceCompat;
 
@@ -314,14 +317,28 @@ public class IActivityManagerProxy extends ClassInvocationStub {
     public static class GetIntentSender extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            MethodParameterUtils.replaceFirstAppPkg(args);
+            int type = (int) args[0];
             Intent[] intents = (Intent[]) args[getIntentsIndex(args)];
+            MethodParameterUtils.replaceFirstAppPkg(args);
 
-            // todo
-            for (Intent intent : intents) {
-                intent.setComponent(new ComponentName(BlackBoxCore.getHostPkg(), ProxyActivity.P0.class.getName()));
+            for (int i = 0; i < intents.length; i++) {
+                Intent intent = intents[i];
+                switch (type) {
+                    case ActivityManagerCompat.INTENT_SENDER_ACTIVITY:
+                        Intent shadow = new Intent();
+                        shadow.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        shadow.setComponent(new ComponentName(BlackBoxCore.getHostPkg(), ProxyManifest.getProxyActivity(BActivityThread.getAppPid())));
+                        ProxyPendingActivityRecord.saveStub(shadow, intent, BActivityThread.getUserId());
+                        intents[i] = shadow;
+                        break;
+                }
             }
-            return method.invoke(who, args);
+            IInterface invoke = (IInterface) method.invoke(who, args);
+            if (invoke != null) {
+                String[] packagesForUid = BPackageManager.get().getPackagesForUid(BActivityThread.getCallingBUid());
+                BlackBoxCore.getBActivityManager().getIntentSender(invoke.asBinder(), packagesForUid[0], BActivityThread.getCallingBUid());
+            }
+            return invoke;
         }
 
         private int getIntentsIndex(Object[] args) {
@@ -335,6 +352,24 @@ public class IActivityManagerProxy extends ClassInvocationStub {
             } else {
                 return 5;
             }
+        }
+    }
+
+    @ProxyMethod("getPackageForIntentSender")
+    public static class getPackageForIntentSender extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            IInterface invoke = (IInterface) args[0];
+            return BlackBoxCore.getBActivityManager().getPackageForIntentSender(invoke.asBinder());
+        }
+    }
+
+    @ProxyMethod("getUidForIntentSender")
+    public static class getUidForIntentSender extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            IInterface invoke = (IInterface) args[0];
+            return BlackBoxCore.getBActivityManager().getUidForIntentSender(invoke.asBinder());
         }
     }
 

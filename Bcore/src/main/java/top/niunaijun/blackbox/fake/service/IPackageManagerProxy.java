@@ -11,6 +11,7 @@ import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 
 import black.android.app.BRActivityThread;
@@ -23,6 +24,7 @@ import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 import top.niunaijun.blackbox.utils.Reflector;
+import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.ParceledListSliceCompat;
 
 /**
@@ -75,6 +77,21 @@ public class IPackageManagerProxy extends BinderInvocationStub {
             String resolvedType = (String) args[1];
             int flags = (int) args[2];
             ResolveInfo resolveInfo = BlackBoxCore.getBPackageManager().resolveIntent(intent, resolvedType, flags, BActivityThread.getUserId());
+            if (resolveInfo != null) {
+                return resolveInfo;
+            }
+            return method.invoke(who, args);
+        }
+    }
+
+    @ProxyMethod("resolveService")
+    public static class ResolveService extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            Intent intent = (Intent) args[0];
+            String resolvedType = (String) args[1];
+            int flags = (int) args[2];
+            ResolveInfo resolveInfo = BlackBoxCore.getBPackageManager().resolveService(intent, flags, resolvedType, BActivityThread.getUserId());
             if (resolveInfo != null) {
                 return resolveInfo;
             }
@@ -264,7 +281,9 @@ public class IPackageManagerProxy extends BinderInvocationStub {
     public static class GetPackagesForUid extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            return BlackBoxCore.getBPackageManager().getPackagesForUid(BActivityThread.getBUid());
+            String[] packagesForUid = BlackBoxCore.getBPackageManager().getPackagesForUid((Integer) args[0]);
+            Slog.d(TAG, BActivityThread.getAppProcessName() + " GetPackagesForUid: " + Arrays.toString(packagesForUid));
+            return packagesForUid;
         }
     }
 

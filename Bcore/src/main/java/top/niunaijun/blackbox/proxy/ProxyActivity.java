@@ -6,10 +6,13 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.fake.hook.HookManager;
 import top.niunaijun.blackbox.fake.service.HCallbackProxy;
 import top.niunaijun.blackbox.proxy.record.ProxyActivityRecord;
+import top.niunaijun.blackbox.proxy.record.ProxyPendingActivityRecord;
+import top.niunaijun.blackbox.utils.Slog;
 
 /**
  * Created by Milk on 3/28/21.
@@ -35,7 +38,17 @@ public class ProxyActivity extends Activity {
         if (record.mTarget != null) {
             record.mTarget.setExtrasClassLoader(BActivityThread.getApplication().getClassLoader());
             startActivity(record.mTarget);
+            return;
         }
+        handlePendingActivity();
+    }
+
+    private void handlePendingActivity() {
+        ProxyPendingActivityRecord pendingActivityRecord = ProxyPendingActivityRecord.create(getIntent());
+        Slog.d(TAG, "handlePendingActivity: " + pendingActivityRecord);
+        if (pendingActivityRecord.mTarget == null)
+            return;
+        BlackBoxCore.getBActivityManager().startActivity(pendingActivityRecord.mTarget, pendingActivityRecord.mUserId);
     }
 
     public static class P0 extends ProxyActivity {

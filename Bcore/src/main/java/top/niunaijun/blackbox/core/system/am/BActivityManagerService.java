@@ -229,6 +229,41 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
     }
 
     @Override
+    public void getIntentSender(IBinder target, String packageName, int uid, int userId) {
+        UserSpace userSpace = getOrCreateSpaceLocked(userId);
+        synchronized (userSpace.mIntentSenderRecords) {
+            PendingIntentRecord record = new PendingIntentRecord();
+            record.uid = uid;
+            record.packageName = packageName;
+            userSpace.mIntentSenderRecords.put(target, record);
+        }
+    }
+
+    @Override
+    public String getPackageForIntentSender(IBinder target, int userId) throws RemoteException {
+        UserSpace userSpace = getOrCreateSpaceLocked(userId);
+        synchronized (userSpace.mIntentSenderRecords) {
+            PendingIntentRecord record = userSpace.mIntentSenderRecords.get(target);
+            if (record != null) {
+                return record.packageName;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public int getUidForIntentSender(IBinder target, int userId) throws RemoteException {
+        UserSpace userSpace = getOrCreateSpaceLocked(userId);
+        synchronized (userSpace.mIntentSenderRecords) {
+            PendingIntentRecord record = userSpace.mIntentSenderRecords.get(target);
+            if (record != null) {
+                return record.uid;
+            }
+        }
+        return -1;
+    }
+
+    @Override
     public void onStartCommand(Intent intent, int userId) throws RemoteException {
         UserSpace userSpace = getOrCreateSpaceLocked(userId);
         synchronized (userSpace.mActiveServices) {

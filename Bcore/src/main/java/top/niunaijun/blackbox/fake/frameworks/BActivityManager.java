@@ -8,6 +8,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.core.system.ServiceManager;
 import top.niunaijun.blackbox.core.system.am.IBActivityManagerService;
 import top.niunaijun.blackbox.entity.AppConfig;
@@ -248,6 +249,32 @@ public class BActivityManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void getIntentSender(IBinder target, String packageName, int uid) {
+        try {
+            getService().getIntentSender(target, packageName, uid, BActivityThread.getUserId());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getPackageForIntentSender(IBinder target) {
+        try {
+            return getService().getPackageForIntentSender(target, BActivityThread.getUserId());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int getUidForIntentSender(IBinder target) {
+        try {
+            return getService().getUidForIntentSender(target, BActivityThread.getUserId());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     private IBActivityManagerService getService() {
