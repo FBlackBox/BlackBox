@@ -24,20 +24,12 @@ import static top.niunaijun.blackbox.core.env.BEnvironment.EMPTY_JAR;
  * しーＪ
  * 此处无Bug
  */
-public class VMCore {
-    public static final String TAG = "VMCoreJava";
+public class NativeCore {
+    public static final String TAG = "NativeCore";
 
     static {
         new File("");
-        if (BlackBoxCore.is64Bit()) {
-            try {
-                System.loadLibrary("vm64");
-            } catch (Throwable e) {
-                System.loadLibrary("vm");
-            }
-        } else {
-            System.loadLibrary("vm");
-        }
+        System.loadLibrary("blackbox");
     }
 
     public static native void init(int apiLevel);
@@ -47,8 +39,6 @@ public class VMCore {
     public static native void addIORule(String targetPath, String relocatePath);
 
     public static native void hideXposed();
-
-    private static native void dumpDex(long cookie, String dir);
 
     public static void dumpDex(ClassLoader classLoader, String packageName) {
         List<Long> cookies = DexFileCompat.getCookies(classLoader);

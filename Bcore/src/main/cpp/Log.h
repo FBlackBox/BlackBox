@@ -1,6 +1,6 @@
 #include <android/log.h>
 
-#define TAG "VmCore"
+#define TAG "NativeCore"
 
 #if 1
 #define log_print_error(...) __android_log_print(ANDROID_LOG_ERROR, TAG, __VA_ARGS__)

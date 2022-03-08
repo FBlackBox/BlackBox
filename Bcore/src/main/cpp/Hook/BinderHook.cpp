@@ -4,7 +4,7 @@
 
 #include "BinderHook.h"
 #include <IO.h>
-#include <VmCore.h>
+#include <BoxCore.h>
 #include "UnixFileSystemHook.h"
 #import "JniHook/JniHook.h"
 
@@ -12,7 +12,7 @@
 
 HOOK_JNI(jint, getCallingUid, JNIEnv *env, jobject obj) {
     int orig = orig_getCallingUid(env, obj);
-    return VmCore::getCallingUid(env, orig);
+    return BoxCore::getCallingUid(env, orig);
 }
 
 

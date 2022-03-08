@@ -2,7 +2,7 @@
 // Created by Milk on 4/9/21.
 //
 
-#include "VmCore.h"
+#include "BoxCore.h"
 #include "Log.h"
 #include "IO.h"
 #include <jni.h>
@@ -11,7 +11,6 @@
 #include <Hook/UnixFileSystemHook.h>
 #include <Hook/BinderHook.h>
 #include <Hook/RuntimeHook.h>
-#include "DexDump.h"
 #include "Utils/HexDump.h"
 
 struct {
@@ -40,31 +39,31 @@ JNIEnv *ensureEnvCreated() {
     return env;
 }
 
-int VmCore::getCallingUid(JNIEnv *env, int orig) {
+int BoxCore::getCallingUid(JNIEnv *env, int orig) {
     env = ensureEnvCreated();
     return env->CallStaticIntMethod(VMEnv.VMCoreClass, VMEnv.getCallingUidId, orig);
 }
 
-jstring VmCore::redirectPathString(JNIEnv *env, jstring path) {
+jstring BoxCore::redirectPathString(JNIEnv *env, jstring path) {
     env = ensureEnvCreated();
     return (jstring) env->CallStaticObjectMethod(VMEnv.VMCoreClass, VMEnv.redirectPathString, path);
 }
 
-jobject VmCore::redirectPathFile(JNIEnv *env, jobject path) {
+jobject BoxCore::redirectPathFile(JNIEnv *env, jobject path) {
     env = ensureEnvCreated();
     return env->CallStaticObjectMethod(VMEnv.VMCoreClass, VMEnv.redirectPathFile, path);
 }
 
-jlongArray VmCore::loadEmptyDex(JNIEnv *env) {
+jlongArray BoxCore::loadEmptyDex(JNIEnv *env) {
     env = ensureEnvCreated();
     return (jlongArray) env->CallStaticObjectMethod(VMEnv.VMCoreClass, VMEnv.loadEmptyDex);
 }
 
-int VmCore::getApiLevel() {
+int BoxCore::getApiLevel() {
     return VMEnv.api_level;
 }
 
-JavaVM *VmCore::getJavaVM() {
+JavaVM *BoxCore::getJavaVM() {
     return VMEnv.vm;
 }
 
@@ -82,7 +81,7 @@ void hideXposed(JNIEnv *env, jclass clazz) {
 }
 
 void init(JNIEnv *env, jobject clazz, jint api_level) {
-    ALOGD("VmCore init.");
+    ALOGD("NativeCore init.");
     VMEnv.api_level = api_level;
     VMEnv.VMCoreClass = (jclass) env->NewGlobalRef(env->FindClass(VMCORE_CLASS));
     VMEnv.getCallingUidId = env->GetStaticMethodID(VMEnv.VMCoreClass, "getCallingUid", "(I)I");
@@ -107,16 +106,11 @@ void enableIO(JNIEnv *env, jclass clazz) {
     nativeHook(env);
 }
 
-void dumpDex(JNIEnv *env, jclass clazz, jlong cookie, jstring dir) {
-    DexDump::dumpDex(env, cookie, dir);
-}
-
 static JNINativeMethod gMethods[] = {
         {"hideXposed", "()V",                                     (void *) hideXposed},
         {"addIORule",  "(Ljava/lang/String;Ljava/lang/String;)V", (void *) addIORule},
         {"enableIO",   "()V",                                     (void *) enableIO},
         {"init",       "(I)V",                                    (void *) init},
-        {"dumpDex",    "(JLjava/lang/String;)V",                  (void *) dumpDex},
 };
 
 int registerNativeMethods(JNIEnv *env, const char *className,

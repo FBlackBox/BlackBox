@@ -4,7 +4,7 @@
 
 #include "RuntimeHook.h"
 #import "JniHook/JniHook.h"
-#include "VmCore.h"
+#include "BoxCore.h"
 
 HOOK_JNI(jstring, nativeLoad, JNIEnv *env, jobject obj, jstring name, jobject class_loader) {
     const char *nameC = env->GetStringUTFChars(name, JNI_FALSE);
@@ -25,7 +25,7 @@ HOOK_JNI(jstring, nativeLoad2, JNIEnv *env, jobject obj, jstring name, jobject c
 
 void RuntimeHook::init(JNIEnv *env) {
     const char *className = "java/lang/Runtime";
-    if (VmCore::getApiLevel() >= __ANDROID_API_Q__) {
+    if (BoxCore::getApiLevel() >= __ANDROID_API_Q__) {
         JniHook::HookJniFun(env, className, "nativeLoad",
                             "(Ljava/lang/String;Ljava/lang/ClassLoader;Ljava/lang/Class;)Ljava/lang/String;",
                             (void *) new_nativeLoad2,

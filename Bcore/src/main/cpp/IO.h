@@ -9,7 +9,7 @@
 
 #include <list>
 #include <iostream>
-#include "VmCore.h"
+#include "BoxCore.h"
 
 using namespace std;
 

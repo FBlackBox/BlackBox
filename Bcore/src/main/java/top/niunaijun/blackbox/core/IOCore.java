@@ -13,7 +13,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import black.android.os.BRUserHandle;
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.core.env.BEnvironment;
@@ -53,7 +52,7 @@ public class IOCore {
         if (!redirectFile.exists()) {
             FileUtils.mkdirs(redirectPath);
         }
-        VMCore.addIORule(origPath, redirectPath);
+        NativeCore.addIORule(origPath, redirectPath);
     }
 
     public String redirectPath(String path) {
@@ -128,7 +127,7 @@ public class IOCore {
         for (String key : rule.keySet()) {
             get().addRedirect(key, rule.get(key));
         }
-        VMCore.enableIO();
+        NativeCore.enableIO();
     }
 
     private void hideRoot(Map<String, String> rule) {

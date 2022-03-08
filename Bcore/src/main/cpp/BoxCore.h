@@ -7,9 +7,9 @@
 
 #include <jni.h>
 
-#define VMCORE_CLASS "top/niunaijun/blackbox/core/VMCore"
+#define VMCORE_CLASS "top/niunaijun/blackbox/core/NativeCore"
 
-class VmCore {
+class BoxCore {
 public:
     static JavaVM *getJavaVM();
     static int getApiLevel();
