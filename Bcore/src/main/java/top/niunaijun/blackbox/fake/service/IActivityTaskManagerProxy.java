@@ -1,11 +1,18 @@
 package top.niunaijun.blackbox.fake.service;
 
+import android.app.ActivityManager;
+
+import java.lang.reflect.Method;
+
 import black.android.app.BRActivityTaskManager;
 import black.android.app.BRIActivityTaskManagerStub;
 import black.android.os.BRServiceManager;
 import black.android.util.BRSingleton;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
+import top.niunaijun.blackbox.fake.hook.MethodHook;
+import top.niunaijun.blackbox.fake.hook.ProxyMethod;
 import top.niunaijun.blackbox.fake.hook.ScanClass;
+import top.niunaijun.blackbox.utils.compat.TaskDescriptionCompat;
 
 /**
  * Created by Milk on 3/31/21.
@@ -39,5 +46,16 @@ public class IActivityTaskManagerProxy extends BinderInvocationStub {
     @Override
     public boolean isBadEnv() {
         return false;
+    }
+
+    // for >= Android 10 && < Android 12
+    @ProxyMethod("setTaskDescription")
+    public static class SetTaskDescription extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            ActivityManager.TaskDescription td = (ActivityManager.TaskDescription) args[1];
+            args[1] = TaskDescriptionCompat.fix(td);
+            return method.invoke(who, args);
+        }
     }
 }
