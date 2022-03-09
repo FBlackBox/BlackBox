@@ -2,12 +2,16 @@ package top.niunaijun.blackbox.fake.service;
 
 import android.content.Context;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import black.android.os.BRServiceManager;
 import black.com.android.internal.telephony.BRITelephonyStub;
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.entity.BCell;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
@@ -22,7 +26,7 @@ import top.niunaijun.blackbox.utils.Md5Utils;
  * 此处无Bug
  */
 public class ITelephonyManagerProxy extends BinderInvocationStub {
-
+    public static final String TAG = "ITelephonyManagerProxy";
     public ITelephonyManagerProxy() {
         super(BRServiceManager.get().getService(Context.TELEPHONY_SERVICE));
     }
@@ -96,17 +100,53 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
             return Md5Utils.md5(BlackBoxCore.getHostPkg());
         }
     }
+
     @ProxyMethod("getCellLocation")
     public static class GetCellLocation extends MethodHook{
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            Log.d(TAG, "getCellLocation");
+//            BCell bCell= new BCell(460, 1, 13850, 4098);
+//            return bCell;
             return method.invoke(who, args);
         }
     }
+
     @ProxyMethod("getAllCellInfo")
     public static class GetAllCellInfo extends MethodHook{
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            Log.d(TAG, "getAllCellInfo");
+//            List<BCell> allCellInfo = new ArrayList<BCell>();
+//            BCell bCell= new BCell(460, 1, 13850, 4098);
+//            allCellInfo.add(bCell);
+//            return allCellInfo;
+            return method.invoke(who, args);
+        }
+    }
+
+    @ProxyMethod("getNetworkOperator")
+    public static class GetNetworkOperator extends MethodHook{
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            Log.d(TAG, "getNetworkOperator");
+            return method.invoke(who, args);
+        }
+    }
+
+    @ProxyMethod("getNeighboringCellInfo")
+    public static class GetNeighboringCellInfo extends MethodHook{
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            Log.d(TAG, "getNetworkOperator");
+//            List<BCell> allCellInfo = new ArrayList<BCell>();
+//            BCell bCell= new BCell(460, 1, 13850, 4098);
+//
+//            BCell bCell1= new BCell(460, 0, 22547, 79893377);
+//            allCellInfo.add(bCell1);
+
+//
+//            return allCellInfo;
             return method.invoke(who, args);
         }
     }
