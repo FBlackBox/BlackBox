@@ -10,16 +10,14 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.WindowManager;
 
-import java.util.Locale;
-
 import black.android.app.BRActivity;
 import black.com.android.internal.BRRstyleable;
 import top.niunaijun.blackbox.app.BActivityThread;
+import top.niunaijun.blackbox.utils.DrawableUtils;
 
 /**
  * Created by Milk on 3/31/21.
@@ -60,17 +58,35 @@ public class ActivityCompat {
             PackageManager pm = activity.getPackageManager();
             if (intent != null && activity.isTaskRoot()) {
                 try {
-                    String label = String.format(Locale.CHINA, "[B%d]%s", BActivityThread.getUserId(), applicationInfo.loadLabel(pm));
+                    String label = TaskDescriptionCompat.getTaskDescriptionLabel(
+                            BActivityThread.getUserId(), applicationInfo.loadLabel(pm));
+
                     Bitmap icon = null;
-                    Drawable drawable = applicationInfo.loadIcon(pm);
-                    if (drawable instanceof BitmapDrawable) {
-                        icon = ((BitmapDrawable) drawable).getBitmap();
+                    Drawable drawable = getActivityIcon(activity);
+                    if (drawable != null) {
+                        ActivityManager am = (ActivityManager) baseContext.getSystemService(Context.ACTIVITY_SERVICE);
+                        int iconSize = am.getLauncherLargeIconSize();
+                        icon = DrawableUtils.drawableToBitmap(drawable, iconSize, iconSize);
                     }
+
                     activity.setTaskDescription(new ActivityManager.TaskDescription(label, icon));
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    private static Drawable getActivityIcon(Activity activity) {
+        PackageManager pm = activity.getPackageManager();
+        try {
+            Drawable icon = pm.getActivityIcon(activity.getComponentName());
+            if (icon != null)
+                return icon;
+        } catch (PackageManager.NameNotFoundException ignore) {
+        }
+
+        ApplicationInfo applicationInfo = activity.getApplicationInfo();
+        return applicationInfo.loadIcon(pm);
     }
 }
