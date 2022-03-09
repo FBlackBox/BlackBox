@@ -82,7 +82,6 @@ public class BProcessManagerService implements ISystemService {
             }
             app = new ProcessRecord(info, processName);
             app.uid = Process.myUid();
-            app.pid = callingPid;
             app.bpid = bpid;
             app.buid = buid;
             app.callingBUid = getBUidByPidOrPackageName(callingPid, packageName);

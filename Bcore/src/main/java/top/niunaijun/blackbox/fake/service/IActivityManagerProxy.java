@@ -21,6 +21,8 @@ import black.android.app.BRActivityManagerNative;
 import black.android.app.BRActivityManagerOreo;
 import black.android.app.BRLoadedApkReceiverDispatcher;
 import black.android.app.BRLoadedApkReceiverDispatcherInnerReceiver;
+import black.android.app.BRLoadedApkServiceDispatcher;
+import black.android.app.BRLoadedApkServiceDispatcherInnerConnection;
 import black.android.content.BRContentProviderNative;
 import black.android.content.pm.BRUserInfo;
 import black.android.util.BRSingleton;
@@ -242,7 +244,13 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                     if (intent.getComponent() == null && resolveInfo != null) {
                         intent.setComponent(new ComponentName(resolveInfo.serviceInfo.packageName, resolveInfo.serviceInfo.name));
                     }
-                    args[4] = ServiceConnectionDelegate.createProxy(connection, intent);
+                    IServiceConnection proxy = ServiceConnectionDelegate.createProxy(connection, intent);
+                    args[4] = proxy;
+
+                    WeakReference<?> weakReference = BRLoadedApkServiceDispatcherInnerConnection.get(connection).mDispatcher();
+                    if (weakReference != null) {
+                        BRLoadedApkServiceDispatcher.get(weakReference.get())._set_mConnection(proxy);
+                    }
                 }
                 if (proxyIntent != null) {
                     args[2] = proxyIntent;

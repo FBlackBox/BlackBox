@@ -21,6 +21,7 @@ HOOK_JNI(jobject, findLoadedClass, JNIEnv *env, jobject obj, jobject class_loade
             strstr(nameC, "de.robv.android") ||
             strstr(nameC, "me.weishu.epic") ||
             strstr(nameC, "me.weishu.exposed")) {
+            env->ReleaseStringUTFChars(name, nameC);
             return nullptr;
         }
     }
