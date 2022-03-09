@@ -82,7 +82,7 @@ public class ActivityStack {
         if (resolveInfo == null || resolveInfo.activityInfo == null) {
             return 0;
         }
-        Log.d(TAG, "startActivityLocked : " + intent.getComponent().toString());
+        Log.d(TAG, "startActivityLocked : " + resolveInfo.activityInfo);
         ActivityInfo activityInfo = resolveInfo.activityInfo;
 
         ActivityRecord sourceRecord = findActivityRecordByToken(userId, resultTo);
