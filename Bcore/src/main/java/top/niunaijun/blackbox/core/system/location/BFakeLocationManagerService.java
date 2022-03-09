@@ -60,7 +60,7 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
 
     @Override
     public void setSurroundingCell(int userId, String pkg,List<BCell> cells){
-        getOrCreateConfig(userId, pkg).surroundingCell = cells;
+        getOrCreateConfig(userId, pkg).neighboringCellInfo = cells;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
 
     @Override
     public void setGlobalSurroundingCell(List<BCell> cells){
-        mGlobalConfig.surroundingCell = cells;
+        mGlobalConfig.neighboringCellInfo = cells;
     }
     @Override
     public BCell getCell(int userId, String pkg) {
