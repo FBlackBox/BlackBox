@@ -70,6 +70,10 @@ public class BEnvironment {
         return new File(getSystemDir(), "xposed-module.conf");
     }
 
+    public static File getFakeLocationConf() {
+        return new File(getSystemDir(), "fake-location.conf");
+    }
+
     public static File getPackageConf(String packageName) {
         return new File(getAppDir(packageName), "package.conf");
     }
