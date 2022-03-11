@@ -3,7 +3,6 @@ package top.niunaijun.blackbox.core.system.location;
 import android.util.ArrayMap;
 import android.util.SparseArray;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import top.niunaijun.blackbox.app.BFakeLocationManager;

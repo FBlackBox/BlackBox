@@ -1,15 +1,10 @@
 package top.niunaijun.blackbox.fake.service;
 
 import android.content.Context;
-import android.os.IBinder;
-
-import java.lang.reflect.Method;
 
 import black.android.os.BRIPowerManagerStub;
 import black.android.os.BRServiceManager;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
-import top.niunaijun.blackbox.fake.hook.MethodHook;
-import top.niunaijun.blackbox.fake.hook.ProxyMethod;
 import top.niunaijun.blackbox.fake.service.base.ValueMethodProxy;
 
 /**

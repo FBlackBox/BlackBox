@@ -5,13 +5,10 @@ import android.os.IBinder;
 import android.util.Log;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 import black.android.os.BRServiceManager;
 import black.com.android.internal.telephony.BRITelephonyStub;
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.entity.BCell;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;

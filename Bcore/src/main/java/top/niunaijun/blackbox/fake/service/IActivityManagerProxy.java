@@ -1,8 +1,5 @@
 package top.niunaijun.blackbox.fake.service;
 
-import static android.content.pm.PackageManager.GET_META_DATA;
-import static android.content.pm.PackageManager.PERMISSION_GRANTED;
-
 import android.Manifest;
 import android.app.ActivityManager;
 import android.app.IServiceConnection;
@@ -55,6 +52,9 @@ import top.niunaijun.blackbox.utils.compat.ActivityManagerCompat;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.ParceledListSliceCompat;
 import top.niunaijun.blackbox.utils.compat.TaskDescriptionCompat;
+
+import static android.content.pm.PackageManager.GET_META_DATA;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 /**
  * Created by Milk on 3/30/21.

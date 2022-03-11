@@ -4,7 +4,6 @@ import android.accounts.Account;
 import android.accounts.IAccountManagerResponse;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
 import java.lang.reflect.Method;
 import java.util.Map;

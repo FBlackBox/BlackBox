@@ -1,10 +1,6 @@
 package top.niunaijun.blackbox.proxy.record;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.os.IBinder;
-
-import top.niunaijun.blackbox.utils.compat.BundleCompat;
 
 /**
  * Created by Milk on 3/31/21.

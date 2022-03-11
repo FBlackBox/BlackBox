@@ -2,7 +2,6 @@ package top.niunaijun.blackbox.core;
 
 
 import android.os.Process;
-import android.util.Log;
 
 import androidx.annotation.Keep;
 

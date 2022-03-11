@@ -27,7 +27,6 @@ import top.niunaijun.blackbox.entity.UnbindRecord;
 import top.niunaijun.blackbox.entity.am.RunningServiceInfo;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.proxy.record.ProxyServiceRecord;
-import top.niunaijun.blackbox.utils.compat.BuildCompat;
 
 /**
  * Created by Milk on 4/7/21.
