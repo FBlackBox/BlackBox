@@ -57,7 +57,6 @@ import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
 import top.niunaijun.blackbox.utils.compat.XposedParserCompat;
 import top.niunaijun.blackbox.utils.provider.ProviderCall;
-import top.niunaijun.blackreflection.BlackReflection;
 
 /**
  * Created by Milk on 3/30/21.
@@ -174,6 +173,7 @@ public class BlackBoxCore extends ClientConfiguration {
         get().getService(ServiceManager.PACKAGE_MANAGER);
         get().getService(ServiceManager.STORAGE_MANAGER);
         get().getService(ServiceManager.JOB_MANAGER);
+        get().getService(ServiceManager.ACCOUNT_MANAGER);
     }
 
     public static Object mainThread() {
