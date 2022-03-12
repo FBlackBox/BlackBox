@@ -6,7 +6,6 @@ import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Objects;
 import java.util.UUID;
 
 import black.android.content.BRBroadcastReceiverPendingResult;

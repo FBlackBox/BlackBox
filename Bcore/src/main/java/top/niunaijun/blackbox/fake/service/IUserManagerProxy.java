@@ -6,7 +6,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import black.android.content.pm.BRUserInfo;
-import black.android.content.pm.UserInfo;
 import black.android.os.BRIUserManagerStub;
 import black.android.os.BRServiceManager;
 import top.niunaijun.blackbox.BlackBoxCore;

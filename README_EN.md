@@ -21,9 +21,6 @@ If conditions permit, downgrade targetSdkVersion to 28 or below for better compa
 
 This project distinguishes between 32-bit and 64-bit, it was compiled to 2 different demos. If you can not find your target in application list, please use another architecture.
 
-## Build
-**Please make project before run application, otherwise it will crash when you clone app.**
-
 ## Usage
 ### Step 1.Add initialized code in the Application
 

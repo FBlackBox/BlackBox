@@ -6,7 +6,6 @@ import android.util.AtomicFile;
 import android.util.SparseArray;
 
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import top.niunaijun.blackbox.app.BActivityThread;

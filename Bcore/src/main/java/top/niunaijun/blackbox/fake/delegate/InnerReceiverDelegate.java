@@ -11,10 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import black.android.content.BRIIntentReceiver;
-import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.proxy.record.ProxyBroadcastRecord;
-import top.niunaijun.blackbox.utils.Slog;
 
 /**
  * Created by Milk on 4/2/21.

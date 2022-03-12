@@ -3,7 +3,6 @@ package top.niunaijun.blackboxa.view.xp
 import android.view.ViewGroup
 import top.niunaijun.blackboxa.bean.XpModuleInfo
 import top.niunaijun.blackboxa.databinding.ItemXpBinding
-import top.niunaijun.blackboxa.util.inflateBinding
 import top.niunaijun.blackboxa.util.newBindingViewHolder
 import top.niunaijun.blackboxa.view.base.BaseAdapter
 
