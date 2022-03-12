@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.app.BFakeLocationManager;
 import top.niunaijun.blackbox.core.env.BEnvironment;
 import top.niunaijun.blackbox.entity.BCell;
@@ -17,6 +18,10 @@ import top.niunaijun.blackbox.utils.CloseUtils;
 import top.niunaijun.blackbox.utils.FileUtils;
 
 /**
+ * Fake location
+ * plan1: only GPS invocation is valid and other methods like addressed by cells are intercepted at all.
+ * plan2: mock fake neighboring cells from LBS database and modify the result of GPS invocation.
+ * the final testing condition requires UI demo.
  * Created by BlackBoxing on 3/8/22.
  **/
 public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
@@ -27,6 +32,11 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
     public static BFakeLocationManagerService get() {
         return sService;
     }
+
+    public static boolean isFakeLocationEnable(){
+        return get().getPattern(BActivityThread.getUserId(), BActivityThread.getAppPackageName()) !=0;
+    }
+
     private BLocationConfig getOrCreateConfig(int userId, String pkg) {
         ArrayMap<String, BLocationConfig> pkgs = mLocationConfigs.get(userId);
         if (pkgs == null) {

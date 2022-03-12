@@ -2,6 +2,8 @@ package top.niunaijun.blackbox.app;
 
 import top.niunaijun.blackbox.core.system.location.IFakeLocationManager;
 /**
+ * not useful now and BFakeLocationManagerService maybe would take the function of this perfectly
+ * or destroy the safety of BlackBox.
  * Created by BlackBoxing on 3/8/22.
  **/
 public class BFakeLocationManager {

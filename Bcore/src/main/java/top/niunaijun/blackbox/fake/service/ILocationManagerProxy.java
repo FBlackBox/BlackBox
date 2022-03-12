@@ -10,6 +10,7 @@ import java.util.Arrays;
 import black.android.location.BRILocationManagerStub;
 import black.android.os.BRServiceManager;
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.entity.BLocation;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
@@ -68,7 +69,8 @@ public class ILocationManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Log.d(TAG, "getLastLocation");
-            Log.d(TAG,BlackBoxCore.getHostPkg());
+            Log.d(TAG, "PackageName: "+BActivityThread.getAppPackageName());
+            Log.d(TAG, "UserId: "+String.valueOf(BActivityThread.getUserId()));
 
             BLocation bLocation = new BLocation(30.263214, 120.159073);
             return bLocation.convert2SystemLocation();
@@ -82,13 +84,14 @@ public class ILocationManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Log.d(TAG, "getLastKnownLocation");
-
+            Log.d(TAG, "PackageName: "+BActivityThread.getAppPackageName());
+            Log.d(TAG, "UserId: "+String.valueOf(BActivityThread.getUserId()));
             Log.d(TAG,BlackBoxCore.getHostPkg());
-            BLocation bLocation = new BLocation(30.263214, 120.159073);
-            return bLocation.convert2SystemLocation();
+//            BLocation bLocation = new BLocation(30.263214, 120.159073);
+//            return bLocation.convert2SystemLocation();
 //            Location location = new Location();
 //            MethodParameterUtils.replaceFirstAppPkg(args);
-//            return method.invoke(who, args);
+            return method.invoke(who, args);
         }
     }
 
@@ -98,11 +101,13 @@ public class ILocationManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Log.d(TAG, "requestLocationUpdates");
-            BLocation bLocation = new BLocation(30.263214, 120.159073);
-            return bLocation.convert2SystemLocation();
+            Log.d(TAG, "PackageName: "+BActivityThread.getAppPackageName());
+            Log.d(TAG, "UserId: "+ BActivityThread.getUserId());
+//            BLocation bLocation = new BLocation(30.263214, 120.159073);
+//            return bLocation.convert2SystemLocation();
 //            Location location = new Location();
-//            MethodParameterUtils.replaceFirstAppPkg(args);
-//            return method.invoke(who, args);
+            MethodParameterUtils.replaceFirstAppPkg(args);
+            return method.invoke(who, args);
         }
     }
 
