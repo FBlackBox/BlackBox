@@ -1,7 +1,6 @@
 package top.niunaijun.blackbox.core.system.pm;
 
 import android.annotation.SuppressLint;
-import android.app.PendingIntent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.ConfigurationInfo;
@@ -13,9 +12,7 @@ import android.content.pm.PackageParser;
 import android.content.pm.PermissionInfo;
 import android.content.pm.ProviderInfo;
 import android.content.pm.ServiceInfo;
-import android.content.pm.Signature;
 import android.os.Build;
-import android.os.Process;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +22,6 @@ import black.android.content.pm.BRApplicationInfoN;
 import black.android.content.pm.BRPackageParserSigningDetails;
 import black.android.content.pm.BRSigningInfo;
 import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.core.GmsCore;
 import top.niunaijun.blackbox.core.env.AppSystemEnv;
 import top.niunaijun.blackbox.core.env.BEnvironment;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
@@ -187,14 +183,27 @@ public class PackageManagerCompat {
                 }
             }
         }
+        PackageInfo base = null;
+        try {
+            base = BlackBoxCore.getContext().getPackageManager().getPackageInfo(p.packageName, flags);
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
         if ((flags & PackageManager.GET_SIGNATURES) != 0) {
-            pi.signatures = new Signature[]{p.mSignatures[0]};
+            if (base == null) {
+                pi.signatures = p.mSignatures;
+            } else {
+                pi.signatures = base.signatures;
+            }
         }
         if (BuildCompat.isPie()) {
             if ((flags & PackageManager.GET_SIGNING_CERTIFICATES) != 0) {
-                PackageParser.SigningDetails signingDetails = PackageParser.SigningDetails.UNKNOWN;
-                BRPackageParserSigningDetails.get(signingDetails)._set_signatures(p.mSigningDetails.signatures);
-                pi.signingInfo = BRSigningInfo.get()._new(signingDetails);
+                if (base == null) {
+                    PackageParser.SigningDetails signingDetails = PackageParser.SigningDetails.UNKNOWN;
+                    BRPackageParserSigningDetails.get(signingDetails)._set_signatures(p.mSigningDetails.signatures);
+                    pi.signingInfo = BRSigningInfo.get()._new(signingDetails);
+                } else {
+                    pi.signingInfo = base.signingInfo;
+                }
             }
         }
         return pi;
