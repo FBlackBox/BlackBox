@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Objects;
 
 import black.android.location.BRILocationManagerStub;
 import black.android.os.BRServiceManager;
@@ -26,6 +27,7 @@ import top.niunaijun.blackbox.utils.MethodParameterUtils;
  */
 public class ILocationManagerProxy extends BinderInvocationStub {
     public static final String TAG = "ILocationManagerProxy";
+
     public ILocationManagerProxy() {
         super(BRServiceManager.get().getService(Context.LOCATION_SERVICE));
     }
@@ -62,13 +64,14 @@ public class ILocationManagerProxy extends BinderInvocationStub {
             return true;
         }
     }
+
     @ProxyMethod("getLastLocation")
     public static class GetLastLocation extends MethodHook {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Log.d(TAG, "getLastLocation");
-            Log.d(TAG,BlackBoxCore.getHostPkg());
+            Log.d(TAG, BlackBoxCore.getHostPkg());
 
             BLocation bLocation = new BLocation(30.263214, 120.159073);
             return bLocation.convert2SystemLocation();
@@ -76,6 +79,7 @@ public class ILocationManagerProxy extends BinderInvocationStub {
 //            return method.invoke(who, args);
         }
     }
+
     @ProxyMethod("getLastKnownLocation")
     public static class GetLastKnownLocation extends MethodHook {
 
@@ -83,7 +87,7 @@ public class ILocationManagerProxy extends BinderInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Log.d(TAG, "getLastKnownLocation");
 
-            Log.d(TAG,BlackBoxCore.getHostPkg());
+            Log.d(TAG, BlackBoxCore.getHostPkg());
             BLocation bLocation = new BLocation(30.263214, 120.159073);
             return bLocation.convert2SystemLocation();
 //            Location location = new Location();
@@ -97,14 +101,13 @@ public class ILocationManagerProxy extends BinderInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Log.d(TAG, "requestLocationUpdates");
-            BLocation bLocation = new BLocation(30.263214, 120.159073);
-            return bLocation.convert2SystemLocation();
 //            Location location = new Location();
 //            MethodParameterUtils.replaceFirstAppPkg(args);
 //            return method.invoke(who, args);
+            return 0;
         }
     }
+
 
     @ProxyMethod("getProviderProperties")
     public static class GetProviderProperties extends MethodHook {
@@ -125,7 +128,6 @@ public class ILocationManagerProxy extends BinderInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Log.d(TAG, "removeGpsStatusListener");
             return method.invoke(who, args);
         }
     }
@@ -135,7 +137,6 @@ public class ILocationManagerProxy extends BinderInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Log.d(TAG, "getBestProvider");
             return LocationManager.GPS_PROVIDER;
         }
     }
@@ -145,8 +146,17 @@ public class ILocationManagerProxy extends BinderInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Log.d(TAG, "getBestProvider");
             return Arrays.asList(LocationManager.GPS_PROVIDER, LocationManager.NETWORK_PROVIDER);
+        }
+    }
+
+    @ProxyMethod("isProviderEnabledForUser")
+    public static class isProviderEnabledForUser extends MethodHook {
+
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            String provider = (String) args[0];
+            return Objects.equals(provider, LocationManager.GPS_PROVIDER) || Objects.equals(provider, LocationManager.NETWORK_PROVIDER);
         }
     }
 }
