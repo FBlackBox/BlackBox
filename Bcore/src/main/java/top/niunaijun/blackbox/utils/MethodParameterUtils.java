@@ -76,7 +76,9 @@ public class MethodParameterUtils {
         int index = ArrayUtils.indexOfLast(args, String.class);
         if (index != -1) {
             String pkg = (String) args[index];
-            args[index] = BlackBoxCore.get().getHostPkg();
+            if (BlackBoxCore.get().isInstalled(pkg, BActivityThread.getUserId())) {
+                args[index] = BlackBoxCore.getHostPkg();
+            }
             return pkg;
         }
         return null;
@@ -86,7 +88,9 @@ public class MethodParameterUtils {
         int index = ArrayUtils.indexOf(args, String.class, sequence);
         if (index != -1) {
             String pkg = (String) args[index];
-            args[index] = BlackBoxCore.get().getHostPkg();
+            if (BlackBoxCore.get().isInstalled(pkg, BActivityThread.getUserId())) {
+                args[index] = BlackBoxCore.getHostPkg();
+            }
             return pkg;
         }
         return null;
