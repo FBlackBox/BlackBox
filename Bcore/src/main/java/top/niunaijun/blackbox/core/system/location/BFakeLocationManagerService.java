@@ -15,6 +15,7 @@ import top.niunaijun.blackbox.entity.BCell;
 import top.niunaijun.blackbox.entity.BLocation;
 import top.niunaijun.blackbox.utils.CloseUtils;
 import top.niunaijun.blackbox.utils.FileUtils;
+import top.niunaijun.blackbox.core.system.location.BLocationConfig;
 
 /**
  * Fake location
@@ -23,17 +24,13 @@ import top.niunaijun.blackbox.utils.FileUtils;
  * the final testing condition requires UI demo.
  * Created by BlackBoxing on 3/8/22.
  **/
-public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
+public class BFakeLocationManagerService {
     private static final BFakeLocationManagerService sService = new BFakeLocationManagerService();
-    private final SparseArray<ArrayMap<String, BLocationConfig>> mLocationConfigs = new SparseArray<>();
+    private final SparseArray<ArrayMap<String, top.niunaijun.blackbox.core.system.location.BLocationConfig>> mLocationConfigs = new SparseArray<>();
     private BLocationConfig mGlobalConfig = new BLocationConfig();
 
     public static BFakeLocationManagerService get() {
         return sService;
-    }
-
-    public static boolean isFakeLocationEnable(){
-        return get().getPattern(BActivityThread.getUserId(), BActivityThread.getAppPackageName()) !=0;
     }
 
     private BLocationConfig getOrCreateConfig(int userId, String pkg) {
@@ -86,7 +83,7 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
         }
     }
 
-    @Override
+//    @Override
     public void setPattern(int userId, String pkg, int pattern){
         synchronized (mLocationConfigs) {
             getOrCreateConfig(userId, pkg).pattern = pattern;
@@ -94,7 +91,7 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
         }
     }
 
-    @Override
+//    @Override
     public void setCell(int userId, String pkg,BCell cell) {
         synchronized (mLocationConfigs) {
             getOrCreateConfig(userId, pkg).cell = cell;
@@ -102,7 +99,7 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
         }
     }
 
-    @Override
+//    @Override
     public void setAllCell(int userId, String pkg, List<BCell> cells){
         synchronized (mLocationConfigs) {
             getOrCreateConfig(userId, pkg).allCell = cells;
@@ -111,7 +108,7 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
 
     }
 
-    @Override
+//    @Override
     public void setSurroundingCell(int userId, String pkg,List<BCell> cells){
         synchronized (mLocationConfigs) {
             getOrCreateConfig(userId, pkg).allCell = cells;
@@ -120,7 +117,7 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
 
     }
 
-    @Override
+//    @Override
     public void setGlobalCell(BCell cell) {
         synchronized (mGlobalConfig) {
             mGlobalConfig.cell = cell;
@@ -128,7 +125,7 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
         }
     }
 
-    @Override
+//    @Override
     public void setGlobalAllCell(List<BCell> cells) {
         synchronized (mGlobalConfig) {
             mGlobalConfig.allCell = cells;
@@ -136,14 +133,14 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
         }
     }
 
-    @Override
+//    @Override
     public void setGlobalSurroundingCell(List<BCell> cells){
         synchronized (mGlobalConfig) {
             mGlobalConfig.neighboringCellInfo = cells;
             save();
         }
     }
-    @Override
+//    @Override
     public BCell getCell(int userId, String pkg) {
         BLocationConfig mBLocationConfig = getOrCreateConfig(userId, pkg);
         switch (mBLocationConfig.pattern) {
@@ -157,7 +154,7 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
         }
     }
 
-    @Override
+//    @Override
     public List<BCell> getAllCell(int userId, String pkg){
         BLocationConfig mBLocationConfig = getOrCreateConfig(userId, pkg);
         switch (mBLocationConfig.pattern) {
@@ -171,7 +168,7 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
         }
     }
 
-    @Override
+//    @Override
     public void setLocation(int userId, String pkg,BLocation location){
         synchronized (mLocationConfigs) {
             getOrCreateConfig(userId, pkg).location = location;
@@ -179,7 +176,7 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
         }
     }
 
-    @Override
+//    @Override
     public BLocation getLocation(int userId, String pkg){
         BLocationConfig mBLocationConfig = getOrCreateConfig(userId, pkg);
         switch (mBLocationConfig.pattern) {
@@ -193,7 +190,7 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
         }
     }
 
-    @Override
+//    @Override
     public void setGlobalLocation(BLocation location){
         synchronized (mGlobalConfig) {
             mGlobalConfig.location = location;
@@ -201,7 +198,7 @@ public class BFakeLocationManagerService extends IFakeLocationManager.Stub {
         }
     }
 
-    @Override
+//    @Override
     public BLocation getGlobalLocation() {
         return mGlobalConfig.location;
     }

@@ -18,8 +18,11 @@ import top.niunaijun.blackboxa.app.AppManager
 import top.niunaijun.blackboxa.databinding.ActivityMainBinding
 import top.niunaijun.blackboxa.util.Resolution
 import top.niunaijun.blackboxa.util.inflate
+import top.niunaijun.blackboxa.util.toast
 import top.niunaijun.blackboxa.view.apps.AppsFragment
 import top.niunaijun.blackboxa.view.base.LoadingActivity
+import top.niunaijun.blackboxa.view.fake.FollowMyLocationOverlay
+import top.niunaijun.blackboxa.view.fake.ListFake
 import top.niunaijun.blackboxa.view.list.ListActivity
 import top.niunaijun.blackboxa.view.setting.SettingActivity
 
@@ -171,7 +174,8 @@ class MainActivity : LoadingActivity() {
             }
 
             R.id.fake_location -> {
-                val intent = Intent(this, ListActivity::class.java)
+//                toast("Still Developing")
+                val intent = Intent(this, ListFake::class.java)
                 intent.putExtra("userID", 0)
                 startActivity(intent)
             }
