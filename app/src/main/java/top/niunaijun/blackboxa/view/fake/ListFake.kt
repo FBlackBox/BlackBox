@@ -84,12 +84,13 @@ class ListFake : BaseActivity() {
             }
         }
 
-        viewModel.appsLiveData.observe(this) {
-            if (it != null) {
-                this.appList = it
+        viewModel.appsLiveData.observe(this) { its ->
+            if (its != null) {
+                this.appList = its
+                this.appList = this.appList.filter { it.isInstall }
                 viewBinding.searchView.setQuery("", false)
                 filterApp("")
-                if (it.isNotEmpty()) {
+                if (its.isNotEmpty()) {
                     viewBinding.stateView.showContent()
                     viewModel.previewInstalledList()
                 } else {
