@@ -281,8 +281,13 @@ public class IPackageManagerProxy extends BinderInvocationStub {
     public static class GetPackagesForUid extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            String[] packagesForUid = BlackBoxCore.getBPackageManager().getPackagesForUid((Integer) args[0]);
-            Slog.d(TAG, BActivityThread.getAppProcessName() + " GetPackagesForUid: " + Arrays.toString(packagesForUid));
+            int uid = (Integer) args[0];
+            if (uid == BlackBoxCore.getHostUid()) {
+                args[0] = BActivityThread.getBUid();
+                uid = (int) args[0];
+            }
+            String[] packagesForUid = BlackBoxCore.getBPackageManager().getPackagesForUid(uid);
+            Slog.d(TAG, args[0] + " , " + BActivityThread.getAppProcessName() + " GetPackagesForUid: " + Arrays.toString(packagesForUid));
             return packagesForUid;
         }
     }
