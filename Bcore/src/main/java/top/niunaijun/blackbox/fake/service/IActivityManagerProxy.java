@@ -92,7 +92,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
 
     @Override
     public boolean isBadEnv() {
-        return false;
+        return getProxyInvocation() != getWho();
     }
 
     @ProxyMethod("getContentProvider")
