@@ -74,8 +74,8 @@ public class ILocationManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Log.d(TAG, "getLastLocation");
-            if(BFakeLocationManager.isFakeLocationEnable()){
-                return BFakeLocationManager.get().getLocation( BActivityThread.getUserId(), BActivityThread.getAppPackageName());
+            if (BFakeLocationManager.isFakeLocationEnable()) {
+                return BFakeLocationManager.get().getLocation(BActivityThread.getUserId(), BActivityThread.getAppPackageName());
             }
 //            BLocation bLocation = new BLocation(30.263214, 120.159073);
 //            return bLocation.convert2SystemLocation();
@@ -103,8 +103,8 @@ public class ILocationManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Log.d(TAG, "requestLocationUpdates");
-            Log.d(TAG, "PackageName: "+BActivityThread.getAppPackageName());
-            Log.d(TAG, "UserId: "+ BActivityThread.getUserId());
+            Log.d(TAG, "PackageName: " + BActivityThread.getAppPackageName());
+            Log.d(TAG, "UserId: " + BActivityThread.getUserId());
 //            BLocation bLocation = new BLocation(30.263214, 120.159073);
 //            return bLocation.convert2SystemLocation();
 //            Location location = new Location();

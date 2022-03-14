@@ -3,7 +3,6 @@ package top.niunaijun.blackboxa.view.fake
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -20,15 +19,21 @@ import top.niunaijun.blackboxa.util.inflate
 import top.niunaijun.blackboxa.view.base.BaseActivity
 import top.niunaijun.blackboxa.view.list.ListActivity
 import top.niunaijun.blackboxa.view.list.ListAdapter
-import top.niunaijun.blackboxa.view.list.ListViewModel
 
+/**
+ *
+ * @Author: BlackBoxing
+ * @CreateDate: 2022/3/14
+ */
 class ListFake : BaseActivity() {
 
     private val viewBinding: ActivityListBinding by inflate()
 
     private lateinit var mAdapter: ListAdapter
+//    private lateinit var mAdapter: FakeLocationAdapter
 
-    private lateinit var viewModel: ListViewModel
+    private lateinit var viewModel: FakeLocationViewModel
+//    private lateinit var viewModel: ListViewModel
 
     private var appList: List<InstalledAppBean> = ArrayList()
 
@@ -51,7 +56,8 @@ class ListFake : BaseActivity() {
     }
 
     private fun initSearchView() {
-        viewBinding.searchView.setOnQueryTextListener(object : SimpleSearchView.OnQueryTextListener {
+        viewBinding.searchView.setOnQueryTextListener(object :
+            SimpleSearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
                 filterApp(newText)
                 return true
@@ -69,9 +75,14 @@ class ListFake : BaseActivity() {
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProvider(this, InjectionUtil.getListFactory()).get(ListViewModel::class.java)
-        val userID = intent.getIntExtra("userID",0)
+//        viewModel = ViewModelProvider(this, InjectionUtil.getListFactory()).get(ListViewModel::class.java)
 
+
+        viewModel = ViewModelProvider(this, InjectionUtil.getFakeLocationFactory()).get(
+            FakeLocationViewModel::class.java
+        )
+        val userID = intent.getIntExtra("userID", 0)
+//        viewModel.previewInstalledList()
         viewModel.getInstallAppList(userID)
         viewBinding.toolbarLayout.toolbar.setTitle(R.string.fake_location)
 
@@ -87,7 +98,7 @@ class ListFake : BaseActivity() {
         viewModel.appsLiveData.observe(this) { its ->
             if (its != null) {
                 this.appList = its
-                this.appList = this.appList.filter { it.isInstall }
+//                this.appList = this.appList.filter { it.isInstall }
                 viewBinding.searchView.setQuery("", false)
                 filterApp("")
                 if (its.isNotEmpty()) {
@@ -107,11 +118,12 @@ class ListFake : BaseActivity() {
         mAdapter.replaceData(newList)
     }
 
-    private val openDocumentedResult = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        it?.run {
-            finishWithResult(it.toString())
+    private val openDocumentedResult =
+        registerForActivityResult(ActivityResultContracts.GetContent()) {
+            it?.run {
+                finishWithResult(it.toString())
+            }
         }
-    }
 
     private fun finishWithResult(source: String) {
         intent.putExtra("source", source)
@@ -156,10 +168,10 @@ class ListFake : BaseActivity() {
     }
 
 
-    companion object{
-        fun start(context: Context, onlyShowXp:Boolean){
+    companion object {
+        fun start(context: Context, onlyShowXp: Boolean) {
             val intent = Intent(context, ListActivity::class.java)
-            intent.putExtra("onlyShowXp",false)
+            intent.putExtra("onlyShowXp", false)
             context.startActivity(intent)
         }
     }

@@ -5,15 +5,20 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.preference.PreferenceManager
+import org.osmdroid.config.Configuration.getInstance
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import top.niunaijun.blackboxa.R
-import org.osmdroid.config.Configuration.*
-import org.osmdroid.util.GeoPoint
 
+/**
+ *
+ * @Author: BlackBoxing
+ * @CreateDate: 2022/3/14
+ */
 class FollowMyLocationOverlay : AppCompatActivity() {
     private val REQUEST_PERMISSIONS_REQUEST_CODE = 1;
-    private lateinit var map : MapView;
+    private lateinit var map: MapView;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
 
@@ -57,7 +62,11 @@ class FollowMyLocationOverlay : AppCompatActivity() {
         map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         val permissionsToRequest = ArrayList<String>();
         var i = 0;
         while (i < grantResults.size) {
@@ -68,7 +77,8 @@ class FollowMyLocationOverlay : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this,
                 permissionsToRequest.toTypedArray(),
-                REQUEST_PERMISSIONS_REQUEST_CODE);
+                REQUEST_PERMISSIONS_REQUEST_CODE
+            );
         }
     }
 

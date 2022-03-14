@@ -1,28 +1,26 @@
 package top.niunaijun.blackboxa.view.fake
 
 import androidx.lifecycle.MutableLiveData
-import top.niunaijun.blackboxa.bean.GmsBean
-import top.niunaijun.blackboxa.bean.GmsInstallBean
+import top.niunaijun.blackboxa.bean.InstalledAppBean
 import top.niunaijun.blackboxa.data.FakeLocationRepository
-import top.niunaijun.blackboxa.data.GmsRepository
 import top.niunaijun.blackboxa.view.base.BaseViewModel
 
-class FakeLocationViewModel (private val mRepo: FakeLocationRepository) : BaseViewModel() {
+/**
+ *
+ * @Author: BlackBoxing
+ * @CreateDate: 2022/3/14
+ */
+class FakeLocationViewModel(private val mRepo: FakeLocationRepository) : BaseViewModel() {
 
-    val mInstalledLiveData = MutableLiveData<List<GmsBean>>()
+    val appsLiveData = MutableLiveData<List<InstalledAppBean>>()
 
-    val mUpdateInstalledLiveData = MutableLiveData<GmsInstallBean>()
+    val loadingLiveData = MutableLiveData<Boolean>()
 
-    fun previewInstalledList() {
-        launchOnUI{
-            mRepo.previewInstallList()
-        }
-    }
-
-    fun getInstallAppList(userID:Int){
+    fun getInstallAppList(userID: Int) {
         launchOnUI {
-            mRepo.getInstalledAppList(userID,loadingLiveData,appsLiveData)
+            mRepo.getInstalledAppList(userID, loadingLiveData, appsLiveData)
         }
     }
+
 
 }
