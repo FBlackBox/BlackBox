@@ -161,6 +161,16 @@ public class HookManager {
         }
     }
 
+    public void checkAll() {
+        for (Class<?> aClass : mInjectors.keySet()) {
+            IInjectHook iInjectHook = mInjectors.get(aClass);
+            if (iInjectHook != null && iInjectHook.isBadEnv()) {
+                Log.d(TAG, "checkEnv: " + aClass.getSimpleName() + " is bad env");
+                iInjectHook.injectHook();
+            }
+        }
+    }
+
     void addInjector(IInjectHook injectHook) {
         mInjectors.put(injectHook.getClass(), injectHook);
     }

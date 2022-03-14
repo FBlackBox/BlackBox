@@ -71,6 +71,7 @@ import top.niunaijun.blackbox.fake.delegate.ContentProviderDelegate;
 import top.niunaijun.blackbox.fake.frameworks.BXposedManager;
 import top.niunaijun.blackbox.fake.hook.HookManager;
 import top.niunaijun.blackbox.fake.service.HCallbackProxy;
+import top.niunaijun.blackbox.fake.service.IActivityManagerProxy;
 import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.ActivityManagerCompat;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;

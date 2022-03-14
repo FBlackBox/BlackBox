@@ -8,8 +8,11 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.os.Binder;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.IInterface;
+import android.os.Looper;
+import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
 
@@ -47,6 +50,23 @@ public class ActivityStack {
     private final ActivityManager mAms;
     private final Map<Integer, TaskRecord> mTasks = new LinkedHashMap<>();
     private final Set<ActivityRecord> mLaunchingActivities = new HashSet<>();
+
+    public static final int LAUNCH_TIME_OUT = 0;
+    private final Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case LAUNCH_TIME_OUT:
+                    ActivityRecord record = (ActivityRecord) msg.obj;
+                    if (record != null) {
+                        mLaunchingActivities.remove(record);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     public ActivityStack() {
         mAms = (ActivityManager) BlackBoxCore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
@@ -276,6 +296,9 @@ public class ActivityStack {
         ActivityRecord selfRecord = newActivityRecord(intent, activityInfo, resultTo, userId);
         Intent shadow = startActivityProcess(userId, intent, activityInfo, selfRecord);
         shadow.addFlags(launchMode);
+        if (resultTo == null) {
+            shadow.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
         return realStartActivityLocked(sourceRecord.processRecord.appThread, shadow, resolvedType, resultTo, resultWho, requestCode, flags, options);
     }
 
@@ -330,6 +353,8 @@ public class ActivityStack {
         ActivityRecord targetRecord = ActivityRecord.create(intent, info, resultTo, userId);
         synchronized (mLaunchingActivities) {
             mLaunchingActivities.add(targetRecord);
+            Message obtain = Message.obtain(mHandler, LAUNCH_TIME_OUT, targetRecord);
+            mHandler.sendMessageDelayed(obtain, 2000);
         }
         return targetRecord;
     }
@@ -396,6 +421,7 @@ public class ActivityStack {
             token, ActivityRecord record) {
         synchronized (mLaunchingActivities) {
             mLaunchingActivities.remove(record);
+            mHandler.removeMessages(LAUNCH_TIME_OUT, record);
         }
         synchronized (mTasks) {
             synchronizeTasks();
