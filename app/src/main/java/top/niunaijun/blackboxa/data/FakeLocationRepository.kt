@@ -6,6 +6,7 @@ import android.webkit.URLUtil
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
 import top.niunaijun.blackbox.BlackBoxCore
+import top.niunaijun.blackbox.app.BFakeLocationManager
 import top.niunaijun.blackbox.utils.AbiUtils
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.app.AppManager
@@ -26,6 +27,10 @@ class FakeLocationRepository {
 
 
     private var mInstalledList = mutableListOf<AppInfo>()
+
+    fun setPattern(userId: Int , pkg: String , pattern:Int){
+        BFakeLocationManager.get().setPattern(userId, pkg, pattern)
+    }
 
     fun previewInstallList() {
         synchronized(mInstalledList){
@@ -70,36 +75,6 @@ class FakeLocationRepository {
 
     }
 
-
-    fun getVmInstallList(userId: Int, appsLiveData: MutableLiveData<List<AppInfo>>) {
-        val sortListData =
-            AppManager.mRemarkSharedPreferences.getString("AppList$userId", "")
-        val sortList = sortListData?.split(",")
-
-        val applicationList = BlackBoxCore.get().getInstalledApplications(0, userId)
-
-        val appInfoList = mutableListOf<AppInfo>()
-        applicationList.also {
-            if (sortList.isNullOrEmpty()) {
-                return@also
-            }
-            it.sortWith(AppsSortComparator(sortList))
-
-        }.forEach {
-            val info = AppInfo(
-                it.loadLabel(BlackBoxCore.getPackageManager()).toString(),
-                it.loadIcon(BlackBoxCore.getPackageManager()),
-                it.packageName,
-                it.sourceDir,
-                isInstalledXpModule(it.packageName)
-            )
-
-            appInfoList.add(info)
-        }
-
-
-        appsLiveData.postValue(appInfoList)
-    }
 
     private fun isInstalledXpModule(packageName: String): Boolean {
         BlackBoxCore.get().installedXPModules.forEach {

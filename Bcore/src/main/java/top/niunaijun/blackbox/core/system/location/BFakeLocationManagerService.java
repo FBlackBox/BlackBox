@@ -21,6 +21,7 @@ import top.niunaijun.blackbox.core.system.location.BLocationConfig;
  * Fake location
  * plan1: only GPS invocation is valid and other methods like addressed by cells are intercepted at all.
  * plan2: mock fake neighboring cells from LBS database and modify the result of GPS invocation.
+ * plan3: cheat internal application at being given permission to access location information but get data from BB.
  * the final testing condition requires UI demo.
  * Created by BlackBoxing on 3/8/22.
  **/
