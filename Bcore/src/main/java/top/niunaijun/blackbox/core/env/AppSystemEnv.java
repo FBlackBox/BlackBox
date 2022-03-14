@@ -29,6 +29,9 @@ public class AppSystemEnv {
         sSystemPackages.add("com.google.android.webview.canary");
         sSystemPackages.add("com.android.webview");
         sSystemPackages.add("com.android.camera");
+
+        // google Gboard
+        sSystemPackages.add("com.google.android.inputmethod.latin");
         sSystemPackages.add(BlackBoxCore.getHostPkg());
 
         // 华为
