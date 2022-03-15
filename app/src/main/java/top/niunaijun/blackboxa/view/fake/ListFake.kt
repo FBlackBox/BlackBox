@@ -18,7 +18,6 @@ import top.niunaijun.blackboxa.util.InjectionUtil
 import top.niunaijun.blackboxa.util.inflate
 import top.niunaijun.blackboxa.view.base.BaseActivity
 import top.niunaijun.blackboxa.view.list.ListActivity
-import top.niunaijun.blackboxa.view.list.ListAdapter
 
 /**
  *
@@ -29,8 +28,8 @@ class ListFake : BaseActivity() {
 
     private val viewBinding: ActivityListBinding by inflate()
 
-    private lateinit var mAdapter: ListAdapter
-//    private lateinit var mAdapter: FakeLocationAdapter
+    //    private lateinit var mAdapter: ListAdapter
+    private lateinit var mAdapter: FakeLocationAdapter
 
     private lateinit var viewModel: FakeLocationViewModel
 //    private lateinit var viewModel: ListViewModel
@@ -43,7 +42,7 @@ class ListFake : BaseActivity() {
 
         initToolbar(viewBinding.toolbarLayout.toolbar, R.string.fake_location, true)
 
-        mAdapter = ListAdapter()
+        mAdapter = FakeLocationAdapter()
         viewBinding.recyclerView.adapter = mAdapter
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -103,7 +102,7 @@ class ListFake : BaseActivity() {
                 filterApp("")
                 if (its.isNotEmpty()) {
                     viewBinding.stateView.showContent()
-                    viewModel.previewInstalledList()
+//                    viewModel.previewInstalledList()
                 } else {
                     viewBinding.stateView.showEmpty()
                 }

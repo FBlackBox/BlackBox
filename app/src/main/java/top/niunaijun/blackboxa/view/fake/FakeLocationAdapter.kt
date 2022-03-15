@@ -2,8 +2,8 @@ package top.niunaijun.blackboxa.view.fake
 
 import android.view.View
 import android.view.ViewGroup
-import top.niunaijun.blackboxa.bean.InstalledAppBean
-import top.niunaijun.blackboxa.databinding.ItemPackageBinding
+import top.niunaijun.blackboxa.bean.FakeLocationBean
+import top.niunaijun.blackboxa.databinding.ItemFakeBinding
 import top.niunaijun.blackboxa.util.newBindingViewHolder
 import top.niunaijun.blackboxa.view.base.BaseAdapter
 
@@ -14,16 +14,19 @@ import top.niunaijun.blackboxa.view.base.BaseAdapter
  * @CreateDate: 2022/3/14
  */
 
-class FakeLocationAdapter : BaseAdapter<ItemPackageBinding, InstalledAppBean>() {
-    override fun getViewBinding(parent: ViewGroup): ItemPackageBinding {
+class FakeLocationAdapter : BaseAdapter<ItemFakeBinding, FakeLocationBean>() {
+    override fun getViewBinding(parent: ViewGroup): ItemFakeBinding {
         return newBindingViewHolder(parent, false)
 
     }
 
-    override fun initView(binding: ItemPackageBinding, position: Int, data: InstalledAppBean) {
+    override fun initView(binding: ItemFakeBinding, position: Int, data: FakeLocationBean) {
         binding.icon.setImageDrawable(data.icon)
         binding.name.text = data.name
-        binding.packageName.text = data.packageName
+        binding.fakeLocation.text = "Real Location"
+//        if(data.fakeLocationPattern != 0){
+//            binding.fakeLocation.text = String.format("%f, %f", data.fakeLocation.latitude, data.fakeLocation.longitude)
+//        }
         binding.cornerLabel.visibility = if (data.isInstall) {
             View.VISIBLE
         } else {
