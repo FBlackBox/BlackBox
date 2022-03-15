@@ -27,10 +27,6 @@ class FakeLocationAdapter : BaseAdapter<ItemFakeBinding, FakeLocationBean>() {
 //        if(data.fakeLocationPattern != 0){
 //            binding.fakeLocation.text = String.format("%f, %f", data.fakeLocation.latitude, data.fakeLocation.longitude)
 //        }
-        binding.cornerLabel.visibility = if (data.isInstall) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
+        binding.cornerLabel.visibility = View.VISIBLE
     }
 }

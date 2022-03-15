@@ -1,7 +1,7 @@
 package top.niunaijun.blackboxa.view.fake
 
 import androidx.lifecycle.MutableLiveData
-import top.niunaijun.blackboxa.bean.InstalledAppBean
+import top.niunaijun.blackboxa.bean.FakeLocationBean
 import top.niunaijun.blackboxa.data.FakeLocationRepository
 import top.niunaijun.blackboxa.view.base.BaseViewModel
 
@@ -12,7 +12,7 @@ import top.niunaijun.blackboxa.view.base.BaseViewModel
  */
 class FakeLocationViewModel(private val mRepo: FakeLocationRepository) : BaseViewModel() {
 
-    val appsLiveData = MutableLiveData<List<InstalledAppBean>>()
+    val appsLiveData = MutableLiveData<List<FakeLocationBean>>()
 
     val loadingLiveData = MutableLiveData<Boolean>()
 

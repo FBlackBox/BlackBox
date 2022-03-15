@@ -8,8 +8,7 @@ data class FakeLocationBean(
     val name: String,
     val icon: Drawable,
     val packageName: String,
-    val isInstall: Boolean,
-    var fakeLocationPattern: Int,
+    var fakeLocationPattern: Unit,
     var fakeLocation: BLocation
 )
 
