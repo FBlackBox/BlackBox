@@ -2,15 +2,18 @@ package top.niunaijun.blackbox.fake.service;
 
 import android.content.Context;
 import android.location.LocationManager;
+import android.os.IInterface;
 import android.util.Log;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
 
+import black.android.location.BRILocationListener;
 import black.android.location.BRILocationManagerStub;
 import black.android.os.BRServiceManager;
 import top.niunaijun.blackbox.app.BActivityThread;
+import top.niunaijun.blackbox.entity.location.BLocation;
 import top.niunaijun.blackbox.fake.frameworks.BLocationManager;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
@@ -49,7 +52,8 @@ public class ILocationManagerProxy extends BinderInvocationStub {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        MethodParameterUtils.replaceLastAppPkg(args);
+        Log.d(TAG, "call: " + method.getName());
+        MethodParameterUtils.replaceFirstAppPkg(args);
         return super.invoke(proxy, method, args);
     }
 
@@ -58,9 +62,7 @@ public class ILocationManagerProxy extends BinderInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Log.d(TAG, "RegisterGnssStatusCallback");
-//            MethodParameterUtils.replaceLastAppPkg(args);
-//            return method.invoke(who, args);
+            // todo
             return true;
         }
     }
@@ -70,13 +72,9 @@ public class ILocationManagerProxy extends BinderInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Log.d(TAG, "getLastLocation");
             if (BLocationManager.isFakeLocationEnable()) {
                 return BLocationManager.get().getLocation(BActivityThread.getUserId(), BActivityThread.getAppPackageName());
             }
-//            BLocation bLocation = new BLocation(30.263214, 120.159073);
-//            return bLocation.convert2SystemLocation();
-            MethodParameterUtils.replaceFirstAppPkg(args);
             return method.invoke(who, args);
         }
     }
@@ -86,10 +84,9 @@ public class ILocationManagerProxy extends BinderInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Log.d(TAG, "getLastKnownLocation");
-//            BLocation bLocation = new BLocation(30.263214, 120.159073);
-//            return bLocation.convert2SystemLocation();
-            MethodParameterUtils.replaceFirstAppPkg(args);
+            if (BLocationManager.isFakeLocationEnable()) {
+                return BLocationManager.get().getLocation(BActivityThread.getUserId(), BActivityThread.getAppPackageName());
+            }
             return method.invoke(who, args);
         }
     }
@@ -99,13 +96,17 @@ public class ILocationManagerProxy extends BinderInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Log.d(TAG, "requestLocationUpdates");
-            Log.d(TAG, "PackageName: " + BActivityThread.getAppPackageName());
-            Log.d(TAG, "UserId: " + BActivityThread.getUserId());
-//            BLocation bLocation = new BLocation(30.263214, 120.159073);
-//            return bLocation.convert2SystemLocation();
-//            Location location = new Location();
-            MethodParameterUtils.replaceFirstAppPkg(args);
+            if (BLocationManager.isFakeLocationEnable()) {
+                BLocation location = BLocationManager.get().getLocation(BActivityThread.getUserId(), BActivityThread.getAppPackageName());
+                if (location != null) {
+                    if (args[1] instanceof IInterface) {
+                        // TODO move to BLocationManagerService
+                        IInterface listener = (IInterface) args[1];
+                        BRILocationListener.get(listener).onLocationChanged(location.convert2SystemLocation());
+                        return 0;
+                    }
+                }
+            }
             return method.invoke(who, args);
         }
     }
@@ -116,11 +117,6 @@ public class ILocationManagerProxy extends BinderInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Log.d(TAG, "getProviderProperties");
-//            BLocation bLocation = new BLocation(30.263214, 120.159073);
-//            return bLocation.convert2SystemLocation();
-//            Location location = new Location();
-//            MethodParameterUtils.replaceFirstAppPkg(args);
             return method.invoke(who, args);
         }
     }
@@ -130,7 +126,8 @@ public class ILocationManagerProxy extends BinderInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            return method.invoke(who, args);
+            // todo
+            return 0;
         }
     }
 
@@ -158,7 +155,7 @@ public class ILocationManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             String provider = (String) args[0];
-            return Objects.equals(provider, LocationManager.GPS_PROVIDER) || Objects.equals(provider, LocationManager.NETWORK_PROVIDER);
+            return Objects.equals(provider, LocationManager.GPS_PROVIDER);
         }
     }
 }
