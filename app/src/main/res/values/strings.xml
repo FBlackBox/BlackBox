@@ -9,6 +9,8 @@
     <string name="open_source_path">Open Source</string>
     <string name="xp_setting">Xposed Setting</string>
     <string name="tg_group">Telegram Group</string>
+    <string name="fake_location">Fake Location(Developing)</string>
+    <string name="real_location">Real Location</string>
     <string name="setting">Setting</string>
     <string name="jump_module">Go to Module Manager</string>
     <string name="module_setting">Module Manager</string>
