@@ -5,9 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ferfalk.simplesearchview.SimpleSearchView
@@ -24,7 +22,7 @@ import top.niunaijun.blackboxa.view.list.ListActivity
  * @Author: BlackBoxing
  * @CreateDate: 2022/3/14
  */
-class ListFake : BaseActivity() {
+class FakeManagerActivity : BaseActivity() {
 
     private val viewBinding: ActivityListBinding by inflate()
 
@@ -74,14 +72,10 @@ class ListFake : BaseActivity() {
     }
 
     private fun initViewModel() {
-//        viewModel = ViewModelProvider(this, InjectionUtil.getListFactory()).get(ListViewModel::class.java)
-
-
         viewModel = ViewModelProvider(this, InjectionUtil.getFakeLocationFactory()).get(
             FakeLocationViewModel::class.java
         )
         val userID = intent.getIntExtra("userID", 0)
-//        viewModel.previewInstalledList()
         viewModel.getInstallAppList(userID)
         viewBinding.toolbarLayout.toolbar.setTitle(R.string.fake_location)
 
@@ -97,12 +91,10 @@ class ListFake : BaseActivity() {
         viewModel.appsLiveData.observe(this) { its ->
             if (its != null) {
                 this.appList = its
-//                this.appList = this.appList.filter { it.isInstall }
                 viewBinding.searchView.setQuery("", false)
                 filterApp("")
                 if (its.isNotEmpty()) {
                     viewBinding.stateView.showContent()
-//                    viewModel.previewInstalledList()
                 } else {
                     viewBinding.stateView.showEmpty()
                 }
@@ -116,13 +108,6 @@ class ListFake : BaseActivity() {
         }
         mAdapter.replaceData(newList)
     }
-
-    private val openDocumentedResult =
-        registerForActivityResult(ActivityResultContracts.GetContent()) {
-            it?.run {
-                finishWithResult(it.toString())
-            }
-        }
 
     private fun finishWithResult(source: String) {
         intent.putExtra("source", source)
@@ -143,18 +128,10 @@ class ListFake : BaseActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.list_choose) {
-            openDocumentedResult.launch("application/vnd.android.package-archive")
-        }
-        return true
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_list, menu)
+        menuInflater.inflate(R.menu.menu_search, menu)
         val item = menu!!.findItem(R.id.list_search)
         viewBinding.searchView.setMenuItem(item)
-
         return true
     }
 

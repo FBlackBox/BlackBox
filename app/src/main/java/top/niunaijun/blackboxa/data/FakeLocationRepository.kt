@@ -4,8 +4,8 @@ import android.content.pm.ApplicationInfo
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import top.niunaijun.blackbox.BlackBoxCore
-import top.niunaijun.blackbox.app.BFakeLocationManager
-import top.niunaijun.blackbox.entity.BLocation
+import top.niunaijun.blackbox.entity.location.BLocation
+import top.niunaijun.blackbox.fake.frameworks.BLocationManager
 import top.niunaijun.blackboxa.bean.FakeLocationBean
 
 /**
@@ -18,15 +18,15 @@ class FakeLocationRepository {
     val TAG: String = "FakeLocationRepository"
 
     fun setPattern(userId: Int, pkg: String, pattern: Int) {
-        BFakeLocationManager.get().setPattern(userId, pkg, pattern)
+        BLocationManager.get().setPattern(userId, pkg, pattern)
     }
 
-    private fun getPattern(userId: Int, pkg: String) {
-        return BFakeLocationManager.get().getPattern(userId, pkg)
+    private fun getPattern(userId: Int, pkg: String): Int {
+        return BLocationManager.get().getPattern(userId, pkg)
     }
 
-    fun getLocation(userId: Int, pkg: String): BLocation {
-        return BFakeLocationManager.get().getLocation(userId, pkg)
+    private fun getLocation(userId: Int, pkg: String): BLocation? {
+        return BLocationManager.get().getLocation(userId, pkg)
     }
 
     fun getInstalledAppList(
@@ -55,7 +55,6 @@ class FakeLocationRepository {
                 installedApplication.packageName,
                 getPattern(userID, installedApplication.packageName),
                 getLocation(userID, installedApplication.packageName)
-
             )
             installedList.add(info)
         }
@@ -63,7 +62,5 @@ class FakeLocationRepository {
         Log.d(TAG, installedList.joinToString(","))
         appsFakeLiveData.postValue(installedList)
         loadingLiveData.postValue(false)
-
     }
-
 }

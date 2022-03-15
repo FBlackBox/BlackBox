@@ -8,6 +8,7 @@ import java.util.Map;
 import top.niunaijun.blackbox.core.system.accounts.BAccountManagerService;
 import top.niunaijun.blackbox.core.system.am.BActivityManagerService;
 import top.niunaijun.blackbox.core.system.am.BJobManagerService;
+import top.niunaijun.blackbox.core.system.location.BLocationManagerService;
 import top.niunaijun.blackbox.core.system.os.BStorageManagerService;
 import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
 import top.niunaijun.blackbox.core.system.pm.BXposedManagerService;
@@ -30,6 +31,7 @@ public class ServiceManager {
     public static final String USER_MANAGER = "user_manager";
     public static final String XPOSED_MANAGER = "xposed_manager";
     public static final String ACCOUNT_MANAGER = "account_manager";
+    public static final String LOCATION_MANAGER = "location_manager";
 
     private final Map<String, IBinder> mCaches = new HashMap<>();
 
@@ -56,6 +58,7 @@ public class ServiceManager {
         mCaches.put(USER_MANAGER, BUserManagerService.get());
         mCaches.put(XPOSED_MANAGER, BXposedManagerService.get());
         mCaches.put(ACCOUNT_MANAGER, BAccountManagerService.get());
+        mCaches.put(LOCATION_MANAGER, BLocationManagerService.get());
     }
 
     public IBinder getServiceInternal(String name) {

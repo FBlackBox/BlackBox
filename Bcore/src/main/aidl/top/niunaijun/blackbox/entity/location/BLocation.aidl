@@ -1,5 +1,4 @@
-// AppConfig.aidl
-package top.niunaijun.blackbox.entity;
+package top.niunaijun.blackbox.entity.location;
 
 // Declare any non-default types here with import statements
 

@@ -10,11 +10,8 @@ import java.util.Objects;
 
 import black.android.location.BRILocationManagerStub;
 import black.android.os.BRServiceManager;
-import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.BActivityThread;
-import top.niunaijun.blackbox.app.BFakeLocationManager;
-import top.niunaijun.blackbox.core.system.location.BFakeLocationManagerService;
-import top.niunaijun.blackbox.entity.BLocation;
+import top.niunaijun.blackbox.fake.frameworks.BLocationManager;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
@@ -74,8 +71,8 @@ public class ILocationManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Log.d(TAG, "getLastLocation");
-            if (BFakeLocationManager.isFakeLocationEnable()) {
-                return BFakeLocationManager.get().getLocation(BActivityThread.getUserId(), BActivityThread.getAppPackageName());
+            if (BLocationManager.isFakeLocationEnable()) {
+                return BLocationManager.get().getLocation(BActivityThread.getUserId(), BActivityThread.getAppPackageName());
             }
 //            BLocation bLocation = new BLocation(30.263214, 120.159073);
 //            return bLocation.convert2SystemLocation();
@@ -137,7 +134,7 @@ public class ILocationManagerProxy extends BinderInvocationStub {
         }
     }
 
-    @ProxyMethod("getBestProviderr")
+    @ProxyMethod("getBestProvider")
     public static class GetBestProvider extends MethodHook {
 
         @Override

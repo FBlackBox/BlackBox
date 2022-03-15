@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package top.niunaijun.blackbox.entity;
+package top.niunaijun.blackbox.entity.location;
 
 import android.location.Location;
 import android.location.LocationManager;
@@ -31,7 +31,7 @@ public class BLocation implements Parcelable {
     private double mAltitude = 0.0f;
     private float mSpeed = 0.0f;
     private float mBearing = 0.0f;
-    private  float mAccuracy = 0.0f;
+    private float mAccuracy = 0.0f;
 //    private float mHorizontalAccuracyMeters = 0.0f;
 //    private float mVerticalAccuracyMeters = 0.0f;
 //    private float mSpeedAccuracyMetersPerSecond = 0.0f;

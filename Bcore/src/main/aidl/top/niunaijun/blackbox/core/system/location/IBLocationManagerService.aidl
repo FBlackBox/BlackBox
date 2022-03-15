@@ -1,13 +1,13 @@
 // IFakeLocationManager.aidl
 package top.niunaijun.blackbox.core.system.location;
 
-import top.niunaijun.blackbox.entity.BLocation;
-import top.niunaijun.blackbox.entity.BCell;
+import top.niunaijun.blackbox.entity.location.BLocation;
+import top.niunaijun.blackbox.entity.location.BCell;
 
 import java.util.List;
 
 
-interface IFakeLocationManager {
+interface IBLocationManagerService {
     int getPattern(int userId, String pkg);
 
     void setPattern(int userId, String pkg, int mode);
