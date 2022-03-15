@@ -1,10 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext.kotlin_version = "1.4.31"
-    repositories {
+    repositories {        
+        mavenCentral()
         google()
         jcenter()
-        mavenCentral()
         maven { url 'https://jitpack.io' }
 //        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
@@ -16,9 +16,9 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenCentral()
         google()
         jcenter()
-        mavenCentral()
         maven { url 'https://jitpack.io' }
 //        maven { url 'https://dl.bintray.com/umsdk/release' }
     }

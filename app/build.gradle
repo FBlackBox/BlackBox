@@ -136,4 +136,7 @@ dependencies {
     //searchView
     implementation 'com.github.Othershe:CornerLabelView:1.0.0'
     //图标角标
+
+    // osmdroid
+    implementation 'org.osmdroid:osmdroid-android:6.1.11'
 }

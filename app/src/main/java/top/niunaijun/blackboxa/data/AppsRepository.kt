@@ -2,6 +2,7 @@ package top.niunaijun.blackboxa.data
 
 import android.content.pm.ApplicationInfo
 import android.net.Uri
+import android.util.Log
 import android.webkit.URLUtil
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
@@ -24,18 +25,19 @@ import java.io.File
  */
 
 class AppsRepository {
-
+    val TAG: String = "AppsRepository"
     private var mInstalledList = mutableListOf<AppInfo>()
 
     fun previewInstallList() {
-        synchronized(mInstalledList){
-            val installedApplications: List<ApplicationInfo> = getPackageManager().getInstalledApplications(0)
+        synchronized(mInstalledList) {
+            val installedApplications: List<ApplicationInfo> =
+                getPackageManager().getInstalledApplications(0)
             val installedList = mutableListOf<AppInfo>()
 
             for (installedApplication in installedApplications) {
                 val file = File(installedApplication.sourceDir)
 
-                if ((installedApplication.flags and  ApplicationInfo.FLAG_SYSTEM) != 0) continue
+                if ((installedApplication.flags and ApplicationInfo.FLAG_SYSTEM) != 0) continue
 
                 if (!AbiUtils.isSupport(file)) continue
 
@@ -57,15 +59,28 @@ class AppsRepository {
 
     }
 
-    fun getInstalledAppList(userID: Int,loadingLiveData: MutableLiveData<Boolean>, appsLiveData: MutableLiveData<List<InstalledAppBean>>) {
+    fun getInstalledAppList(
+        userID: Int,
+        loadingLiveData: MutableLiveData<Boolean>,
+        appsLiveData: MutableLiveData<List<InstalledAppBean>>
+    ) {
         loadingLiveData.postValue(true)
         synchronized(mInstalledList) {
             val blackBoxCore = BlackBoxCore.get()
+            Log.d(TAG, mInstalledList.joinToString(","))
             val newInstalledList = mInstalledList.map {
-                InstalledAppBean(it.name,it.icon,it.packageName,it.sourceDir,blackBoxCore.isInstalled(it.packageName,userID))
+                InstalledAppBean(
+                    it.name,
+                    it.icon,
+                    it.packageName,
+                    it.sourceDir,
+                    blackBoxCore.isInstalled(it.packageName, userID)
+                )
             }
             appsLiveData.postValue(newInstalledList)
             loadingLiveData.postValue(false)
+
+
         }
 
     }
@@ -81,7 +96,13 @@ class AppsRepository {
             val moduleList = mInstalledList.filter {
                 it.isXpModule
             }.map {
-                InstalledAppBean(it.name,it.icon,it.packageName,it.sourceDir,blackBoxCore.isInstalledXposedModule(it.packageName))
+                InstalledAppBean(
+                    it.name,
+                    it.icon,
+                    it.packageName,
+                    it.sourceDir,
+                    blackBoxCore.isInstalledXposedModule(it.packageName)
+                )
             }
             appsLiveData.postValue(moduleList)
             loadingLiveData.postValue(false)

@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="top.niunaijun.blackboxa">
-    <!--  Android 11 需要  -->
+    <!-- Android 11 需要 -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -14,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BlackBox"
         tools:targetApi="n">
+        <activity
+            android:name=".view.fake.FollowMyLocationOverlay"
+            android:exported="false" />
         <activity android:name=".view.setting.SettingActivity" />
         <activity android:name=".view.gms.GmsManagerActivity" />
         <activity
@@ -27,6 +31,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.list.ListActivity" />
+        <activity android:name=".view.fake.FakeManagerActivity" />
         <activity android:name=".view.xp.XpActivity" />
         <activity
             android:name=".view.main.ShortcutActivity"
@@ -37,7 +42,6 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

@@ -39,12 +39,15 @@ import top.niunaijun.blackbox.core.system.DaemonService;
 import top.niunaijun.blackbox.core.system.ServiceManager;
 import top.niunaijun.blackbox.core.system.user.BUserHandle;
 import top.niunaijun.blackbox.core.system.user.BUserInfo;
+import top.niunaijun.blackbox.entity.location.BCell;
+import top.niunaijun.blackbox.entity.location.BLocation;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackbox.entity.pm.InstallResult;
 import top.niunaijun.blackbox.entity.pm.InstalledModule;
 import top.niunaijun.blackbox.fake.delegate.ContentProviderDelegate;
 import top.niunaijun.blackbox.fake.frameworks.BActivityManager;
 import top.niunaijun.blackbox.fake.frameworks.BJobManager;
+import top.niunaijun.blackbox.fake.frameworks.BLocationManager;
 import top.niunaijun.blackbox.fake.frameworks.BPackageManager;
 import top.niunaijun.blackbox.fake.frameworks.BStorageManager;
 import top.niunaijun.blackbox.fake.frameworks.BUserManager;
@@ -53,6 +56,7 @@ import top.niunaijun.blackbox.fake.hook.HookManager;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.ShellUtils;
+import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
 import top.niunaijun.blackbox.utils.compat.XposedParserCompat;
@@ -153,6 +157,9 @@ public class BlackBoxCore extends ClientConfiguration {
                 }
             }
         }
+        if (isMainProcess()) {
+//            BLocationManager.get().setCell(0, "com.ppp", new BCell());
+        }
         PineConfig.debug = true;
         PineConfig.debuggable = true;
         HookManager.get().init();
@@ -174,6 +181,7 @@ public class BlackBoxCore extends ClientConfiguration {
         get().getService(ServiceManager.STORAGE_MANAGER);
         get().getService(ServiceManager.JOB_MANAGER);
         get().getService(ServiceManager.ACCOUNT_MANAGER);
+        get().getService(ServiceManager.LOCATION_MANAGER);
     }
 
     public static Object mainThread() {

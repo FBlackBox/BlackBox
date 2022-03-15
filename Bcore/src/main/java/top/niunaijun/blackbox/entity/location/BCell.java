@@ -1,4 +1,4 @@
-package top.niunaijun.blackbox.entity;
+package top.niunaijun.blackbox.entity.location;
 
 import android.os.Parcel;
 import android.os.Parcelable;
