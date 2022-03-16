@@ -10,6 +10,10 @@ import top.niunaijun.blackboxa.bean.FakeLocationBean
 
 /**
  * getInstalledApplications and query fake location of each of them.
+ * mode and location configuration are respectively concept.
+ * Location config just store the location but mode decides whether turns on it
+ * each application has three pattern.Global: use global fake location,
+ * self: use own config, close: use real config
  * @Description:
  * @Author: BlackBoxing
  * @CreateDate: 2022/3/12 21:14
@@ -27,6 +31,10 @@ class FakeLocationRepository {
 
     private fun getLocation(userId: Int, pkg: String): BLocation? {
         return BLocationManager.get().getLocation(userId, pkg)
+    }
+
+    fun setLocation(userId: Int, pkg: String, location: BLocation) {
+        BLocationManager.get().setLocation(userId, pkg, location)
     }
 
     fun getInstalledAppList(
