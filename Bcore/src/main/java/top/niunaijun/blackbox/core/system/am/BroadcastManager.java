@@ -25,7 +25,7 @@ import top.niunaijun.blackbox.utils.Slog;
 public class BroadcastManager implements PackageMonitor {
     public static final String TAG = "BroadcastManager";
 
-    public static final int TIMEOUT = 8000;
+    public static final int TIMEOUT = 9000;
 
     public static final int MSG_TIME_OUT = 1;
 

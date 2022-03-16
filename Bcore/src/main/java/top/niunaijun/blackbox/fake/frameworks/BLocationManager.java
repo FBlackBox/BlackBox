@@ -150,7 +150,7 @@ public class BLocationManager {
 
 
     private IBLocationManagerService getService() {
-        if (mService != null && mService.asBinder().isBinderAlive()) {
+        if (mService != null && mService.asBinder().pingBinder()) {
             return mService;
         }
         mService = IBLocationManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.LOCATION_MANAGER));

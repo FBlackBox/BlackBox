@@ -53,7 +53,7 @@ public class BUserManager {
     }
 
     private IBUserManagerService getService() {
-        if (mService != null && mService.asBinder().isBinderAlive()) {
+        if (mService != null && mService.asBinder().pingBinder()) {
             return mService;
         }
         mService = IBUserManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.USER_MANAGER));

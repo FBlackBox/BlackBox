@@ -178,10 +178,10 @@ public class HookManager {
     void injectAll() {
         for (IInjectHook value : mInjectors.values()) {
             try {
-                Slog.d(TAG, "injectHook: " + value);
+                Slog.d(TAG, "hook: " + value);
                 value.injectHook();
             } catch (Exception e) {
-                e.printStackTrace();
+                Slog.d(TAG, "hook error: " + value);
             }
         }
     }
