@@ -85,7 +85,11 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
             if (processRecord == null) {
                 continue;
             }
-            processRecord.bActivityThread.bindApplication();
+            try {
+                processRecord.bActivityThread.bindApplication();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
         Intent shadow = new Intent();
         shadow.setPackage(BlackBoxCore.getHostPkg());
