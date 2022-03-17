@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,14 +27,17 @@ import java.util.Set;
 
 import black.android.app.BRActivityManagerNative;
 import black.android.app.BRIActivityManager;
+import black.com.android.internal.BRRstyleable;
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.core.system.BProcessManagerService;
 import top.niunaijun.blackbox.core.system.ProcessRecord;
 import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
+import top.niunaijun.blackbox.core.system.pm.PackageManagerCompat;
 import top.niunaijun.blackbox.proxy.ProxyActivity;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.proxy.record.ProxyActivityRecord;
 import top.niunaijun.blackbox.utils.ComponentUtils;
+import top.niunaijun.blackbox.utils.Slog;
 
 import static android.content.pm.PackageManager.GET_ACTIVITIES;
 
@@ -328,7 +333,32 @@ public class ActivityStack {
                                                    int userId, ProxyActivityRecord target,
                                                    ActivityInfo activityInfo) {
         Intent shadow = new Intent();
-        shadow.setComponent(new ComponentName(BlackBoxCore.getHostPkg(), ProxyManifest.getProxyActivity(vpid)));
+        TypedArray typedArray = null;
+        try {
+            Resources resources = PackageManagerCompat.getResources(BlackBoxCore.getContext(), activityInfo.applicationInfo);
+            int id;
+            if (activityInfo.theme != 0) {
+                id = activityInfo.theme;
+            } else {
+                id = activityInfo.applicationInfo.theme;
+            }
+            assert resources != null;
+            typedArray = resources.newTheme().obtainStyledAttributes(id, BRRstyleable.get().Window());
+            boolean windowIsTranslucent = typedArray.getBoolean(BRRstyleable.get().Window_windowIsTranslucent(), false);
+            if (windowIsTranslucent) {
+                shadow.setComponent(new ComponentName(BlackBoxCore.getHostPkg(), ProxyManifest.TransparentProxyActivity(vpid)));
+            } else {
+                shadow.setComponent(new ComponentName(BlackBoxCore.getHostPkg(), ProxyManifest.getProxyActivity(vpid)));
+            }
+            Slog.d(TAG, activityInfo + ", windowIsTranslucent: " + windowIsTranslucent);
+        } catch (Throwable e) {
+            e.printStackTrace();
+            shadow.setComponent(new ComponentName(BlackBoxCore.getHostPkg(), ProxyManifest.getProxyActivity(vpid)));
+        } finally {
+            if (typedArray != null) {
+                typedArray.recycle();
+            }
+        }
         ProxyActivityRecord.saveStub(shadow, intent, target.mActivityInfo, target.mActivityRecord, target.mUserId);
         return shadow;
     }

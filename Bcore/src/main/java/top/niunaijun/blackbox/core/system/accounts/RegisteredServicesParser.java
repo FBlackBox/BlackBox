@@ -11,6 +11,7 @@ import android.os.Bundle;
 import black.android.content.res.BRAssetManager;
 import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
 import top.niunaijun.blackbox.core.system.pm.BPackageSettings;
+import top.niunaijun.blackbox.core.system.pm.PackageManagerCompat;
 
 public class RegisteredServicesParser {
 
@@ -33,13 +34,6 @@ public class RegisteredServicesParser {
     }
 
     public Resources getResources(Context context, ApplicationInfo appInfo) {
-        BPackageSettings ps = BPackageManagerService.get().getBPackageSetting(appInfo.packageName);
-        if (ps != null) {
-            AssetManager assets = BRAssetManager.get()._new();
-            BRAssetManager.get(assets).addAssetPath(ps.pkg.baseCodePath);
-            Resources hostRes = context.getResources();
-            return new Resources(assets, hostRes.getDisplayMetrics(), hostRes.getConfiguration());
-        }
-        return null;
+        return PackageManagerCompat.getResources(context, appInfo);
     }
 }
