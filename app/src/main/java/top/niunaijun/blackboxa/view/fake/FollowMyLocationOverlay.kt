@@ -4,15 +4,19 @@ package top.niunaijun.blackboxa.view.fake
 import android.app.Activity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.preference.PreferenceManager
 import org.osmdroid.config.Configuration.getInstance
+import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.MapEventsOverlay
 import top.niunaijun.blackbox.entity.location.BLocation
 import top.niunaijun.blackboxa.R
+
 
 /**
  *
@@ -41,6 +45,7 @@ class FollowMyLocationOverlay : AppCompatActivity() {
         //inflate and create the map
         var startPoint: GeoPoint
         setContentView(R.layout.activity_osmdroid)
+
 //        if (intent.extras.get("notEmpty") == null) {
 //            var bundle = intent.extras
 //            for (key in bundle.keySet()) {
@@ -62,6 +67,21 @@ class FollowMyLocationOverlay : AppCompatActivity() {
 //        Intent intent = getIntent ()
 //        Bundle bundle = intent . getExtras ()
         map = findViewById<MapView>(R.id.map)
+        val mReceive: MapEventsReceiver = object : MapEventsReceiver {
+            override fun singleTapConfirmedHelper(p: GeoPoint): Boolean {
+                Toast.makeText(
+                    baseContext,
+                    p.latitude.toString() + " - " + p.longitude,
+                    Toast.LENGTH_LONG
+                ).show()
+                return false
+            }
+
+            override fun longPressHelper(p: GeoPoint): Boolean {
+                return false
+            }
+        }
+        map.overlays.add(MapEventsOverlay(mReceive))
         val mapController = map.controller
         mapController.setZoom(12.5)
 //        val startPoint = GeoPoint(30.2736, 120.1563)
