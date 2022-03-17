@@ -278,7 +278,7 @@ public class BActivityManager {
     }
 
     private IBActivityManagerService getService() {
-        if (mService != null && mService.asBinder().isBinderAlive()) {
+        if (mService != null && mService.asBinder().pingBinder()) {
             return mService;
         }
         mService = IBActivityManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.ACTIVITY_MANAGER));

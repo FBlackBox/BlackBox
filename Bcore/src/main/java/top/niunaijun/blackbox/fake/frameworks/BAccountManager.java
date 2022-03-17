@@ -333,7 +333,7 @@ public class BAccountManager {
     }
 
     private IBAccountManagerService getService() {
-        if (mService != null && mService.asBinder().isBinderAlive()) {
+        if (mService != null && mService.asBinder().pingBinder()) {
             return mService;
         }
         mService = IBAccountManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.ACCOUNT_MANAGER));

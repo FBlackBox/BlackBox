@@ -27,6 +27,14 @@ public class BLocationManager {
         return sLocationManager;
     }
 
+    private IBLocationManagerService getService() {
+        if (mService != null && mService.asBinder().pingBinder()) {
+            return mService;
+        }
+        mService = IBLocationManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.LOCATION_MANAGER));
+        return getService();
+    }
+
     public static boolean isFakeLocationEnable() {
         return get().getPattern(BActivityThread.getUserId(), BActivityThread.getAppPackageName()) != CLOSE_MODE;
     }
@@ -64,9 +72,27 @@ public class BLocationManager {
         }
     }
 
-    public void setSurroundingCell(int userId, String pkg, List<BCell> cells) {
+    public List<BCell> getNeighboringCell(int userId, String pkg) {
         try {
-            getService().setSurroundingCell(userId, pkg, cells);
+            return getService().getNeighboringCell(userId, pkg);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<BCell> getGlobalNeighboringCell() {
+        try {
+            return getService().getGlobalNeighboringCell();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void setNeighboringCell(int userId, String pkg, List<BCell> cells) {
+        try {
+            getService().setNeighboringCell(userId, pkg, cells);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -88,9 +114,9 @@ public class BLocationManager {
         }
     }
 
-    public void setGlobalSurroundingCell(List<BCell> cells) {
+    public void setGlobalNeighboringCell(List<BCell> cells) {
         try {
-            getService().setGlobalSurroundingCell(cells);
+            getService().setGlobalNeighboringCell(cells);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -149,11 +175,4 @@ public class BLocationManager {
     }
 
 
-    private IBLocationManagerService getService() {
-        if (mService != null && mService.asBinder().isBinderAlive()) {
-            return mService;
-        }
-        mService = IBLocationManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.LOCATION_MANAGER));
-        return getService();
-    }
 }

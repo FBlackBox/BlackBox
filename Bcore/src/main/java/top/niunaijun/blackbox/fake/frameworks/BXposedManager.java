@@ -1,5 +1,6 @@
 package top.niunaijun.blackbox.fake.frameworks;
 
+import android.os.IBinder;
 import android.os.RemoteException;
 
 import java.util.Collections;
@@ -70,7 +71,7 @@ public class BXposedManager {
     }
 
     private IBXposedManagerService getService() {
-        if (mService != null && mService.asBinder().isBinderAlive()) {
+        if (mService != null && mService.asBinder().pingBinder()) {
             return mService;
         }
         mService = IBXposedManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.XPOSED_MANAGER));
