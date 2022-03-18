@@ -323,7 +323,7 @@
         android:name="android.permission.HARDWARE_TEST"
         tools:ignore="ProtectedPermissions" />
 
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
     <!--android11-->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
@@ -1085,6 +1085,258 @@
             android:exported="true"
             android:process=":p49"
             android:taskAffinity="top.niunaijun.blackbox.task_affinity"
+            android:theme="@android:style/Theme.Translucent" />
+
+
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P0"
+            android:exported="true"
+            android:process=":p0"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P1"
+            android:exported="true"
+            android:process=":p1"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P2"
+            android:exported="true"
+            android:process=":p2"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P3"
+            android:exported="true"
+            android:process=":p3"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P4"
+            android:exported="true"
+            android:process=":p4"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P5"
+            android:exported="true"
+            android:process=":p5"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P6"
+            android:exported="true"
+            android:process=":p6"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P7"
+            android:exported="true"
+            android:process=":p7"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P8"
+            android:exported="true"
+            android:process=":p8"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P9"
+            android:exported="true"
+            android:process=":p9"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P10"
+            android:exported="true"
+            android:process=":p10"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P11"
+            android:exported="true"
+            android:process=":p11"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P12"
+            android:exported="true"
+            android:process=":p12"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P13"
+            android:exported="true"
+            android:process=":p13"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P14"
+            android:exported="true"
+            android:process=":p14"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P15"
+            android:exported="true"
+            android:process=":p15"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P16"
+            android:exported="true"
+            android:process=":p16"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P17"
+            android:exported="true"
+            android:process=":p17"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P18"
+            android:exported="true"
+            android:process=":p18"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P19"
+            android:exported="true"
+            android:process=":p19"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P20"
+            android:exported="true"
+            android:process=":p20"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P21"
+            android:exported="true"
+            android:process=":p21"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P22"
+            android:exported="true"
+            android:process=":p22"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P23"
+            android:exported="true"
+            android:process=":p23"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P24"
+            android:exported="true"
+            android:process=":p24"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P25"
+            android:exported="true"
+            android:process=":p25"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P26"
+            android:exported="true"
+            android:process=":p26"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P27"
+            android:exported="true"
+            android:process=":p27"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P28"
+            android:exported="true"
+            android:process=":p28"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P29"
+            android:exported="true"
+            android:process=":p29"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P30"
+            android:exported="true"
+            android:process=":p30"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P31"
+            android:exported="true"
+            android:process=":p31"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P32"
+            android:exported="true"
+            android:process=":p32"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P33"
+            android:exported="true"
+            android:process=":p33"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P34"
+            android:exported="true"
+            android:process=":p34"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P35"
+            android:exported="true"
+            android:process=":p35"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P36"
+            android:exported="true"
+            android:process=":p36"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P37"
+            android:exported="true"
+            android:process=":p37"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P38"
+            android:exported="true"
+            android:process=":p38"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P39"
+            android:exported="true"
+            android:process=":p39"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P40"
+            android:exported="true"
+            android:process=":p40"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P41"
+            android:exported="true"
+            android:process=":p41"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P42"
+            android:exported="true"
+            android:process=":p42"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P43"
+            android:exported="true"
+            android:process=":p43"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P44"
+            android:exported="true"
+            android:process=":p44"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P45"
+            android:exported="true"
+            android:process=":p45"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P46"
+            android:exported="true"
+            android:process=":p46"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P47"
+            android:exported="true"
+            android:process=":p47"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P48"
+            android:exported="true"
+            android:process=":p48"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".proxy.ProxyPendingActivity$P49"
+            android:exported="true"
+            android:process=":p48"
             android:theme="@android:style/Theme.Translucent" />
 
         <service

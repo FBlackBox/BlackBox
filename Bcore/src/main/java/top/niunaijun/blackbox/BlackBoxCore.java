@@ -179,6 +179,7 @@ public class BlackBoxCore extends ClientConfiguration {
         get().getService(ServiceManager.JOB_MANAGER);
         get().getService(ServiceManager.ACCOUNT_MANAGER);
         get().getService(ServiceManager.LOCATION_MANAGER);
+        get().getService(ServiceManager.NOTIFICATION_MANAGER);
     }
 
     public static Object mainThread() {

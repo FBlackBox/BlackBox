@@ -15,6 +15,7 @@ import top.niunaijun.blackbox.core.system.accounts.BAccountManagerService;
 import top.niunaijun.blackbox.core.system.am.BActivityManagerService;
 import top.niunaijun.blackbox.core.system.am.BJobManagerService;
 import top.niunaijun.blackbox.core.system.location.BLocationManagerService;
+import top.niunaijun.blackbox.core.system.notification.BNotificationManagerService;
 import top.niunaijun.blackbox.core.system.os.BStorageManagerService;
 import top.niunaijun.blackbox.core.system.pm.BPackageInstallerService;
 import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
@@ -63,6 +64,7 @@ public class BlackBoxSystem {
         mServices.add(BProcessManagerService.get());
         mServices.add(BAccountManagerService.get());
         mServices.add(BLocationManagerService.get());
+        mServices.add(BNotificationManagerService.get());
 
         for (ISystemService service : mServices) {
             service.systemReady();
