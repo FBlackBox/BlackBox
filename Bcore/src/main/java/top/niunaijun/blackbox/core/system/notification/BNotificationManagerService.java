@@ -209,11 +209,14 @@ public class BNotificationManagerService extends IBNotificationManagerService.St
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.O)
     private void handleNotificationChannel(NotificationChannel notificationChannel, int userId) {
         NotificationChannelContext channelContext = BRNotificationChannel.get(notificationChannel);
         String channelId = channelContext.mId();
         String blackChannelId = getBlackChannelId(channelId, userId);
         channelContext._set_mId(blackChannelId);
+
+        notificationChannel.setGroup(getBlackGroupId(notificationChannel.getGroup(), userId));
     }
 
     private void resetNotificationChannel(NotificationChannel notificationChannel) {
