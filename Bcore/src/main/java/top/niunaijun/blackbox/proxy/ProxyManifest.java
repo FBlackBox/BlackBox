@@ -27,6 +27,10 @@ public class ProxyManifest {
         return String.format(Locale.CHINA, "%s.proxy_content_provider_%d", BlackBoxCore.getHostPkg(), index);
     }
 
+    public static String getProxyPendingActivity(int index) {
+        return String.format(Locale.CHINA, "top.niunaijun.blackbox.proxy.ProxyPendingActivity$P%d", index);
+    }
+
     public static String getProxyActivity(int index) {
         return String.format(Locale.CHINA, "top.niunaijun.blackbox.proxy.ProxyActivity$P%d", index);
     }

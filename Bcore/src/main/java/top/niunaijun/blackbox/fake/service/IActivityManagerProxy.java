@@ -45,7 +45,7 @@ import top.niunaijun.blackbox.fake.hook.ScanClass;
 import top.niunaijun.blackbox.fake.service.context.providers.ContentProviderStub;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.proxy.record.ProxyBroadcastRecord;
-import top.niunaijun.blackbox.proxy.record.ProxyPendingActivityRecord;
+import top.niunaijun.blackbox.proxy.record.ProxyPendingRecord;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 import top.niunaijun.blackbox.utils.Reflector;
 import top.niunaijun.blackbox.utils.compat.ActivityManagerCompat;
@@ -334,9 +334,8 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                 switch (type) {
                     case ActivityManagerCompat.INTENT_SENDER_ACTIVITY:
                         Intent shadow = new Intent();
-                        shadow.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        shadow.setComponent(new ComponentName(BlackBoxCore.getHostPkg(), ProxyManifest.getProxyActivity(BActivityThread.getAppPid())));
-                        ProxyPendingActivityRecord.saveStub(shadow, intent, BActivityThread.getUserId());
+                        shadow.setComponent(new ComponentName(BlackBoxCore.getHostPkg(), ProxyManifest.getProxyPendingActivity(BActivityThread.getAppPid())));
+                        ProxyPendingRecord.saveStub(shadow, intent, BActivityThread.getUserId());
                         intents[i] = shadow;
                         break;
                 }
