@@ -1,31 +1,47 @@
 package top.niunaijun.blackbox.fake.service;
 
 import android.content.Context;
+import android.os.IBinder;
 
 import java.lang.reflect.Method;
 
+import black.android.os.BRIVibratorManagerServiceStub;
 import black.android.os.BRServiceManager;
 import black.com.android.internal.os.BRIVibratorServiceStub;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
+import top.niunaijun.blackbox.utils.compat.BuildCompat;
 
 /**
  * Created by BlackBox on 2022/3/7.
  */
 public class IVibratorServiceProxy extends BinderInvocationStub {
+    private static String NAME;
+    static {
+        if (BuildCompat.isS()) {
+            NAME = "vibrator_manager";
+        } else {
+            NAME = Context.VIBRATOR_SERVICE;
+        }
+    }
 
     public IVibratorServiceProxy() {
-        super(BRServiceManager.get().getService(Context.VIBRATOR_SERVICE));
+
+        super(BRServiceManager.get().getService(NAME));
     }
 
     @Override
     protected Object getWho() {
-        return BRIVibratorServiceStub.get().asInterface(BRServiceManager.get().getService(Context.VIBRATOR_SERVICE));
+        IBinder service = BRServiceManager.get().getService(NAME);
+        if (BuildCompat.isS()) {
+            return BRIVibratorManagerServiceStub.get().asInterface(service);
+        }
+        return BRIVibratorServiceStub.get().asInterface(service);
     }
 
     @Override
     protected void inject(Object baseInvocation, Object proxyInvocation) {
-        replaceSystemService(Context.VIBRATOR_SERVICE);
+        replaceSystemService(NAME);
     }
 
     @Override
