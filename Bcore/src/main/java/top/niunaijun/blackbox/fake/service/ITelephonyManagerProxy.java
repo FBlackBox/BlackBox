@@ -17,6 +17,7 @@ import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
 import top.niunaijun.blackbox.utils.Md5Utils;
+import top.niunaijun.blackbox.utils.MethodParameterUtils;
 
 /**
  * Created by Milk on 4/2/21.
@@ -84,6 +85,15 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             return true;
+        }
+    }
+
+
+    @ProxyMethod("getLine1NumberForDisplay")
+    public static class getLine1NumberForDisplay extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            return null;
         }
     }
 
