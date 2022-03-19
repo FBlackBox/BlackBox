@@ -103,8 +103,8 @@ You can contribute to this project by making pull requests.
 ## Sponsorship
 This project is a free open source project , routine maintenance consumes a lot of time and effort . If you want to speed up the progress or buy the author a cup of coffee.
 
-BTC: 3FCo9QtaSbGMhmZYzvL4XUoJUUxZeSdha4
-USDT（TRC20）: TDzBj9eV1Cdmmj9xd5Y1YLsQqC8zVgi7yd
+- BTC: 3FCo9QtaSbGMhmZYzvL4XUoJUUxZeSdha4
+- USDT(TRC20): TDzBj9eV1Cdmmj9xd5Y1YLsQqC8zVgi7yd
 
 ## Credits
 - [VirtualApp](https://github.com/asLody/VirtualApp)
