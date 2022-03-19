@@ -59,6 +59,14 @@ public class IAppOpsManagerProxy extends BinderInvocationStub {
         return false;
     }
 
+    @ProxyMethod("noteProxyOperation")
+    public static class NoteProxyOperation extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            return AppOpsManager.MODE_ALLOWED;
+        }
+    }
+
     @ProxyMethod("checkPackage")
     public static class CheckPackage extends MethodHook {
         @Override
