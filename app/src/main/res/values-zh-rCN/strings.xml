@@ -12,7 +12,7 @@
     <string name="setting">软件设置</string>
     <string name="fake_location">虚拟定位(预览版)</string>
     <string name="real_location">真实位置</string>
-    <string name="set_location">虚拟定位设置成功</string>
+    <string name="set_location">虚拟定位设置成功:%s-%s</string>
     <string name="jump_module">点击跳转到模块管理界面</string>
     <string name="module_setting">模块管理</string>
     <string name="enable_xposed">启用Xposed框架</string>

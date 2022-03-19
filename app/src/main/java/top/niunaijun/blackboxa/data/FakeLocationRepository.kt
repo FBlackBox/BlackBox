@@ -39,10 +39,8 @@ class FakeLocationRepository {
 
     fun getInstalledAppList(
         userID: Int,
-        loadingLiveData: MutableLiveData<Boolean>,
         appsFakeLiveData: MutableLiveData<List<FakeLocationBean>>
     ) {
-        loadingLiveData.postValue(true)
         val installedList = mutableListOf<FakeLocationBean>()
         val installedApplications: List<ApplicationInfo> =
             BlackBoxCore.get().getInstalledApplications(0, userID)
@@ -69,6 +67,5 @@ class FakeLocationRepository {
 
         Log.d(TAG, installedList.joinToString(","))
         appsFakeLiveData.postValue(installedList)
-        loadingLiveData.postValue(false)
     }
 }
