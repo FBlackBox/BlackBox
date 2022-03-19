@@ -7,9 +7,11 @@ import android.text.TextUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import cbfg.rvadapter.RVAdapter
 import com.afollestad.materialdialogs.MaterialDialog
 import top.niunaijun.blackbox.BlackBoxCore
 import top.niunaijun.blackboxa.R
+import top.niunaijun.blackboxa.bean.XpModuleInfo
 import top.niunaijun.blackboxa.databinding.ActivityXpBinding
 import top.niunaijun.blackboxa.util.InjectionUtil
 import top.niunaijun.blackboxa.util.inflate
@@ -30,7 +32,7 @@ class XpActivity : LoadingActivity() {
 
     private lateinit var viewModel: XpViewModel
 
-    private lateinit var mAdapter: XpAdapter
+    private lateinit var mAdapter: RVAdapter<XpModuleInfo>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,15 +51,11 @@ class XpActivity : LoadingActivity() {
         viewBinding.stateView.showLoading()
         viewModel.getInstalledModule()
         viewModel.appsLiveData.observe(this) {
-            if (it != null) {
-                mAdapter.replaceData(it)
-                if (it.isEmpty()) {
-                    viewBinding.stateView.showEmpty()
-                } else {
-                    viewBinding.stateView.showContent()
-                }
-            } else {
+            if (it.isNullOrEmpty()) {
                 viewBinding.stateView.showEmpty()
+            } else {
+                mAdapter.setItems(it)
+                viewBinding.stateView.showContent()
             }
         }
 
@@ -68,39 +66,23 @@ class XpActivity : LoadingActivity() {
                 viewModel.getInstalledModule()
             }
         }
+    }
 
-        viewModel.launchLiveData.observe(this) {
-            it?.run {
-                hideLoading()
-                if (!it) {
-                    toast(R.string.start_fail)
+        private fun initRecyclerView() {
+
+            mAdapter = RVAdapter<XpModuleInfo>(this, XpAdapter()).bind(viewBinding.recyclerView)
+                .setItemClickListener { view, item, position ->
+                    item.enable = !item.enable
+                    BlackBoxCore.get().setModuleEnable(item.packageName, item.enable)
+                    mAdapter.replaceAt(position, item)
+                    toast(R.string.restart_module)
+                }.setItemLongClickListener { _, item, _ ->
+                    unInstallModule(item.packageName)
                 }
-            }
+
+            viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+            viewBinding.stateView.showEmpty()
         }
-    }
-
-    private fun initRecyclerView() {
-
-        mAdapter = XpAdapter()
-        viewBinding.recyclerView.adapter = mAdapter
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
-        viewBinding.stateView.showEmpty()
-
-        mAdapter.setOnItemClick { _, _, _ ->
-            toast(R.string.start_in_outside)
-        }
-
-        mAdapter.setOnItemLongClick { _, _, data ->
-            unInstallModule(data.packageName)
-        }
-
-        mAdapter.setOnCheckChangeListener { data, isChecked ->
-
-            BlackBoxCore.get().setModuleEnable(data.packageName, isChecked)
-            toast(R.string.restart_module)
-
-        }
-    }
 
     private fun initFab() {
         viewBinding.fab.setOnClickListener {
@@ -123,8 +105,6 @@ class XpActivity : LoadingActivity() {
         viewModel.appsLiveData.removeObservers(this)
         viewModel.resultLiveData.value = null
         viewModel.resultLiveData.removeObservers(this)
-        viewModel.launchLiveData.value = null
-        viewModel.launchLiveData.removeObservers(this)
     }
 
 

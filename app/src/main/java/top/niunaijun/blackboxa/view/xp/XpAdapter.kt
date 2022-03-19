@@ -1,10 +1,12 @@
 package top.niunaijun.blackboxa.view.xp
 
+import android.view.View
 import android.view.ViewGroup
+import cbfg.rvadapter.RVHolder
+import cbfg.rvadapter.RVHolderFactory
+import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.bean.XpModuleInfo
 import top.niunaijun.blackboxa.databinding.ItemXpBinding
-import top.niunaijun.blackboxa.util.newBindingViewHolder
-import top.niunaijun.blackboxa.view.base.BaseAdapter
 
 
 /**
@@ -13,28 +15,28 @@ import top.niunaijun.blackboxa.view.base.BaseAdapter
  * @Author: wukaicheng
  * @CreateDate: 2021/5/2 21:32
  */
-class XpAdapter: BaseAdapter<ItemXpBinding, XpModuleInfo>() {
+class XpAdapter : RVHolderFactory() {
 
-    private var onCheckChange : ((data:XpModuleInfo,isChecked:Boolean)->Unit)? =null
-
-    override fun getViewBinding(parent: ViewGroup): ItemXpBinding {
-        return newBindingViewHolder(parent,false)
+    override fun createViewHolder(parent: ViewGroup?, viewType: Int, item: Any): RVHolder<out Any> {
+        return XpVH(inflate(R.layout.item_xp, parent))
     }
 
-    override fun initView(binding: ItemXpBinding, position: Int, data: XpModuleInfo) {
-        binding.icon.setImageDrawable(data.icon)
-        binding.name.text = data.name
-        binding.desc.text = data.desc
-        binding.enable.isChecked = data.enable
-        binding.enable.setOnCheckedChangeListener { _, isChecked ->
-            if(onCheckChange!=null){
-                onCheckChange!!(data,isChecked)
-                data.enable = isChecked
+    class XpVH(itemView: View) : RVHolder<XpModuleInfo>(itemView) {
+
+        private val binding = ItemXpBinding.bind(itemView)
+
+        override fun setContent(item: XpModuleInfo, isSelected: Boolean, payload: Any?) {
+            binding.icon.setImageDrawable(item.icon)
+            binding.name.text = item.name
+            binding.desc.text = item.desc
+            binding.enable.isChecked = item.enable
+            binding.enable.setOnCheckedChangeListener { buttonView, _ ->
+                if (buttonView.isPressed) {
+                    binding.root.performClick()
+                }
+
             }
         }
     }
 
-    fun setOnCheckChangeListener(func :(data:XpModuleInfo,isChecked:Boolean)->Unit){
-        this.onCheckChange = func
-    }
 }

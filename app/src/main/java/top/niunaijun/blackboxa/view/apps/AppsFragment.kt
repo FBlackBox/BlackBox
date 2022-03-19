@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
+import cbfg.rvadapter.RVAdapter
 import com.afollestad.materialdialogs.MaterialDialog
 import top.niunaijun.blackbox.BlackBoxCore
 import top.niunaijun.blackboxa.R
@@ -24,6 +25,7 @@ import top.niunaijun.blackboxa.util.inflate
 import top.niunaijun.blackboxa.util.toast
 import top.niunaijun.blackboxa.view.base.LoadingActivity
 import top.niunaijun.blackboxa.view.main.MainActivity
+import java.util.*
 import kotlin.math.abs
 
 
@@ -39,7 +41,7 @@ class AppsFragment : Fragment() {
 
     private lateinit var viewModel: AppsViewModel
 
-    private lateinit var mAdapter: AppsAdapter
+    private lateinit var mAdapter: RVAdapter<AppInfo>
 
     private val viewBinding: FragmentAppsBinding by inflate()
 
@@ -61,19 +63,21 @@ class AppsFragment : Fragment() {
 
         viewBinding.stateView.showEmpty()
 
-        mAdapter = AppsAdapter()
+        mAdapter =
+            RVAdapter<AppInfo>(requireContext(), AppsAdapter()).bind(viewBinding.recyclerView)
+
         viewBinding.recyclerView.adapter = mAdapter
         viewBinding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 4)
 
         val touchCallBack = AppsTouchCallBack { from, to ->
-            mAdapter.onMove(from, to)
+            onItemMove(from, to)
             viewModel.updateSortLiveData.postValue(true)
         }
 
         val itemTouchHelper = ItemTouchHelper(touchCallBack)
         itemTouchHelper.attachToRecyclerView(viewBinding.recyclerView)
 
-        mAdapter.setOnItemClick { _, _, data ->
+        mAdapter.setItemClickListener { _, data, _ ->
             showLoading()
             viewModel.launchApk(data.packageName, userID)
         }
@@ -146,10 +150,22 @@ class AppsFragment : Fragment() {
         }
     }
 
+    private fun onItemMove(fromPosition:Int, toPosition:Int){
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                Collections.swap(mAdapter.getItems(), i, i + 1)
+            }
+        } else {
+            for (i in fromPosition downTo toPosition + 1) {
+                Collections.swap(mAdapter.getItems(), i, i - 1)
+            }
+        }
+        mAdapter.notifyItemMoved(fromPosition, toPosition)
+    }
 
     private fun setOnLongClick() {
-        mAdapter.setOnItemLongClick { _, binding, data ->
-            popupMenu = PopupMenu(requireContext(), binding.root).also {
+        mAdapter.setItemLongClickListener { view, data, _ ->
+            popupMenu = PopupMenu(requireContext(),view).also {
                 it.inflate(R.menu.app_menu)
                 it.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
@@ -185,7 +201,7 @@ class AppsFragment : Fragment() {
         viewModel.appsLiveData.observe(viewLifecycleOwner) {
 
             if (it != null) {
-                mAdapter.replaceData(it)
+                mAdapter.setItems(it)
                 if (it.isEmpty()) {
                     viewBinding.stateView.showEmpty()
                 } else {
@@ -215,7 +231,7 @@ class AppsFragment : Fragment() {
 
         viewModel.updateSortLiveData.observe(viewLifecycleOwner) {
             if (this::mAdapter.isInitialized) {
-                viewModel.updateApkOrder(userID, mAdapter.dataList)
+                viewModel.updateApkOrder(userID, mAdapter.getItems())
             }
         }
     }
