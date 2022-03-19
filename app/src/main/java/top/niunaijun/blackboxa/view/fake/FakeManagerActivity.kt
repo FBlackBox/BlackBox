@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import cbfg.rvadapter.RVAdapter
 import com.ferfalk.simplesearchview.SimpleSearchView
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.bean.FakeLocationBean
@@ -26,7 +27,7 @@ class FakeManagerActivity : BaseActivity() {
     private val viewBinding: ActivityListBinding by inflate()
 
     //    private lateinit var mAdapter: ListAdapter
-    private lateinit var mAdapter: FakeLocationAdapter
+    private lateinit var mAdapter: RVAdapter<FakeLocationBean>
 
     private lateinit var viewModel: FakeLocationViewModel
 //    private lateinit var viewModel: ListViewModel
@@ -43,12 +44,9 @@ class FakeManagerActivity : BaseActivity() {
 
         initToolbar(viewBinding.toolbarLayout.toolbar, R.string.fake_location, true)
 
-        mAdapter = FakeLocationAdapter()
-        viewBinding.recyclerView.adapter = mAdapter
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
-
-        mAdapter.setOnItemClick { _, _, data ->
-//            if (data.fakeLocation == null) {
+        mAdapter = RVAdapter<FakeLocationBean>(this,FakeLocationAdapter()).bind(viewBinding.recyclerView)
+            .setItemClickListener { _, data, _ ->
+                //            if (data.fakeLocation == null) {
 //                Log.d(TAG, "null")
 //            }
 //            viewModel.setPattern(data.userID, data.packageName, BLocationManager.OWN_MODE)
@@ -56,21 +54,24 @@ class FakeManagerActivity : BaseActivity() {
 //            viewModel.setLocation(data.userID, data.packageName, location)
 //            viewModel.set
 
-            val intent = Intent(this, FollowMyLocationOverlay::class.java)
+                val intent = Intent(this, FollowMyLocationOverlay::class.java)
 //            var bLocation = BLocation(12.34, 122.5)
 //             if data.fakeLocation is null, activity get passed intent crash when extract object
 //            intent.putExtra("notEmpty", true)
-            if (data.fakeLocation == null) {
-                intent.putExtra("notEmpty", false)
-            } else {
-                intent.putExtra("notEmpty", true)
-            }
-            intent.putExtra("location", data.fakeLocation)
+                if (data.fakeLocation == null) {
+                    intent.putExtra("notEmpty", false)
+                } else {
+                    intent.putExtra("notEmpty", true)
+                }
+                intent.putExtra("location", data.fakeLocation)
 
 //            intent.putExtra("name", "yes")
-            startActivity(intent)
+                startActivity(intent)
 //            finishWithResult(data.packageName)
-        }
+            }
+
+        viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+
 
         initSearchView()
         initViewModel()
@@ -130,7 +131,7 @@ class FakeManagerActivity : BaseActivity() {
         val newList = this.appList.filter {
             it.name.contains(newText, true) or it.packageName.contains(newText, true)
         }
-        mAdapter.replaceData(newList)
+        mAdapter.setItems(newList)
     }
 
     private fun finishWithResult(source: String) {
@@ -169,9 +170,8 @@ class FakeManagerActivity : BaseActivity() {
 
 
     companion object {
-        fun start(context: Context, onlyShowXp: Boolean) {
+        fun start(context: Context) {
             val intent = Intent(context, FollowMyLocationOverlay::class.java)
-//            intent.putExtra("onlyShowXp", false)
             context.startActivity(intent)
         }
     }

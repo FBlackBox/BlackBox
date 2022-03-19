@@ -1,9 +1,12 @@
 package top.niunaijun.blackboxa.view.gms
 
+import android.view.View
 import android.view.ViewGroup
+import cbfg.rvadapter.RVHolder
+import cbfg.rvadapter.RVHolderFactory
+import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.bean.GmsBean
 import top.niunaijun.blackboxa.databinding.ItemGmsBinding
-import top.niunaijun.blackboxa.view.base.BaseAdapter
 
 /**
  *
@@ -11,17 +14,23 @@ import top.niunaijun.blackboxa.view.base.BaseAdapter
  * @Author: BlackBox
  * @CreateDate: 2022/3/2 21:13
  */
-class GmsAdapter : BaseAdapter<ItemGmsBinding, GmsBean>() {
-    override fun getViewBinding(parent: ViewGroup): ItemGmsBinding {
-        return ItemGmsBinding.inflate(getLayoutInflater(parent), parent, false)
+class GmsAdapter : RVHolderFactory() {
+
+    override fun createViewHolder(parent: ViewGroup?, viewType: Int, item: Any): RVHolder<out Any> {
+        return GmsVH(inflate(R.layout.item_gms,parent))
     }
 
-    override fun initView(binding: ItemGmsBinding, position: Int, data: GmsBean) {
-        binding.tvTitle.text = data.userName
-        binding.checkbox.isChecked = data.isInstalledGms
-        binding.checkbox.setOnCheckedChangeListener  { buttonView, isChecked ->
-            if(buttonView.isPressed){
-                binding.root.performClick()
+
+    class GmsVH(itemView:View):RVHolder<GmsBean>(itemView){
+
+        private val binding = ItemGmsBinding.bind(itemView)
+        override fun setContent(item: GmsBean, isSelected: Boolean, payload: Any?) {
+            binding.tvTitle.text = item.userName
+            binding.checkbox.isChecked = item.isInstalledGms
+            binding.checkbox.setOnCheckedChangeListener  { buttonView, _ ->
+                if(buttonView.isPressed){
+                    binding.root.performClick()
+                }
             }
         }
     }

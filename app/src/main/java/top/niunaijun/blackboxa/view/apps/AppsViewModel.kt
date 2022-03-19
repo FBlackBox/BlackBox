@@ -52,7 +52,7 @@ class AppsViewModel(private val repo: AppsRepository) : BaseViewModel() {
         }
     }
 
-    fun updateApkOrder(userID: Int,dataList:MutableList<AppInfo>){
+    fun updateApkOrder(userID: Int,dataList:List<AppInfo>){
         launchOnUI {
             repo.updateApkOrder(userID,dataList)
         }
