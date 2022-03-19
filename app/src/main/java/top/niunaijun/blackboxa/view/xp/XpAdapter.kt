@@ -35,7 +35,6 @@ class XpAdapter : RVHolderFactory() {
                     binding.root.performClick()
                 }
 
-                binding.root.isSelected = buttonView.isChecked
             }
         }
     }

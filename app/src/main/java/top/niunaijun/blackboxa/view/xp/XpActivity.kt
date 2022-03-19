@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -72,8 +71,10 @@ class XpActivity : LoadingActivity() {
         private fun initRecyclerView() {
 
             mAdapter = RVAdapter<XpModuleInfo>(this, XpAdapter()).bind(viewBinding.recyclerView)
-                .setItemClickListener { view, item, _ ->
-                    BlackBoxCore.get().setModuleEnable(item.packageName, view.isSelected)
+                .setItemClickListener { view, item, position ->
+                    item.enable = !item.enable
+                    BlackBoxCore.get().setModuleEnable(item.packageName, item.enable)
+                    mAdapter.replaceAt(position, item)
                     toast(R.string.restart_module)
                 }.setItemLongClickListener { _, item, _ ->
                     unInstallModule(item.packageName)
