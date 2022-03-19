@@ -54,7 +54,7 @@ public class ILocationManagerProxy extends BinderInvocationStub {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        Log.d(TAG, "call: " + method.getName());
+//        Log.d(TAG, "call: " + method.getName());
         MethodParameterUtils.replaceFirstAppPkg(args);
         return super.invoke(proxy, method, args);
     }
@@ -99,20 +99,29 @@ public class ILocationManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             if (BLocationManager.isFakeLocationEnable()) {
-                BLocation location = BLocationManager.get().getLocation(BActivityThread.getUserId(), BActivityThread.getAppPackageName());
-                if (location != null) {
-                    if (args[1] instanceof IInterface) {
-                        // TODO move to BLocationManagerService
-                        IInterface listener = (IInterface) args[1];
-                        BRILocationListener.get(listener).onLocationChanged(location.convert2SystemLocation());
-                        return 0;
-                    }
+                if (args[1] instanceof IInterface) {
+                    IInterface listener = (IInterface) args[1];
+                    BLocationManager.get().requestLocationUpdates(listener.asBinder());
+                    return 0;
                 }
             }
             return method.invoke(who, args);
         }
     }
 
+    @ProxyMethod("removeUpdates")
+    public static class RemoveUpdates extends MethodHook {
+
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            if (args[0] instanceof IInterface) {
+                IInterface listener = (IInterface) args[0];
+                BLocationManager.get().removeUpdates(listener.asBinder());
+                return 0;
+            }
+            return method.invoke(who, args);
+        }
+    }
 
     @ProxyMethod("getProviderProperties")
     public static class GetProviderProperties extends MethodHook {
