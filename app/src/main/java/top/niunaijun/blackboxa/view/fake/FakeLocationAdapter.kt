@@ -8,6 +8,7 @@ import top.niunaijun.blackbox.fake.frameworks.BLocationManager
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.bean.FakeLocationBean
 import top.niunaijun.blackboxa.databinding.ItemFakeBinding
+import top.niunaijun.blackboxa.util.getString
 import top.niunaijun.blackboxa.util.newBindingViewHolder
 
 /**
@@ -31,14 +32,11 @@ class FakeLocationAdapter : RVHolderFactory() {
             binding.icon.setImageDrawable(item.icon)
             binding.name.text = item.name
             if (item.fakeLocation == null || item.fakeLocationPattern == BLocationManager.CLOSE_MODE) {
-                binding.fakeLocation.text = "Real Location"
+                binding.fakeLocation.text = getString(R.string.real_location)
             } else {
                 binding.fakeLocation.text =
                     String.format("%f, %f", item.fakeLocation!!.latitude, item.fakeLocation!!.longitude)
             }
-//        if(data.fakeLocationPattern != 0){
-//            binding.fakeLocation.text = String.format("%f, %f", data.fakeLocation.latitude, data.fakeLocation.longitude)
-//        }
             binding.cornerLabel.visibility = View.VISIBLE
 
         }

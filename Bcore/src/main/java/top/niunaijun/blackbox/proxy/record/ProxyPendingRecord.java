@@ -10,11 +10,11 @@ import android.content.Intent;
  * しーＪ
  * 此处无Bug
  */
-public class ProxyPendingActivityRecord {
+public class ProxyPendingRecord {
     public int mUserId;
     public Intent mTarget;
 
-    public ProxyPendingActivityRecord(Intent target, int userId) {
+    public ProxyPendingRecord(Intent target, int userId) {
         mUserId = userId;
         mTarget = target;
     }
@@ -24,10 +24,10 @@ public class ProxyPendingActivityRecord {
         shadow.putExtra("_B_|_P_target_", target);
     }
 
-    public static ProxyPendingActivityRecord create(Intent intent) {
+    public static ProxyPendingRecord create(Intent intent) {
         int userId = intent.getIntExtra("_B_|_P_user_id_", 0);
         Intent target = intent.getParcelableExtra("_B_|_P_target_");
-        return new ProxyPendingActivityRecord(target, userId);
+        return new ProxyPendingRecord(target, userId);
     }
 
     @Override

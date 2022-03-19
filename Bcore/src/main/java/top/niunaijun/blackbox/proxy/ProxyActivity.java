@@ -1,17 +1,17 @@
 package top.niunaijun.blackbox.proxy;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.fake.hook.HookManager;
 import top.niunaijun.blackbox.fake.service.HCallbackProxy;
 import top.niunaijun.blackbox.proxy.record.ProxyActivityRecord;
-import top.niunaijun.blackbox.proxy.record.ProxyPendingActivityRecord;
+import top.niunaijun.blackbox.proxy.record.ProxyPendingRecord;
 import top.niunaijun.blackbox.utils.Slog;
 
 /**
@@ -23,7 +23,7 @@ import top.niunaijun.blackbox.utils.Slog;
  * 此处无Bug
  */
 public class ProxyActivity extends Activity {
-    public static final String TAG = "StubActivity";
+    public static final String TAG = "ProxyActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,15 +40,6 @@ public class ProxyActivity extends Activity {
             startActivity(record.mTarget);
             return;
         }
-        handlePendingActivity();
-    }
-
-    private void handlePendingActivity() {
-        ProxyPendingActivityRecord pendingActivityRecord = ProxyPendingActivityRecord.create(getIntent());
-        Slog.d(TAG, "handlePendingActivity: " + pendingActivityRecord);
-        if (pendingActivityRecord.mTarget == null)
-            return;
-        BlackBoxCore.getBActivityManager().startActivity(pendingActivityRecord.mTarget, pendingActivityRecord.mUserId);
     }
 
     public static class P0 extends ProxyActivity {
