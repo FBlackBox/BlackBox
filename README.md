@@ -100,6 +100,12 @@
  - 更多的Service API 虚拟化（目前许多是使用系统API，只有少数已实现）
  - 提供更多接口给开发者（虚拟定位、应用注入等）
 
+## 赞助
+本项目为免费开源项目，日常维护耗费大量精力。如想加快进度或请作者喝杯咖啡。
+
+BTC: 3FCo9QtaSbGMhmZYzvL4XUoJUUxZeSdha4
+USDT（TRC20）: TDzBj9eV1Cdmmj9xd5Y1YLsQqC8zVgi7yd
+
 ## 感谢
 - [VirtualApp](https://github.com/asLody/VirtualApp)
 - [VirtualAPK](https://github.com/didi/VirtualAPK)
