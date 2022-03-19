@@ -5,10 +5,14 @@ import android.os.IBinder;
 import android.util.Log;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 import black.android.os.BRServiceManager;
 import black.com.android.internal.telephony.BRITelephonyStub;
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.app.BActivityThread;
+import top.niunaijun.blackbox.entity.location.BCell;
+import top.niunaijun.blackbox.fake.frameworks.BLocationManager;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
@@ -24,6 +28,7 @@ import top.niunaijun.blackbox.utils.Md5Utils;
  */
 public class ITelephonyManagerProxy extends BinderInvocationStub {
     public static final String TAG = "ITelephonyManagerProxy";
+
     public ITelephonyManagerProxy() {
         super(BRServiceManager.get().getService(Context.TELEPHONY_SERVICE));
     }
@@ -99,21 +104,31 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
     }
 
     @ProxyMethod("getCellLocation")
-    public static class GetCellLocation extends MethodHook{
+    public static class GetCellLocation extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Log.d(TAG, "getCellLocation");
-//            BCell bCell= new BCell(460, 1, 13850, 4098);
-//            return bCell;
+            if (BLocationManager.isFakeLocationEnable()) {
+                BCell cell = BLocationManager.get().getCell(BActivityThread.getUserId(), BActivityThread.getAppPackageName());
+                if (cell != null) {
+                    // TODO Transfer BCell to CdmaCellLocation/GsmCellLocation
+                    return null;
+                }
+            }
             return method.invoke(who, args);
         }
     }
 
     @ProxyMethod("getAllCellInfo")
-    public static class GetAllCellInfo extends MethodHook{
+    public static class GetAllCellInfo extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Log.d(TAG, "getAllCellInfo");
+            if (BLocationManager.isFakeLocationEnable()) {
+                List<BCell> cell = BLocationManager.get().getAllCell(BActivityThread.getUserId(), BActivityThread.getAppPackageName());
+                // TODO Transfer BCell to CdmaCellLocation/GsmCellLocation
+                return null;
+            }
 //            List<BCell> allCellInfo = new ArrayList<BCell>();
 //            BCell bCell= new BCell(460, 1, 13850, 4098);
 //            allCellInfo.add(bCell);
@@ -123,7 +138,7 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
     }
 
     @ProxyMethod("getNetworkOperator")
-    public static class GetNetworkOperator extends MethodHook{
+    public static class GetNetworkOperator extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Log.d(TAG, "getNetworkOperator");
@@ -132,18 +147,15 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
     }
 
     @ProxyMethod("getNeighboringCellInfo")
-    public static class GetNeighboringCellInfo extends MethodHook{
+    public static class GetNeighboringCellInfo extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Log.d(TAG, "getNetworkOperator");
-//            List<BCell> allCellInfo = new ArrayList<BCell>();
-//            BCell bCell= new BCell(460, 1, 13850, 4098);
-//
-//            BCell bCell1= new BCell(460, 0, 22547, 79893377);
-//            allCellInfo.add(bCell1);
-
-//
-//            return allCellInfo;
+            Log.d(TAG, "getNeighboringCellInfo");
+            if (BLocationManager.isFakeLocationEnable()) {
+                List<BCell> cell = BLocationManager.get().getNeighboringCell(BActivityThread.getUserId(), BActivityThread.getAppPackageName());
+                // TODO Transfer BCell to CdmaCellLocation/GsmCellLocation
+                return null;
+            }
             return method.invoke(who, args);
         }
     }

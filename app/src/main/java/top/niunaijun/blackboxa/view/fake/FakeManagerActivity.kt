@@ -6,16 +6,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ferfalk.simplesearchview.SimpleSearchView
+import top.niunaijun.blackbox.entity.location.BLocation
+import top.niunaijun.blackbox.fake.frameworks.BLocationManager
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.bean.FakeLocationBean
 import top.niunaijun.blackboxa.databinding.ActivityListBinding
 import top.niunaijun.blackboxa.util.InjectionUtil
 import top.niunaijun.blackboxa.util.inflate
 import top.niunaijun.blackboxa.view.base.BaseActivity
-import top.niunaijun.blackboxa.view.list.ListActivity
+import kotlin.properties.Delegates
 
 /**
  *
@@ -23,16 +27,41 @@ import top.niunaijun.blackboxa.view.list.ListActivity
  * @CreateDate: 2022/3/14
  */
 class FakeManagerActivity : BaseActivity() {
-
+    val TAG: String = "FakeManagerActivity"
     private val viewBinding: ActivityListBinding by inflate()
 
     //    private lateinit var mAdapter: ListAdapter
     private lateinit var mAdapter: FakeLocationAdapter
 
     private lateinit var viewModel: FakeLocationViewModel
-//    private lateinit var viewModel: ListViewModel
 
+    //    private lateinit var viewModel: ListViewModel
+    private var localUserId by Delegates.notNull<Int>()
+    private lateinit var localPackageName: String
     private var appList: List<FakeLocationBean> = ArrayList()
+
+    private val locationResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                it.data?.let { data ->
+                    val latitude: Double = data.extras.get("latitude") as Double
+                    val longitude: Double = data.extras.get("longitude") as Double
+                    viewModel.setPattern(localUserId, localPackageName, BLocationManager.OWN_MODE)
+                    viewModel.setLocation(
+                        localUserId,
+                        localPackageName,
+                        BLocation(latitude, longitude)
+                    )
+                    Toast.makeText(
+                        baseContext,
+                        getString(R.string.set_location) + ": " + latitude.toString() + " - " + longitude.toString(),
+                        Toast.LENGTH_LONG
+                    ).show()
+                    refreshViewModel()
+                }
+
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +74,17 @@ class FakeManagerActivity : BaseActivity() {
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
 
         mAdapter.setOnItemClick { _, _, data ->
-            finishWithResult(data.packageName)
+            localUserId = data.userID
+            localPackageName = data.packageName
+
+            val intent = Intent(this, FollowMyLocationOverlay::class.java)
+            if (data.fakeLocation == null) {
+                intent.putExtra("notEmpty", false)
+            } else {
+                intent.putExtra("notEmpty", true)
+            }
+            intent.putExtra("location", data.fakeLocation)
+            locationResult.launch(intent)
         }
 
         initSearchView()
@@ -79,6 +118,32 @@ class FakeManagerActivity : BaseActivity() {
         viewModel.getInstallAppList(userID)
         viewBinding.toolbarLayout.toolbar.setTitle(R.string.fake_location)
 
+        viewModel.loadingLiveData.observe(this) {
+            if (it) {
+                viewBinding.stateView.showLoading()
+            } else {
+                viewBinding.stateView.showContent()
+
+            }
+        }
+
+        viewModel.appsLiveData.observe(this) { its ->
+            if (its != null) {
+                this.appList = its
+                viewBinding.searchView.setQuery("", false)
+                filterApp("")
+                if (its.isNotEmpty()) {
+                    viewBinding.stateView.showContent()
+                } else {
+                    viewBinding.stateView.showEmpty()
+                }
+            }
+        }
+    }
+
+    private fun refreshViewModel() {
+        val userID = intent.getIntExtra("userID", 0)
+        viewModel.getInstallAppList(userID)
         viewModel.loadingLiveData.observe(this) {
             if (it) {
                 viewBinding.stateView.showLoading()
@@ -146,8 +211,8 @@ class FakeManagerActivity : BaseActivity() {
 
     companion object {
         fun start(context: Context, onlyShowXp: Boolean) {
-            val intent = Intent(context, ListActivity::class.java)
-            intent.putExtra("onlyShowXp", false)
+            val intent = Intent(context, FollowMyLocationOverlay::class.java)
+//            intent.putExtra("onlyShowXp", false)
             context.startActivity(intent)
         }
     }

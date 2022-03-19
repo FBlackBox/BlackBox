@@ -11,6 +11,8 @@
     <string name="tg_group">Telegram Group</string>
     <string name="fake_location">Fake Location(Developing)</string>
     <string name="real_location">Real Location</string>
+    <string name="set_location">Set Fake Location Successfully</string>
+
     <string name="setting">Setting</string>
     <string name="jump_module">Go to Module Manager</string>
     <string name="module_setting">Module Manager</string>

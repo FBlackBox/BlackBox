@@ -1,15 +1,23 @@
 package top.niunaijun.blackboxa.view.fake
 
 
+import android.app.Activity
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.preference.PreferenceManager
 import org.osmdroid.config.Configuration.getInstance
+import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.MapEventsOverlay
+import org.osmdroid.views.overlay.Marker
+import top.niunaijun.blackbox.entity.location.BLocation
 import top.niunaijun.blackboxa.R
+
 
 /**
  *
@@ -17,8 +25,10 @@ import top.niunaijun.blackboxa.R
  * @CreateDate: 2022/3/14
  */
 class FollowMyLocationOverlay : AppCompatActivity() {
+    val TAG: String = "FollowMyLocationOverlay"
     private val REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private lateinit var map: MapView;
+    lateinit var startPoint: GeoPoint;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
 
@@ -35,13 +45,47 @@ class FollowMyLocationOverlay : AppCompatActivity() {
         //tile servers will get you banned based on this string.
 
         //inflate and create the map
-        setContentView(R.layout.activity_osmdroid);
-        map = findViewById<MapView>(R.id.map)
+        setContentView(R.layout.activity_osmdroid)
+        startPoint = if (intent.extras.get("notEmpty") as Boolean) {
+            var location: BLocation? = intent.getParcelableExtra("location")
+            GeoPoint(location!!.latitude, location!!.longitude)
+        } else {
+            GeoPoint(30.2736, 120.1563)
+        }
+        map = findViewById(R.id.map)
+        val startMarker = Marker(map)
+        startMarker.position = startPoint
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        map.overlays.add(startMarker);
+        val mReceive: MapEventsReceiver = object : MapEventsReceiver {
+            override fun singleTapConfirmedHelper(p: GeoPoint): Boolean {
+                startPoint = p
+                startMarker.position = p
+                startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                map.overlays.add(startMarker);
+                Toast.makeText(
+                    baseContext,
+                    p.latitude.toString() + " - " + p.longitude,
+                    Toast.LENGTH_LONG
+                ).show()
+                return false
+            }
+
+            override fun longPressHelper(p: GeoPoint): Boolean {
+                return false
+            }
+        }
+        map.overlays.add(MapEventsOverlay(mReceive))
         val mapController = map.controller
         mapController.setZoom(12.5)
-        val startPoint = GeoPoint(30.2736, 120.1563);
+//        val startPoint = GeoPoint(30.2736, 120.1563)
         mapController.setCenter(startPoint);
         map.setTileSource(TileSourceFactory.MAPNIK);
+    }
+
+    override fun onBackPressed() {
+        finishWithResult(startPoint)
+        finish()
     }
 
     override fun onResume() {
@@ -80,6 +124,17 @@ class FollowMyLocationOverlay : AppCompatActivity() {
                 REQUEST_PERMISSIONS_REQUEST_CODE
             );
         }
+    }
+
+    private fun finishWithResult(geoPoint: GeoPoint) {
+        intent.putExtra("latitude", geoPoint.latitude)
+        intent.putExtra("longitude", geoPoint.longitude)
+        setResult(Activity.RESULT_OK, intent)
+        val imm: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        window.peekDecorView()?.run {
+            imm.hideSoftInputFromWindow(windowToken, 0)
+        }
+        finish()
     }
 
 }
