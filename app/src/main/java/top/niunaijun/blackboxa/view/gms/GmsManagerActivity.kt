@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.widget.Switch
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import cbfg.rvadapter.RVAdapter
 import com.afollestad.materialdialogs.MaterialDialog
 import top.niunaijun.blackboxa.R
+import top.niunaijun.blackboxa.bean.GmsBean
 import top.niunaijun.blackboxa.databinding.ActivityGmsBinding
 import top.niunaijun.blackboxa.util.InjectionUtil
 import top.niunaijun.blackboxa.util.inflate
@@ -24,9 +26,7 @@ class GmsManagerActivity : LoadingActivity() {
 
     private lateinit var viewModel: GmsViewModel
 
-    private val mAdapter: GmsAdapter by lazy {
-        GmsAdapter()
-    }
+    private lateinit var mAdapter: RVAdapter<GmsBean>
 
     private val viewBinding: ActivityGmsBinding by inflate()
 
@@ -45,7 +45,7 @@ class GmsManagerActivity : LoadingActivity() {
 
         viewModel.mInstalledLiveData.observe(this) {
             hideLoading()
-            mAdapter.replaceData(it)
+            mAdapter.setItems(it)
         }
 
         viewModel.mUpdateInstalledLiveData.observe(this) { result ->
@@ -53,13 +53,14 @@ class GmsManagerActivity : LoadingActivity() {
                 return@observe
             }
 
-            for (index in mAdapter.dataList.indices) {
-                val bean = mAdapter.dataList[index]
+            val items = mAdapter.getItems()
+            for (index in items.indices) {
+                val bean = items[index]
                 if (bean.userID == result.userID) {
                     if (result.success) {
                         bean.isInstalledGms = !bean.isInstalledGms
                     }
-                    mAdapter.updateData(bean, index)
+                    mAdapter.replaceAt( index,bean)
                     break
                 }
             }
@@ -81,15 +82,17 @@ class GmsManagerActivity : LoadingActivity() {
     }
 
     private fun initRecyclerView() {
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
-        viewBinding.recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClick { _, binding, data ->
-            if (data.isInstalledGms) {
-                uninstallGms(data.userID,binding.checkbox)
-            } else {
-                installGms(data.userID,binding.checkbox)
+        mAdapter = RVAdapter<GmsBean>(this, GmsAdapter()).bind(viewBinding.recyclerView)
+            .setItemClickListener { view, item, _ ->
+                val checkbox = view.findViewById<Switch>(R.id.checkbox)
+                if (item.isInstalledGms) {
+                    uninstallGms(item.userID, checkbox)
+                } else {
+                    installGms(item.userID, checkbox)
+                }
             }
-        }
+        viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+
     }
 
     private fun installGms(userID: Int, checkbox: Switch){
