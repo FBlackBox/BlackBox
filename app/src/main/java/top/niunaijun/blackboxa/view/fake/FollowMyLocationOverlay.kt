@@ -54,6 +54,9 @@ class FollowMyLocationOverlay : AppCompatActivity() {
         }
         map = findViewById(R.id.map)
         val startMarker = Marker(map)
+        startMarker.position = startPoint
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        map.overlays.add(startMarker);
         val mReceive: MapEventsReceiver = object : MapEventsReceiver {
             override fun singleTapConfirmedHelper(p: GeoPoint): Boolean {
                 startPoint = p
