@@ -40,15 +40,11 @@ class FakeManagerActivity : BaseActivity() {
     private lateinit var localPackageName: String
     private var appList: List<FakeLocationBean> = ArrayList()
 
-    //    override fun setOnItemClick() {
-//
-//    }
     private val locationResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
                 it.data?.let { data ->
                     val latitude: Double = data.extras.get("latitude") as Double
-//                        val latitude = data.getStringExtra("latitude")
                     val longitude: Double = data.extras.get("longitude") as Double
                     viewModel.setPattern(localUserId, localPackageName, BLocationManager.OWN_MODE)
                     viewModel.setLocation(
@@ -58,9 +54,10 @@ class FakeManagerActivity : BaseActivity() {
                     )
                     Toast.makeText(
                         baseContext,
-                        latitude.toString() + " - " + longitude.toString() + "," + localUserId.toString() + "," + localPackageName,
+                        getString(R.string.set_location) + ": " + latitude.toString() + " - " + longitude.toString(),
                         Toast.LENGTH_LONG
                     ).show()
+                    refreshViewModel()
                 }
 
             }
@@ -79,27 +76,14 @@ class FakeManagerActivity : BaseActivity() {
         mAdapter.setOnItemClick { _, _, data ->
             localUserId = data.userID
             localPackageName = data.packageName
-//            if (data.fakeLocation == null) {
-//                Log.d(TAG, "null")
-//            }
-//            viewModel.setPattern(data.userID, data.packageName, BLocationManager.OWN_MODE)
-//            val location: BLocation = BLocation(12.4, 124.1)
-//            viewModel.setLocation(data.userID, data.packageName, location)
-//            viewModel.set
 
             val intent = Intent(this, FollowMyLocationOverlay::class.java)
-//            var bLocation = BLocation(12.34, 122.5)
-//             if data.fakeLocation is null, activity get passed intent crash when extract object
-//            intent.putExtra("notEmpty", true)
             if (data.fakeLocation == null) {
                 intent.putExtra("notEmpty", false)
             } else {
                 intent.putExtra("notEmpty", true)
             }
             intent.putExtra("location", data.fakeLocation)
-
-//            intent.putExtra("name", "yes")
-
             locationResult.launch(intent)
         }
 
@@ -134,6 +118,32 @@ class FakeManagerActivity : BaseActivity() {
         viewModel.getInstallAppList(userID)
         viewBinding.toolbarLayout.toolbar.setTitle(R.string.fake_location)
 
+        viewModel.loadingLiveData.observe(this) {
+            if (it) {
+                viewBinding.stateView.showLoading()
+            } else {
+                viewBinding.stateView.showContent()
+
+            }
+        }
+
+        viewModel.appsLiveData.observe(this) { its ->
+            if (its != null) {
+                this.appList = its
+                viewBinding.searchView.setQuery("", false)
+                filterApp("")
+                if (its.isNotEmpty()) {
+                    viewBinding.stateView.showContent()
+                } else {
+                    viewBinding.stateView.showEmpty()
+                }
+            }
+        }
+    }
+
+    private fun refreshViewModel() {
+        val userID = intent.getIntExtra("userID", 0)
+        viewModel.getInstallAppList(userID)
         viewModel.loadingLiveData.observe(this) {
             if (it) {
                 viewBinding.stateView.showLoading()

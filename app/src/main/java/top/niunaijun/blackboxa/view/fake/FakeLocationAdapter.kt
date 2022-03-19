@@ -3,8 +3,10 @@ package top.niunaijun.blackboxa.view.fake
 import android.view.View
 import android.view.ViewGroup
 import top.niunaijun.blackbox.fake.frameworks.BLocationManager
+import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.bean.FakeLocationBean
 import top.niunaijun.blackboxa.databinding.ItemFakeBinding
+import top.niunaijun.blackboxa.util.getString
 import top.niunaijun.blackboxa.util.newBindingViewHolder
 import top.niunaijun.blackboxa.view.base.BaseAdapter
 
@@ -25,14 +27,11 @@ class FakeLocationAdapter : BaseAdapter<ItemFakeBinding, FakeLocationBean>() {
         binding.icon.setImageDrawable(data.icon)
         binding.name.text = data.name
         if (data.fakeLocation == null || data.fakeLocationPattern == BLocationManager.CLOSE_MODE) {
-            binding.fakeLocation.text = "Real Location"
+            binding.fakeLocation.text = getString(R.string.real_location)
         } else {
             binding.fakeLocation.text =
                 String.format("%f, %f", data.fakeLocation!!.latitude, data.fakeLocation!!.longitude)
         }
-//        if(data.fakeLocationPattern != 0){
-//            binding.fakeLocation.text = String.format("%f, %f", data.fakeLocation.latitude, data.fakeLocation.longitude)
-//        }
         binding.cornerLabel.visibility = View.VISIBLE
     }
 }

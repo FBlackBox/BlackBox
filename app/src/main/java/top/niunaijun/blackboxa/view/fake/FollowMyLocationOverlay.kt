@@ -46,29 +46,17 @@ class FollowMyLocationOverlay : AppCompatActivity() {
 
         //inflate and create the map
         setContentView(R.layout.activity_osmdroid)
-
-//        if (intent.extras.get("notEmpty") == null) {
-//            var bundle = intent.extras
-//            for (key in bundle.keySet()) {
-//                Log.i(TAG, "Key=" + key + ", content=" + bundle.getString(key))
-//            }
-//            Log.d(TAG, intent.extras.toString())
-//        }
         startPoint = if (intent.extras.get("notEmpty") as Boolean) {
             var location: BLocation? = intent.getParcelableExtra("location")
             GeoPoint(location!!.latitude, location!!.longitude)
         } else {
             GeoPoint(30.2736, 120.1563)
         }
-//        var location: BLocation? = intent.getParcelableExtra("location")
-//        var test: String = intent.getStringExtra("name")
-//        if (location == null) {
-//            Log.d(TAG, "null")
-//        }
-//        Intent intent = getIntent ()
-//        Bundle bundle = intent . getExtras ()
-        map = findViewById<MapView>(R.id.map)
+        map = findViewById(R.id.map)
         val startMarker = Marker(map)
+        startMarker.position = startPoint
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        map.overlays.add(startMarker);
         val mReceive: MapEventsReceiver = object : MapEventsReceiver {
             override fun singleTapConfirmedHelper(p: GeoPoint): Boolean {
                 startPoint = p
