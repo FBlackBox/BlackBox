@@ -165,4 +165,7 @@ dependencies {
     implementation 'org.osmdroid:osmdroid-android:6.1.11'
     //adapter
     implementation 'com.gitee.cbfg5210:RVAdapter:0.3.7'
+
+    //悬浮窗
+    implementation 'com.imuxuan:floatingview:1.6'
 }

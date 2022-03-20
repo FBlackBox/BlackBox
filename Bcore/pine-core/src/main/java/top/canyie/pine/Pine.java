@@ -101,12 +101,12 @@ public final class Pine {
             throw new RuntimeException("Unsupported android sdk level " + sdkLevel);
         else if (sdkLevel > Build.VERSION_CODES.R) {
             Log.w(TAG, "Android version too high, not tested now...");
-            if (sdkLevel >= Build.VERSION_CODES.S_V2 && isAtLeastPreReleaseCodename("Tiramisu")) {
+            if (sdkLevel >= 32 && isAtLeastPreReleaseCodename("Tiramisu")) {
                 // Android 13 (Tiramisu) Preview
-                sdkLevel = Build.VERSION_CODES.S_V2 + 1;
-            } else if (sdkLevel == Build.VERSION_CODES.S && isAtLeastPreReleaseCodename("Sv2")) {
+                sdkLevel = 32 + 1;
+            } else if (sdkLevel == 31 && isAtLeastPreReleaseCodename("Sv2")) {
                 // Android 12.1 (SL) Preview
-                sdkLevel = Build.VERSION_CODES.S_V2;
+                sdkLevel = 32;
             }
         }
 
