@@ -60,7 +60,8 @@ class BlackBoxLoader {
             override fun beforeCreateApplication(
                 packageName: String?,
                 processName: String?,
-                context: Context?
+                context: Context?,
+                userId: Int
             ) {
                 Log.d(TAG, "beforeCreateApplication: pkg $packageName, processName $processName")
             }
@@ -68,7 +69,8 @@ class BlackBoxLoader {
             override fun beforeApplicationOnCreate(
                 packageName: String?,
                 processName: String?,
-                application: Application?
+                application: Application?,
+                userId: Int
             ) {
                 Log.d(TAG, "beforeApplicationOnCreate: pkg $packageName, processName $processName")
             }
@@ -76,7 +78,8 @@ class BlackBoxLoader {
             override fun afterApplicationOnCreate(
                 packageName: String?,
                 processName: String?,
-                application: Application?
+                application: Application?,
+                userId: Int
             ) {
                 Log.d(TAG, "afterApplicationOnCreate: pkg $packageName, processName $processName")
             }

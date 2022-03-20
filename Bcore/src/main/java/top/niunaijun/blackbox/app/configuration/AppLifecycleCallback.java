@@ -16,15 +16,15 @@ public class AppLifecycleCallback {
 
     };
 
-    public void beforeCreateApplication(String packageName, String processName, Context context) {
+    public void beforeCreateApplication(String packageName, String processName, Context context, int userId) {
 
     }
 
-    public void beforeApplicationOnCreate(String packageName, String processName, Application application) {
+    public void beforeApplicationOnCreate(String packageName, String processName, Application application, int userId) {
 
     }
 
-    public void afterApplicationOnCreate(String packageName, String processName, Application application) {
+    public void afterApplicationOnCreate(String packageName, String processName, Application application, int userId) {
 
     }
 }
