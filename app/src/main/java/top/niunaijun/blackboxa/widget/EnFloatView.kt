@@ -30,7 +30,7 @@ class EnFloatView(mContext: Context) : FloatingMagnetView(mContext) {
         rockerView?.setListener { type, currentAngle, currentDistance ->
             if (type == RockerView.EVENT_CLOCK && currentAngle != -1F) {
                 val realAngle = currentAngle
-                val realDistance = currentDistance * 0.01F
+                val realDistance = currentDistance * 0.001F
                 //拉满的话，大概就是一秒五米
 
                 mListener?.invoke(realAngle, realDistance)

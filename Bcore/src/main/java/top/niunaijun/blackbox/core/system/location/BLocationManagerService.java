@@ -250,7 +250,7 @@ public class BLocationManagerService extends IBLocationManagerService.Stub imple
                 e.printStackTrace();
             } finally {
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(300);
                 } catch (InterruptedException ignored) {
                 }
             }
