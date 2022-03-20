@@ -4,6 +4,8 @@ import java.lang.reflect.Method;
 
 import black.android.telephony.BRTelephonyManager;
 import top.niunaijun.blackbox.fake.hook.ClassInvocationStub;
+import top.niunaijun.blackbox.fake.hook.MethodHook;
+import top.niunaijun.blackbox.fake.hook.ProxyMethod;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 
 /**
@@ -40,5 +42,14 @@ public class IPhoneSubInfoProxy extends ClassInvocationStub {
     @Override
     public boolean isBadEnv() {
         return false;
+    }
+
+
+    @ProxyMethod("getLine1NumberForSubscriber")
+    public static class getLine1NumberForSubscriber extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            return null;
+        }
     }
 }

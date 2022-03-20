@@ -17,6 +17,11 @@ Currently we don't consider supporting Android 4.x, it supports Android 5.0 ～ 
 
 If conditions permit, downgrade targetSdkVersion to 28 or below for better compatibility.
 
+## Release
+Stable version and Canary build version
+- Stable version: Stable version is verified and released by administrators. [Download](https://github.com/FBlackBox/BlackBox/releases)
+- Canary build version: Canary build version is compiled automatically by Github Actions, it has the newest features, but it may have some bugs which we have not found. [Download](https://github.com/AutoBlackBox/BlackBox/tags)
+
 ## Special Instruction
 
 This project distinguishes between 32-bit and 64-bit, it was compiled to 2 different demos. If you can not find your target in application list, please use another architecture.
@@ -99,6 +104,12 @@ You can contribute to this project by making pull requests.
 ## Plan
  - More Service API virtualization.
  - Provide more interfaces for developers (virtual location,  process injection, etc).
+
+## Sponsorship
+This project is a free open source project , routine maintenance consumes a lot of time and effort . If you want to speed up the progress or buy the author a cup of coffee.
+
+- BTC: 3FCo9QtaSbGMhmZYzvL4XUoJUUxZeSdha4
+- USDT(TRC20): TDzBj9eV1Cdmmj9xd5Y1YLsQqC8zVgi7yd
 
 ## Credits
 - [VirtualApp](https://github.com/asLody/VirtualApp)

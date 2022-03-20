@@ -24,6 +24,8 @@ android {
                 abiFilters "armeabi-v7a"
             }
             resValue "string", "app_name", "BlackBox32"
+            manifestPlaceholders = [APP_ICON      : "@mipmap/ic_launcher",
+                                    APP_ROUND_ICON: "@mipmap/ic_launcher_round"]
         }
 
         BlackBox64 {
@@ -32,6 +34,28 @@ android {
                 abiFilters "arm64-v8a"
             }
             resValue "string", "app_name", "BlackBox64"
+            manifestPlaceholders = [APP_ICON      : "@mipmap/ic_launcher",
+                                    APP_ROUND_ICON: "@mipmap/ic_launcher_round"]
+        }
+
+        BlackBox32Beta {
+            applicationId "top.niunaijun.blackboxa32_beta"
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
+            resValue "string", "app_name", "BlackBox32 Beta"
+            manifestPlaceholders = [APP_ICON      : "@mipmap/ic_launcher_beta",
+                                    APP_ROUND_ICON: "@mipmap/ic_launcher_round_beta"]
+        }
+
+        BlackBox64Beta {
+            applicationId "top.niunaijun.blackboxa64_beta"
+            ndk {
+                abiFilters "arm64-v8a"
+            }
+            resValue "string", "app_name", "BlackBox64 Beta"
+            manifestPlaceholders = [APP_ICON      : "@mipmap/ic_launcher_round_beta",
+                                    APP_ROUND_ICON: "@mipmap/ic_launcher_round_beta"]
         }
     }
 
