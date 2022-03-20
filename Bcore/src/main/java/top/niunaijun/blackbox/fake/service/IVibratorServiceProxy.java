@@ -26,7 +26,6 @@ public class IVibratorServiceProxy extends BinderInvocationStub {
     }
 
     public IVibratorServiceProxy() {
-
         super(BRServiceManager.get().getService(NAME));
     }
 

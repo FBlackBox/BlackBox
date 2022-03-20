@@ -21,9 +21,11 @@ import top.niunaijun.blackbox.utils.compat.ContextCompat;
 public class ContentProviderStub extends ClassInvocationStub implements BContentProvider {
     public static final String TAG = "ContentProviderStub";
     private IInterface mBase;
+    private String mAppPkg;
 
     public IInterface wrapper(final IInterface contentProviderProxy, final String appPkg) {
         mBase = contentProviderProxy;
+        mAppPkg = appPkg;
         injectHook();
         return (IInterface) getProxyInvocation();
     }
@@ -51,7 +53,7 @@ public class ContentProviderStub extends ClassInvocationStub implements BContent
         if (args != null && args.length > 0) {
             Object arg = args[0];
             if (arg instanceof String) {
-                args[0] = BlackBoxCore.getHostPkg();
+                args[0] = mAppPkg;
             } else if (arg.getClass().getName().equals(BRAttributionSource.getRealClass().getName())) {
                 ContextCompat.fixAttributionSourceState(arg, BActivityThread.getBUid());
             }

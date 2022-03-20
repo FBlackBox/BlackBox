@@ -153,7 +153,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                             .set(providerInfo);
                     Reflector.with(content)
                             .field("provider")
-                            .set(BRContentProviderNative.get().asInterface(providerBinder));
+                            .set(new ContentProviderStub().wrapper(BRContentProviderNative.get().asInterface(providerBinder), BActivityThread.getAppPackageName()));
                 }
 
                 return content;
