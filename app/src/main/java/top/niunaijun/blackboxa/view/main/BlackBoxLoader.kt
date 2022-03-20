@@ -64,6 +64,7 @@ class BlackBoxLoader {
                 Log.d(TAG, "beforeCreateApplication: pkg $packageName, processName $processName,userID:${BActivityThread.getUserId()}")
             }
 
+
             override fun beforeApplicationOnCreate(
                 packageName: String?,
                 processName: String?,
@@ -71,7 +72,6 @@ class BlackBoxLoader {
                 userId: Int
             ) {
                 Log.d(TAG, "beforeApplicationOnCreate: pkg $packageName, processName $processName")
-                RockerManager.init(application,userId)
             }
 
             override fun afterApplicationOnCreate(
@@ -81,6 +81,7 @@ class BlackBoxLoader {
                 userId: Int
             ) {
                 Log.d(TAG, "afterApplicationOnCreate: pkg $packageName, processName $processName")
+                RockerManager.init(application,userId)
             }
         })
     }

@@ -38,7 +38,7 @@ public class RockerView extends SurfaceView implements Runnable, SurfaceHolder.C
     private static final int DEFAULT_ROCKER_COLOR = Color.argb(128,0,0,0);
 
     private static final int DEFAULT_REFRESH_CYCLE = 30;
-    private static final int DEFAULT_CALLBACK_CYCLE = 1000;
+    private static final int DEFAULT_CALLBACK_CYCLE = 500;
 
     private SurfaceHolder mHolder;
     private static Thread mDrawThread;

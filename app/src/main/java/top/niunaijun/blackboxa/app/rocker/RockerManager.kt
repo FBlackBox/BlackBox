@@ -32,6 +32,7 @@ object RockerManager {
 
     fun init(application: Application?, userId: Int) {
 
+        Log.d(TAG, "init: ${application?.packageName},${BLocationManager.isFakeLocationEnable()}")
         if (application == null || !BLocationManager.isFakeLocationEnable()) {
             return
         }
@@ -49,6 +50,7 @@ object RockerManager {
 
             override fun onActivityStarted(activity: Activity) {
                 super.onActivityStarted(activity)
+                Log.d(TAG, "onActivityStarted: ${activity.javaClass.canonicalName}")
                 FloatingView.get().attach(activity)
             }
 
