@@ -22,6 +22,7 @@ import top.niunaijun.blackbox.fake.service.HCallbackProxy;
 import top.niunaijun.blackbox.fake.service.IActivityClientProxy;
 import top.niunaijun.blackbox.utils.HackAppUtils;
 import top.niunaijun.blackbox.utils.compat.ActivityCompat;
+import top.niunaijun.blackbox.utils.compat.ActivityManagerCompat;
 import top.niunaijun.blackbox.utils.compat.ContextCompat;
 
 public final class AppInstrumentation extends BaseInstrumentationDelegate implements IInjectHook {
@@ -111,7 +112,7 @@ public final class AppInstrumentation extends BaseInstrumentationDelegate implem
         if (info.theme != 0) {
             activity.getTheme().applyStyle(info.theme, true);
         }
-        activity.setRequestedOrientation(info.screenOrientation);
+        ActivityManagerCompat.setActivityOrientation(activity, info.screenOrientation);
     }
 
     @Override
