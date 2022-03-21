@@ -310,4 +310,12 @@ public class IPackageManagerProxy extends BinderInvocationStub {
             return ParceledListSliceCompat.create(new ArrayList<>());
         }
     }
+
+    @ProxyMethod("getComponentEnabledSetting")
+    public static class getComponentEnabledSetting extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            return PackageManager.COMPONENT_ENABLED_STATE_DEFAULT;
+        }
+    }
 }
