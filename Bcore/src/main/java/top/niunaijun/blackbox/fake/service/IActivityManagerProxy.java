@@ -74,7 +74,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         if (BuildCompat.isOreo()) {
             iActivityManager = BRActivityManagerOreo.get().IActivityManagerSingleton();
         } else if (BuildCompat.isL()) {
-            iActivityManager = BRActivityManagerNative.get().getDefault();
+            iActivityManager = BRActivityManagerNative.get().gDefault();
         }
         return BRSingleton.get(iActivityManager).get();
     }
@@ -85,7 +85,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         if (BuildCompat.isOreo()) {
             iActivityManager = BRActivityManagerOreo.get().IActivityManagerSingleton();
         } else if (BuildCompat.isL()) {
-            iActivityManager = BRActivityManagerNative.get().getDefault();
+            iActivityManager = BRActivityManagerNative.get().gDefault();
         }
         BRSingleton.get(iActivityManager)._set_mInstance(proxy);
     }
