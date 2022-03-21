@@ -33,6 +33,7 @@ import top.niunaijun.blackbox.core.GmsCore;
 import top.niunaijun.blackbox.core.env.BEnvironment;
 import top.niunaijun.blackbox.core.system.BProcessManagerService;
 import top.niunaijun.blackbox.core.system.ISystemService;
+import top.niunaijun.blackbox.core.system.ProcessRecord;
 import top.niunaijun.blackbox.core.system.user.BUserHandle;
 import top.niunaijun.blackbox.core.system.user.BUserInfo;
 import top.niunaijun.blackbox.core.system.user.BUserManagerService;
@@ -650,6 +651,12 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 String packageName = ps.pkg.packageName;
                 if (ps.getInstalled(userId) && getAppId(packageName) == uid) {
                     packages.add(packageName);
+                }
+            }
+            if (packages.isEmpty()) {
+                ProcessRecord processByPid = BProcessManagerService.get().findProcessByPid(getCallingPid());
+                if (processByPid != null) {
+                    packages.add(processByPid.getPackageName());
                 }
             }
             return packages.toArray(new String[]{});

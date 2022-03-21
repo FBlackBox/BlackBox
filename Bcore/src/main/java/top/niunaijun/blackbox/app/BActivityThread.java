@@ -568,19 +568,19 @@ public class BActivityThread extends IBActivityThread.Stub {
 
     private void onBeforeCreateApplication(String packageName, String processName, Context context) {
         for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
-            appLifecycleCallback.beforeCreateApplication(packageName, processName, context);
+            appLifecycleCallback.beforeCreateApplication(packageName, processName, context, BActivityThread.getUserId());
         }
     }
 
     private void onBeforeApplicationOnCreate(String packageName, String processName, Application application) {
         for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
-            appLifecycleCallback.beforeApplicationOnCreate(packageName, processName, application);
+            appLifecycleCallback.beforeApplicationOnCreate(packageName, processName, application, BActivityThread.getUserId());
         }
     }
 
     private void onAfterApplicationOnCreate(String packageName, String processName, Application application) {
         for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
-            appLifecycleCallback.afterApplicationOnCreate(packageName, processName, application);
+            appLifecycleCallback.afterApplicationOnCreate(packageName, processName, application, BActivityThread.getUserId());
         }
     }
 

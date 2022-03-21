@@ -245,7 +245,7 @@ class AppsRepository {
     /**
      * 保存排序后的apk顺序
      */
-    fun updateApkOrder(userID: Int, dataList: MutableList<AppInfo>) {
+    fun updateApkOrder(userID: Int, dataList: List<AppInfo>) {
         AppManager.mRemarkSharedPreferences.edit {
             putString("AppList$userID",
                 dataList.joinToString(",") { it.packageName })

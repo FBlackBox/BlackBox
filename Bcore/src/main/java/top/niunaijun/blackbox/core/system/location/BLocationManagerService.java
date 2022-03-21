@@ -1,6 +1,9 @@
 package top.niunaijun.blackbox.core.system.location;
 
+import android.os.IBinder;
+import android.os.IInterface;
 import android.os.Parcel;
+import android.os.RemoteException;
 import android.util.AtomicFile;
 import android.util.SparseArray;
 
@@ -10,7 +13,11 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import black.android.location.BRILocationListener;
+import black.android.location.BRILocationListenerStub;
+import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.core.env.BEnvironment;
 import top.niunaijun.blackbox.core.system.ISystemService;
 import top.niunaijun.blackbox.entity.location.BCell;
@@ -35,6 +42,7 @@ public class BLocationManagerService extends IBLocationManagerService.Stub imple
     private static final BLocationManagerService sService = new BLocationManagerService();
     private final SparseArray<HashMap<String, BLocationConfig>> mLocationConfigs = new SparseArray<>();
     private final BLocationConfig mGlobalConfig = new BLocationConfig();
+    private final Map<IBinder, LocationRecord> mLocationListeners = new HashMap<>();
 
     public static BLocationManagerService get() {
         return sService;
@@ -199,6 +207,56 @@ public class BLocationManagerService extends IBLocationManagerService.Stub imple
         }
     }
 
+    @Override
+    public void requestLocationUpdates(IBinder listener, String packageName, int userId) throws RemoteException {
+        if (listener == null || !listener.pingBinder()) {
+            return;
+        }
+        listener.linkToDeath(new DeathRecipient() {
+            @Override
+            public void binderDied() {
+                listener.unlinkToDeath(this, 0);
+                mLocationListeners.remove(listener);
+            }
+        }, 0);
+        LocationRecord record = new LocationRecord(packageName, userId);
+        mLocationListeners.put(listener, record);
+    }
+
+    @Override
+    public void removeUpdates(IBinder listener) throws RemoteException {
+        if (listener == null || !listener.pingBinder()) {
+            return;
+        }
+        mLocationListeners.remove(listener);
+    }
+
+    private void loopLocationChanged() {
+        while (true) {
+            try {
+                for (IBinder locationListener : mLocationListeners.keySet()) {
+                    if (!locationListener.pingBinder())
+                        continue;
+                    IInterface iInterface = BRILocationListenerStub.get().asInterface(locationListener);
+                    LocationRecord locationRecord = mLocationListeners.get(locationListener);
+                    if (locationRecord == null)
+                        continue;
+                    BLocation location = getLocation(locationRecord.userId, locationRecord.packageName);
+                    if (location == null)
+                        continue;
+                    BlackBoxCore.get().getHandler().post(() -> BRILocationListener.get(iInterface).onLocationChanged(location.convert2SystemLocation()));
+                }
+            } catch (Throwable e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+    }
+
     public void save() {
         synchronized (mGlobalConfig) {
             synchronized (mLocationConfigs) {
@@ -270,5 +328,6 @@ public class BLocationManagerService extends IBLocationManagerService.Stub imple
     @Override
     public void systemReady() {
         loadConfig();
+        new Thread(this::loopLocationChanged).start();
     }
 }
