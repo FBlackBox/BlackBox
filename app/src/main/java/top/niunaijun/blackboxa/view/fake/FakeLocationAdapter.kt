@@ -9,7 +9,6 @@ import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.bean.FakeLocationBean
 import top.niunaijun.blackboxa.databinding.ItemFakeBinding
 import top.niunaijun.blackboxa.util.getString
-import top.niunaijun.blackboxa.util.newBindingViewHolder
 
 /**
  *

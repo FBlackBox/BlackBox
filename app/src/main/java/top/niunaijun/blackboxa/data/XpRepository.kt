@@ -1,7 +1,6 @@
 package top.niunaijun.blackboxa.data
 
 import android.net.Uri
-import android.util.Log
 import android.webkit.URLUtil
 import androidx.lifecycle.MutableLiveData
 import top.niunaijun.blackbox.BlackBoxCore
