@@ -2,6 +2,7 @@ package top.niunaijun.blackbox.fake.service;
 
 import android.content.Context;
 import android.os.IBinder;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import java.lang.reflect.InvocationTargetException;
@@ -133,17 +134,16 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
     public static class GetAllCellInfo extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Log.d(TAG, "getAllCellInfo");
             if (BLocationManager.isFakeLocationEnable()) {
                 List<BCell> cell = BLocationManager.get().getAllCell(BActivityThread.getUserId(), BActivityThread.getAppPackageName());
                 // TODO Transfer BCell to CdmaCellLocation/GsmCellLocation
+                return cell;
+            }
+            try {
+                return method.invoke(who, args);
+            } catch (Throwable e) {
                 return null;
             }
-//            List<BCell> allCellInfo = new ArrayList<BCell>();
-//            BCell bCell= new BCell(460, 1, 13850, 4098);
-//            allCellInfo.add(bCell);
-//            return allCellInfo;
-            return method.invoke(who, args);
         }
     }
 
