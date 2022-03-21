@@ -14,6 +14,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import black.android.location.BRILocationListener;
 import black.android.location.BRILocationListenerStub;
@@ -43,6 +45,7 @@ public class BLocationManagerService extends IBLocationManagerService.Stub imple
     private final SparseArray<HashMap<String, BLocationConfig>> mLocationConfigs = new SparseArray<>();
     private final BLocationConfig mGlobalConfig = new BLocationConfig();
     private final Map<IBinder, LocationRecord> mLocationListeners = new HashMap<>();
+    private final Executor mThreadPool = Executors.newCachedThreadPool();
 
     public static BLocationManagerService get() {
         return sService;
@@ -212,6 +215,8 @@ public class BLocationManagerService extends IBLocationManagerService.Stub imple
         if (listener == null || !listener.pingBinder()) {
             return;
         }
+        if (mLocationListeners.containsKey(listener))
+            return;
         listener.linkToDeath(new DeathRecipient() {
             @Override
             public void binderDied() {
@@ -221,6 +226,7 @@ public class BLocationManagerService extends IBLocationManagerService.Stub imple
         }, 0);
         LocationRecord record = new LocationRecord(packageName, userId);
         mLocationListeners.put(listener, record);
+        addTask(listener);
     }
 
     @Override
@@ -231,30 +237,30 @@ public class BLocationManagerService extends IBLocationManagerService.Stub imple
         mLocationListeners.remove(listener);
     }
 
-    private void loopLocationChanged() {
-        while (true) {
-            try {
-                for (IBinder locationListener : mLocationListeners.keySet()) {
-                    if (!locationListener.pingBinder())
-                        continue;
-                    IInterface iInterface = BRILocationListenerStub.get().asInterface(locationListener);
-                    LocationRecord locationRecord = mLocationListeners.get(locationListener);
-                    if (locationRecord == null)
-                        continue;
-                    BLocation location = getLocation(locationRecord.userId, locationRecord.packageName);
-                    if (location == null)
-                        continue;
-                    BlackBoxCore.get().getHandler().post(() -> BRILocationListener.get(iInterface).onLocationChanged(location.convert2SystemLocation()));
+    private void addTask(IBinder locationListener) {
+        mThreadPool.execute(() -> {
+            BLocation lastLocation = null;
+            long l = System.currentTimeMillis();
+            while (locationListener.pingBinder()) {
+                IInterface iInterface = BRILocationListenerStub.get().asInterface(locationListener);
+                LocationRecord locationRecord = mLocationListeners.get(locationListener);
+                if (locationRecord == null)
+                    continue;
+                BLocation location = getLocation(locationRecord.userId, locationRecord.packageName);
+                if (location == null)
+                    continue;
+                if (location.equals(lastLocation) && (System.currentTimeMillis() - l) < 3000) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ignored) {
+                    }
+                    continue;
                 }
-            } catch (Throwable e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException ignored) {
-                }
+                lastLocation = location;
+                l = System.currentTimeMillis();
+                BlackBoxCore.get().getHandler().post(() -> BRILocationListener.get(iInterface).onLocationChanged(location.convert2SystemLocation()));
             }
-        }
+        });
     }
 
     public void save() {
@@ -328,6 +334,8 @@ public class BLocationManagerService extends IBLocationManagerService.Stub imple
     @Override
     public void systemReady() {
         loadConfig();
-        new Thread(this::loopLocationChanged).start();
+        for (IBinder iBinder : mLocationListeners.keySet()) {
+            addTask(iBinder);
+        }
     }
 }
