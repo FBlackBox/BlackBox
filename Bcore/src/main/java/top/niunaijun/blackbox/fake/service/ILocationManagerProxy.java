@@ -128,7 +128,7 @@ public class ILocationManagerProxy extends BinderInvocationStub {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            ProviderProperties providerProperties = (ProviderProperties) method.invoke(who, args);
+            Object providerProperties = method.invoke(who, args);
             if (BLocationManager.isFakeLocationEnable()) {
                 BRProviderProperties.get(providerProperties)._set_mHasNetworkRequirement(false);
                 if (BLocationManager.get().getCell(BActivityThread.getUserId(), BActivityThread.getAppPackageName()) == null) {
