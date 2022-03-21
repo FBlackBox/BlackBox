@@ -52,6 +52,8 @@ public class MethodParameterUtils {
     }
 
     public static void replaceFirstUid(Object[] args) {
+        if (args == null)
+            return;
         for (int i = 0; i < args.length; i++) {
             if (args[i] instanceof Integer) {
                 int uid = (int) args[i];
