@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.IBinder;
 import android.util.Log;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -17,7 +18,6 @@ import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
 import top.niunaijun.blackbox.utils.Md5Utils;
-import top.niunaijun.blackbox.utils.MethodParameterUtils;
 
 /**
  * Created by Milk on 4/2/21.
@@ -153,6 +153,18 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Log.d(TAG, "getNetworkOperator");
             return method.invoke(who, args);
+        }
+    }
+
+    @ProxyMethod("getNetworkTypeForSubscriber")
+    public static class GetNetworkTypeForSubscriber extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            try {
+                return method.invoke(who, args);
+            } catch (Throwable e) {
+                return 0;
+            }
         }
     }
 
