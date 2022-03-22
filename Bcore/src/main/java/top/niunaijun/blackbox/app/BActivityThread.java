@@ -95,6 +95,10 @@ public class BActivityThread extends IBActivityThread.Stub {
     private final Handler mH = BlackBoxCore.get().getHandler();
     private static final Object mConfigLock = new Object();
 
+    public static boolean isThreadInit() {
+        return sBActivityThread != null;
+    }
+
     public static BActivityThread currentActivityThread() {
         if (sBActivityThread == null) {
             synchronized (BActivityThread.class) {

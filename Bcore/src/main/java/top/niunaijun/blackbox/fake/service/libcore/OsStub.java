@@ -96,7 +96,7 @@ public class OsStub extends ClassInvocationStub {
         if (callUid > 0 && callUid <= Process.FIRST_APPLICATION_UID)
             return callUid;
 //            Log.d(TAG, "getuid: " + BActivityThread.getAppPackageName() + ", " + BActivityThread.getAppUid());
-        if (BActivityThread.currentActivityThread().isInit()) {
+        if (BActivityThread.isThreadInit() && BActivityThread.currentActivityThread().isInit()) {
             return BActivityThread.getBAppId();
         } else {
             return BlackBoxCore.getHostUid();
