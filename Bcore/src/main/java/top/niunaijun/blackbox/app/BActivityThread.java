@@ -371,7 +371,6 @@ public class BActivityThread extends IBActivityThread.Stub {
             onAfterApplicationOnCreate(packageName, processName, application);
 
             HookManager.get().checkEnv(HCallbackProxy.class);
-            HookManager.get().checkEnv(AppInstrumentation.class);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Unable to makeApplication", e);
