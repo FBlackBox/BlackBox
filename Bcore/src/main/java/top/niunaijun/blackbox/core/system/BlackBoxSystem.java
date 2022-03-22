@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.core.env.AppSystemEnv;
@@ -39,6 +40,7 @@ import static top.niunaijun.blackbox.core.env.BEnvironment.JUNIT_JAR;
 public class BlackBoxSystem {
     private static BlackBoxSystem sBlackBoxSystem;
     private final List<ISystemService> mServices = new ArrayList<>();
+    private final static AtomicBoolean isStartup = new AtomicBoolean(false);
 
     public static BlackBoxSystem getSystem() {
         if (sBlackBoxSystem == null) {
@@ -52,6 +54,8 @@ public class BlackBoxSystem {
     }
 
     public void startup() {
+        if (isStartup.getAndSet(true))
+            return;
         BEnvironment.load();
 
         mServices.add(BPackageManagerService.get());
