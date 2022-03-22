@@ -1,5 +1,6 @@
 package top.niunaijun.blackbox.fake.frameworks;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ProviderInfo;
@@ -180,6 +181,16 @@ public class BActivityManager {
     }
 
     public void onActivityResumed(IBinder token) {
+        try {
+            // Fix https://github.com/FBlackBox/BlackBox/issues/28
+            if ("com.tencent.mm".equals(BActivityThread.getAppPackageName())) {
+                Activity activityByToken = BActivityThread.getActivityByToken(token);
+                if (activityByToken != null) {
+                    activityByToken.getWindow().getDecorView().clearFocus();
+                }
+            }
+        } catch (Throwable ignored) {
+        }
         try {
             getService().onActivityResumed(token);
         } catch (RemoteException e) {

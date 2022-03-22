@@ -371,6 +371,7 @@ public class BActivityThread extends IBActivityThread.Stub {
             onAfterApplicationOnCreate(packageName, processName, application);
 
             HookManager.get().checkEnv(HCallbackProxy.class);
+            HookManager.get().checkEnv(AppInstrumentation.class);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Unable to makeApplication", e);
@@ -496,7 +497,7 @@ public class BActivityThread extends IBActivityThread.Stub {
             Object clientRecord = activities.get(token);
             if (clientRecord == null)
                 return;
-            Activity activity = BRActivityThreadActivityClientRecord.get(clientRecord).activity();
+            Activity activity = getActivityByToken(token);
 
             while (activity.getParent() != null) {
                 activity = activity.getParent();
@@ -566,6 +567,12 @@ public class BActivityThread extends IBActivityThread.Stub {
                                 + " in " + mReceiver);
             }
         });
+    }
+
+    public static Activity getActivityByToken(IBinder token) {
+        Map<IBinder, Object> iBinderObjectMap =
+                BRActivityThread.get(BlackBoxCore.mainThread()).mActivities();
+        return BRActivityThreadActivityClientRecord.get(iBinderObjectMap.get(token)).activity();
     }
 
     private void onBeforeCreateApplication(String packageName, String processName, Context context) {
