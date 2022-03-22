@@ -414,6 +414,11 @@ public class BlackBoxCore extends ClientConfiguration {
         return mClientConfiguration.getHostPackageName();
     }
 
+    @Override
+    public boolean requestInstallPackage(File file) {
+        return mClientConfiguration.requestInstallPackage(file);
+    }
+
     private void startLogcat() {
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), getContext().getPackageName() + "_logcat.txt");
         FileUtils.deleteDir(file);

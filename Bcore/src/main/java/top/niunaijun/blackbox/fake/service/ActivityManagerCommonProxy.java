@@ -7,8 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 
+import java.io.File;
 import java.lang.reflect.Method;
-import java.util.Objects;
 
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.BActivityThread;
@@ -46,6 +46,10 @@ public class ActivityManagerCommonProxy {
                 return method.invoke(who, args);
             }
             if (ComponentUtils.isRequestInstall(intent)) {
+                File file = FileProviderHandler.convertFile(BActivityThread.getApplication(), intent.getData());
+                if (BlackBoxCore.get().requestInstallPackage(file)) {
+                    return 0;
+                }
                 intent.setData(FileProviderHandler.convertFileUri(BActivityThread.getApplication(), intent.getData()));
                 return method.invoke(who, args);
             }
