@@ -164,18 +164,8 @@ public class BlackBoxCore extends ClientConfiguration {
             ContentProviderDelegate.init();
         }
         if (!isServerProcess()) {
-            initService();
+            ServiceManager.initBlackManager();
         }
-    }
-
-    private void initService() {
-        get().getService(ServiceManager.ACTIVITY_MANAGER);
-        get().getService(ServiceManager.PACKAGE_MANAGER);
-        get().getService(ServiceManager.STORAGE_MANAGER);
-        get().getService(ServiceManager.JOB_MANAGER);
-        get().getService(ServiceManager.ACCOUNT_MANAGER);
-        get().getService(ServiceManager.LOCATION_MANAGER);
-        get().getService(ServiceManager.NOTIFICATION_MANAGER);
     }
 
     public static Object mainThread() {

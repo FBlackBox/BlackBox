@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 
-import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.core.system.ServiceManager;
 import top.niunaijun.blackbox.core.system.am.IBActivityManagerService;
@@ -26,12 +25,16 @@ import top.niunaijun.blackbox.entity.am.RunningServiceInfo;
  * しーＪ
  * 此处无Bug
  */
-public class BActivityManager {
+public class BActivityManager extends BlackManager<IBActivityManagerService> {
     private static final BActivityManager sActivityManager = new BActivityManager();
-    private IBActivityManagerService mService;
 
     public static BActivityManager get() {
         return sActivityManager;
+    }
+
+    @Override
+    protected String getServiceName() {
+        return ServiceManager.ACTIVITY_MANAGER;
     }
 
     public AppConfig initProcess(String packageName, String processName, int userId) {
@@ -286,13 +289,5 @@ public class BActivityManager {
             e.printStackTrace();
         }
         return -1;
-    }
-
-    private IBActivityManagerService getService() {
-        if (mService != null && mService.asBinder().pingBinder()) {
-            return mService;
-        }
-        mService = IBActivityManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.ACTIVITY_MANAGER));
-        return getService();
     }
 }

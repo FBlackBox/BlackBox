@@ -4,7 +4,6 @@ import android.net.Uri;
 import android.os.RemoteException;
 import android.os.storage.StorageVolume;
 
-import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.core.system.ServiceManager;
 import top.niunaijun.blackbox.core.system.os.IBStorageManagerService;
 
@@ -16,12 +15,16 @@ import top.niunaijun.blackbox.core.system.os.IBStorageManagerService;
  * しーＪ
  * 此处无Bug
  */
-public class BStorageManager {
+public class BStorageManager extends BlackManager<IBStorageManagerService> {
     private static final BStorageManager sStorageManager = new BStorageManager();
-    private IBStorageManagerService mService;
 
     public static BStorageManager get() {
         return sStorageManager;
+    }
+
+    @Override
+    protected String getServiceName() {
+        return ServiceManager.STORAGE_MANAGER;
     }
 
     public StorageVolume[] getVolumeList(int uid, String packageName, int flags, int userId) {
@@ -40,13 +43,5 @@ public class BStorageManager {
             e.printStackTrace();
         }
         return null;
-    }
-
-    private IBStorageManagerService getService() {
-        if (mService != null && mService.asBinder().pingBinder()) {
-            return mService;
-        }
-        mService = IBStorageManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.STORAGE_MANAGER));
-        return getService();
     }
 }

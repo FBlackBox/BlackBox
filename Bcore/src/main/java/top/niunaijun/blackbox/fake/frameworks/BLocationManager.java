@@ -6,7 +6,6 @@ import android.os.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.core.system.ServiceManager;
 import top.niunaijun.blackbox.core.system.location.IBLocationManagerService;
@@ -16,9 +15,8 @@ import top.niunaijun.blackbox.entity.location.BLocation;
 /**
  * Created by BlackBoxing on 3/8/22.
  **/
-public class BLocationManager {
+public class BLocationManager extends BlackManager<IBLocationManagerService> {
     private static final BLocationManager sLocationManager = new BLocationManager();
-    private IBLocationManagerService mService;
 
     public static final int CLOSE_MODE = 0;
     public static final int GLOBAL_MODE = 1;
@@ -28,12 +26,9 @@ public class BLocationManager {
         return sLocationManager;
     }
 
-    private IBLocationManagerService getService() {
-        if (mService != null && mService.asBinder().pingBinder()) {
-            return mService;
-        }
-        mService = IBLocationManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.LOCATION_MANAGER));
-        return getService();
+    @Override
+    protected String getServiceName() {
+        return ServiceManager.LOCATION_MANAGER;
     }
 
     public static boolean isFakeLocationEnable() {

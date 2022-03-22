@@ -5,6 +5,7 @@ import android.os.IBinder;
 import java.util.HashMap;
 import java.util.Map;
 
+import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.core.system.accounts.BAccountManagerService;
 import top.niunaijun.blackbox.core.system.am.BActivityManagerService;
 import top.niunaijun.blackbox.core.system.am.BJobManagerService;
@@ -66,5 +67,17 @@ public class ServiceManager {
 
     public IBinder getServiceInternal(String name) {
         return mCaches.get(name);
+    }
+
+    public static void initBlackManager() {
+        BlackBoxCore.get().getService(ACTIVITY_MANAGER);
+        BlackBoxCore.get().getService(JOB_MANAGER);
+        BlackBoxCore.get().getService(PACKAGE_MANAGER);
+        BlackBoxCore.get().getService(STORAGE_MANAGER);
+        BlackBoxCore.get().getService(USER_MANAGER);
+        BlackBoxCore.get().getService(XPOSED_MANAGER);
+        BlackBoxCore.get().getService(ACCOUNT_MANAGER);
+        BlackBoxCore.get().getService(LOCATION_MANAGER);
+        BlackBoxCore.get().getService(NOTIFICATION_MANAGER);
     }
 }

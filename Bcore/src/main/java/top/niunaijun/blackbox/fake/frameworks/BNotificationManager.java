@@ -8,7 +8,6 @@ import android.os.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.core.system.ServiceManager;
 import top.niunaijun.blackbox.core.system.notification.IBNotificationManagerService;
@@ -16,12 +15,16 @@ import top.niunaijun.blackbox.core.system.notification.IBNotificationManagerServ
 /**
  * Created by BlackBox on 2022/3/18.
  */
-public class BNotificationManager {
+public class BNotificationManager extends BlackManager<IBNotificationManagerService> {
     private static final BNotificationManager sNotificationManager = new BNotificationManager();
-    private IBNotificationManagerService mService;
 
     public static BNotificationManager get() {
         return sNotificationManager;
+    }
+
+    @Override
+    protected String getServiceName() {
+        return ServiceManager.NOTIFICATION_MANAGER;
     }
 
     public NotificationChannel getNotificationChannel(String channelId) {
@@ -41,7 +44,7 @@ public class BNotificationManager {
         }
         return null;
     }
-    
+
     public void createNotificationChannel(NotificationChannel notificationChannel) {
         try {
             getService().createNotificationChannel(notificationChannel, BActivityThread.getUserId());
@@ -97,13 +100,5 @@ public class BNotificationManager {
             e.printStackTrace();
         }
         return new ArrayList<>();
-    }
-
-    private IBNotificationManagerService getService() {
-        if (mService != null && mService.asBinder().pingBinder()) {
-            return mService;
-        }
-        mService = IBNotificationManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.NOTIFICATION_MANAGER));
-        return getService();
     }
 }

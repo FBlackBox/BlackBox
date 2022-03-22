@@ -29,12 +29,16 @@ import top.niunaijun.blackbox.entity.pm.InstalledPackage;
  * しーＪ
  * 此处无Bug
  */
-public class BPackageManager {
+public class BPackageManager extends BlackManager<IBPackageManagerService> {
     private static final BPackageManager sPackageManager = new BPackageManager();
-    private IBPackageManagerService mService;
 
     public static BPackageManager get() {
         return sPackageManager;
+    }
+
+    @Override
+    protected String getServiceName() {
+        return ServiceManager.PACKAGE_MANAGER;
     }
 
     public Intent getLaunchIntentForPackage(String packageName, int userId) {
@@ -272,13 +276,5 @@ public class BPackageManager {
 
     private void crash(Throwable e) {
         e.printStackTrace();
-    }
-
-    private IBPackageManagerService getService() {
-        if (mService != null && mService.asBinder().pingBinder()) {
-            return mService;
-        }
-        mService = IBPackageManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.PACKAGE_MANAGER));
-        return getService();
     }
 }

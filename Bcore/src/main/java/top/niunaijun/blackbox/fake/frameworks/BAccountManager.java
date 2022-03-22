@@ -8,7 +8,6 @@ import android.os.RemoteException;
 
 import java.util.Map;
 
-import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.core.system.ServiceManager;
 import top.niunaijun.blackbox.core.system.accounts.IBAccountManagerService;
@@ -16,14 +15,17 @@ import top.niunaijun.blackbox.core.system.accounts.IBAccountManagerService;
 /**
  * Created by BlackBox on 2022/3/3.
  */
-public class BAccountManager {
+public class BAccountManager extends BlackManager<IBAccountManagerService> {
     private static final BAccountManager sBAccountManager = new BAccountManager();
 
     public static BAccountManager get() {
         return sBAccountManager;
     }
 
-    private IBAccountManagerService mService;
+    @Override
+    protected String getServiceName() {
+        return ServiceManager.ACCOUNT_MANAGER;
+    }
 
     public String getPassword(Account account) {
         try {
@@ -330,13 +332,5 @@ public class BAccountManager {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-    }
-
-    private IBAccountManagerService getService() {
-        if (mService != null && mService.asBinder().pingBinder()) {
-            return mService;
-        }
-        mService = IBAccountManagerService.Stub.asInterface(BlackBoxCore.get().getService(ServiceManager.ACCOUNT_MANAGER));
-        return getService();
     }
 }
