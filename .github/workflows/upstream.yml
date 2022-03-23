@@ -1,0 +1,19 @@
+name: Merge upstream branches
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  Merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: Merge upstream
+        run: |
+          curl \
+          -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${{ secrets.TOKEN }}" \
+          https://api.github.com/repos/AutoBlackBox/BlackBox/merge-upstream \
+          -d '{"branch":"master"}'
