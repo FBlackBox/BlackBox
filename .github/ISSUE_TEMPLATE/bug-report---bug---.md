@@ -29,6 +29,10 @@ If applicable, add screenshots to help explain your problem.
 **Mobile Phone Info** / **手机信息**
 Xiaomi / Android12
 
+**Logcat** / **日志**
+If you are a developer or capable please provide logs for us to analyze.
+如果你是开发者或者有能力的请提供日志供我们分析。
+
 **Additional context** / **额外内容**
 Add any other context about the problem here.
 在此添加关于该问题的任何其他内容。
