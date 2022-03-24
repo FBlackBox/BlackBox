@@ -38,7 +38,7 @@ open class AppSharedPreferenceDelegate<Data>(context: Context, private val defau
                 is Int -> getInt(key, default)
                 is Long -> getLong(key, default)
                 is Float -> getFloat(key, default)
-                is String -> getString(key, default)
+                is String -> getString(key, default)!!
                 is Boolean -> getBoolean(key, default)
                 else -> throw IllegalArgumentException("This type $default can not be saved into sharedPreferences")
             }

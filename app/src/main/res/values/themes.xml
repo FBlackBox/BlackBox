@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.BlackBox" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.BlackBox" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primary_dark</item>
@@ -14,6 +14,8 @@
         <!-- Customize your theme here. -->
 
         <item name="actionMenuTextColor">@color/white</item>
+
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 
     <style name="ToolBarColorStyle" parent="ThemeOverlay.AppCompat.DayNight.ActionBar">
