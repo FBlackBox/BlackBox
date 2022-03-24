@@ -73,7 +73,12 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
         if (processRecord == null) {
             throw new RuntimeException("Unable to create process " + providerInfo.name);
         }
-        return processRecord.bActivityThread.acquireContentProviderClient(providerInfo);
+        try {
+            return processRecord.bActivityThread.acquireContentProviderClient(providerInfo);
+        } catch (Throwable t) {
+            t.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -279,7 +284,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
     public UnbindRecord onServiceUnbind(Intent proxyIntent, int userId) throws RemoteException {
         UserSpace userSpace = getOrCreateSpaceLocked(userId);
         synchronized (userSpace.mActiveServices) {
-            return  userSpace.mActiveServices.onServiceUnbind(proxyIntent, userId);
+            return userSpace.mActiveServices.onServiceUnbind(proxyIntent, userId);
         }
     }
 
