@@ -74,6 +74,14 @@ public class IShortcutManagerProxy extends BinderInvocationStub {
         }
     }
 
+    @ProxyMethod("pushDynamicShortcut")
+    public static class pushDynamicShortcut extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            return 0;
+        }
+    }
+
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         MethodParameterUtils.replaceAllAppPkg(args);
