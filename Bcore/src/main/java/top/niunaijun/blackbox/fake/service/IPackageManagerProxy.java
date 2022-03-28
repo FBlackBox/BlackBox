@@ -23,6 +23,8 @@ import top.niunaijun.blackbox.core.env.AppSystemEnv;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
+import top.niunaijun.blackbox.fake.service.base.PkgMethodProxy;
+import top.niunaijun.blackbox.fake.service.base.ValueMethodProxy;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 import top.niunaijun.blackbox.utils.Reflector;
 import top.niunaijun.blackbox.utils.Slog;
@@ -68,6 +70,14 @@ public class IPackageManagerProxy extends BinderInvocationStub {
     @Override
     public boolean isBadEnv() {
         return false;
+    }
+
+    @Override
+    protected void onBindMethod() {
+        super.onBindMethod();
+        addMethodHook(new ValueMethodProxy("addOnPermissionsChangeListener", 0));
+        addMethodHook(new ValueMethodProxy("removeOnPermissionsChangeListener", 0));
+        addMethodHook(new PkgMethodProxy("shouldShowRequestPermissionRationale"));
     }
 
     @ProxyMethod("resolveIntent")
