@@ -24,6 +24,7 @@ class SettingActivity : BaseActivity() {
     companion object{
         fun start(context: Context){
             val intent = Intent(context,SettingActivity::class.java)
+            intent.action = Intent.ACTION_OPEN_DOCUMENT
             context.startActivity(intent)
         }
     }
