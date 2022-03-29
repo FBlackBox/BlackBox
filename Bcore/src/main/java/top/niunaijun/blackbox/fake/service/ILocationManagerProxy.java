@@ -179,4 +179,13 @@ public class ILocationManagerProxy extends BinderInvocationStub {
             return Objects.equals(provider, LocationManager.GPS_PROVIDER);
         }
     }
+
+    @ProxyMethod("setExtraLocationControllerPackageEnabled")
+    public static class setExtraLocationControllerPackageEnabled extends MethodHook {
+
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            return 0;
+        }
+    }
 }
