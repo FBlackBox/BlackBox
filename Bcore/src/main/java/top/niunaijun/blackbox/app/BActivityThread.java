@@ -26,6 +26,7 @@ import android.os.Looper;
 import android.os.RemoteException;
 import android.os.StrictMode;
 import android.text.TextUtils;
+import android.webkit.WebView;
 
 import java.io.File;
 import java.security.Security;
@@ -323,6 +324,9 @@ public class BActivityThread extends IBActivityThread.Stub {
             if (targetSdkVersion < Build.VERSION_CODES.N) {
                 StrictModeCompat.disableDeathOnFileUriExposure();
             }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            WebView.setDataDirectorySuffix(getUserId() + ":" + packageName + ":" + processName);
         }
 
         VirtualRuntime.setupRuntime(processName, applicationInfo);
