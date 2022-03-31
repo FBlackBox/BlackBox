@@ -1,7 +1,6 @@
 package top.niunaijun.blackbox.utils;
 
 
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -13,23 +12,23 @@ import java.lang.reflect.Modifier;
  * Created by qiaopu on 2018/4/26.
  */
 public class Reflector {
-    public static final String LOG_TAG ="Reflector";
-    
+    public static final String LOG_TAG = "Reflector";
+
     protected Class<?> mType;
     protected Object mCaller;
     protected Constructor mConstructor;
     protected Field mField;
     protected Method mMethod;
-    
-    
+
+
     public static Reflector on(String name) throws Exception {
         return on(name, true, Reflector.class.getClassLoader());
     }
-    
+
     public static Reflector on(String name, boolean initialize) throws Exception {
         return on(name, initialize, Reflector.class.getClassLoader());
     }
-    
+
     public static Reflector on(String name, boolean initialize, ClassLoader loader) throws Exception {
         try {
             return on(Class.forName(name, initialize, loader));
@@ -37,21 +36,21 @@ public class Reflector {
             throw new Exception("Oops!", e);
         }
     }
-    
+
     public static Reflector on(Class<?> type) {
         Reflector reflector = new Reflector();
         reflector.mType = type;
         return reflector;
     }
-    
+
     public static Reflector with(Object caller) throws Exception {
         return on(caller.getClass()).bind(caller);
     }
-    
+
     protected Reflector() {
-    
+
     }
-    
+
     public Reflector constructor(Class<?>... parameterTypes) throws Exception {
         try {
             mConstructor = mType.getDeclaredConstructor(parameterTypes);
@@ -63,7 +62,7 @@ public class Reflector {
             throw new Exception("Oops!", e);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     public <R> R newInstance(Object... initargs) throws Exception {
         if (mConstructor == null) {
@@ -77,14 +76,14 @@ public class Reflector {
             throw new Exception("Oops!", e);
         }
     }
-    
+
     protected Object checked(Object caller) throws Exception {
         if (caller == null || mType.isInstance(caller)) {
             return caller;
         }
         throw new Exception("Caller [" + caller + "] is not a instance of type [" + mType + "]!");
     }
-    
+
     protected void check(Object caller, Member member, String name) throws Exception {
         if (member == null) {
             throw new Exception(name + " was null!");
@@ -94,17 +93,17 @@ public class Reflector {
         }
         checked(caller);
     }
-    
+
     public Reflector bind(Object caller) throws Exception {
         mCaller = checked(caller);
         return this;
     }
-    
+
     public Reflector unbind() {
         mCaller = null;
         return this;
     }
-    
+
     public Reflector field(String name) throws Exception {
         try {
             mField = findField(name);
@@ -116,7 +115,7 @@ public class Reflector {
             throw new Exception("Oops!", e);
         }
     }
-    
+
     protected Field findField(String name) throws NoSuchFieldException {
         try {
             return mType.getField(name);
@@ -131,12 +130,12 @@ public class Reflector {
             throw e;
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     public <R> R get() throws Exception {
         return get(mCaller);
     }
-    
+
     @SuppressWarnings("unchecked")
     public <R> R get(Object caller) throws Exception {
         check(caller, mField, "Field");
@@ -146,11 +145,11 @@ public class Reflector {
             throw new Exception("Oops!", e);
         }
     }
-    
+
     public Reflector set(Object value) throws Exception {
         return set(mCaller, value);
     }
-    
+
     public Reflector set(Object caller, Object value) throws Exception {
         check(caller, mField, "Field");
         try {
@@ -160,7 +159,7 @@ public class Reflector {
             throw new Exception("Oops!", e);
         }
     }
-    
+
     public Reflector method(String name, Class<?>... parameterTypes) throws Exception {
         try {
             mMethod = findMethod(name, parameterTypes);
@@ -172,7 +171,7 @@ public class Reflector {
             throw new Exception("Oops!", e);
         }
     }
-    
+
     protected Method findMethod(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
         try {
             return mType.getMethod(name, parameterTypes);
@@ -187,11 +186,11 @@ public class Reflector {
             throw e;
         }
     }
-    
+
     public <R> R call(Object... args) throws Exception {
         return callByCaller(mCaller, args);
     }
-    
+
     @SuppressWarnings("unchecked")
     public <R> R callByCaller(Object caller, Object... args) throws Exception {
         check(caller, mMethod, "Method");
@@ -203,19 +202,19 @@ public class Reflector {
             throw new Exception("Oops!", e);
         }
     }
-    
+
     public static class QuietReflector extends Reflector {
-        
+
         protected Throwable mIgnored;
-    
+
         public static QuietReflector on(String name) {
             return on(name, true, QuietReflector.class.getClassLoader());
         }
-    
+
         public static QuietReflector on(String name, boolean initialize) {
             return on(name, initialize, QuietReflector.class.getClassLoader());
         }
-    
+
         public static QuietReflector on(String name, boolean initialize, ClassLoader loader) {
             Class<?> cls = null;
             try {
@@ -226,41 +225,41 @@ public class Reflector {
                 return on(cls, e);
             }
         }
-    
+
         public static QuietReflector on(Class<?> type) {
             return on(type, (type == null) ? new Exception("Type was null!") : null);
         }
-    
+
         private static QuietReflector on(Class<?> type, Throwable ignored) {
             QuietReflector reflector = new QuietReflector();
             reflector.mType = type;
             reflector.mIgnored = ignored;
             return reflector;
         }
-    
+
         public static QuietReflector with(Object caller) {
             if (caller == null) {
                 return on((Class<?>) null);
             }
             return on(caller.getClass()).bind(caller);
         }
-        
+
         protected QuietReflector() {
-            
+
         }
-    
+
         public Throwable getIgnored() {
             return mIgnored;
         }
-    
+
         protected boolean skip() {
             return skipAlways() || mIgnored != null;
         }
-        
+
         protected boolean skipAlways() {
             return mType == null;
         }
-    
+
         @Override
         public QuietReflector constructor(Class<?>... parameterTypes) {
             if (skipAlways()) {
@@ -275,7 +274,7 @@ public class Reflector {
             }
             return this;
         }
-    
+
         @Override
         public <R> R newInstance(Object... initargs) {
             if (skip()) {
@@ -290,7 +289,7 @@ public class Reflector {
             }
             return null;
         }
-    
+
         @Override
         public QuietReflector bind(Object obj) {
             if (skipAlways()) {
@@ -305,13 +304,13 @@ public class Reflector {
             }
             return this;
         }
-    
+
         @Override
         public QuietReflector unbind() {
             super.unbind();
             return this;
         }
-    
+
         @Override
         public QuietReflector field(String name) {
             if (skipAlways()) {
@@ -326,7 +325,7 @@ public class Reflector {
             }
             return this;
         }
-    
+
         @Override
         public <R> R get() {
             if (skip()) {
@@ -341,7 +340,7 @@ public class Reflector {
             }
             return null;
         }
-    
+
         @Override
         public <R> R get(Object caller) {
             if (skip()) {
@@ -356,7 +355,7 @@ public class Reflector {
             }
             return null;
         }
-    
+
         @Override
         public QuietReflector set(Object value) {
             if (skip()) {
@@ -371,7 +370,7 @@ public class Reflector {
             }
             return this;
         }
-    
+
         @Override
         public QuietReflector set(Object caller, Object value) {
             if (skip()) {
@@ -386,7 +385,7 @@ public class Reflector {
             }
             return this;
         }
-    
+
         @Override
         public QuietReflector method(String name, Class<?>... parameterTypes) {
             if (skipAlways()) {
@@ -401,9 +400,9 @@ public class Reflector {
             }
             return this;
         }
-    
+
         @Override
-        public <R> R call(Object... args)  {
+        public <R> R call(Object... args) {
             if (skip()) {
                 return null;
             }
@@ -416,7 +415,7 @@ public class Reflector {
             }
             return null;
         }
-    
+
         @Override
         public <R> R callByCaller(Object caller, Object... args) {
             if (skip()) {
@@ -431,5 +430,14 @@ public class Reflector {
             }
             return null;
         }
+    }
+
+    public static Method findMethodByFirstName(Class<?> clazz, String methodName) {
+        for (Method declaredMethod : clazz.getDeclaredMethods()) {
+            if (methodName.equals(declaredMethod.getName())) {
+                return declaredMethod;
+            }
+        }
+        return null;
     }
 }

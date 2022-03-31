@@ -28,6 +28,7 @@ import top.niunaijun.blackbox.fake.service.base.ValueMethodProxy;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 import top.niunaijun.blackbox.utils.Reflector;
 import top.niunaijun.blackbox.utils.Slog;
+import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.ParceledListSliceCompat;
 
 /**
@@ -262,6 +263,26 @@ public class IPackageManagerProxy extends BinderInvocationStub {
             List<ProviderInfo> providers = BlackBoxCore.getBPackageManager().
                     queryContentProviders(BActivityThread.getAppProcessName(), BActivityThread.getBUid(), flags, BActivityThread.getUserId());
             return ParceledListSliceCompat.create(providers);
+        }
+    }
+
+    @ProxyMethod("queryIntentReceivers")
+    public static class QueryBroadcastReceivers extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            Intent intent = MethodParameterUtils.getFirstParam(args, Intent.class);
+            String type = MethodParameterUtils.getFirstParam(args, String.class);
+            Integer flags = MethodParameterUtils.getFirstParam(args, Integer.class);
+            List<ResolveInfo> resolves = BlackBoxCore.getBPackageManager().queryBroadcastReceivers(intent, flags, type, BActivityThread.getUserId());
+            Slog.d(TAG, "queryIntentReceivers: " + resolves);
+
+            // http://androidxref.com/7.0.0_r1/xref/frameworks/base/core/java/android/app/ApplicationPackageManager.java#872
+            if (BuildCompat.isN()) {
+                return ParceledListSliceCompat.create(resolves);
+            }
+
+            // http://androidxref.com/6.0.1_r10/xref/frameworks/base/core/java/android/app/ApplicationPackageManager.java#699
+            return resolves;
         }
     }
 
