@@ -38,6 +38,7 @@ import top.niunaijun.blackbox.fake.service.IPowerManagerProxy;
 import top.niunaijun.blackbox.fake.service.IShortcutManagerProxy;
 import top.niunaijun.blackbox.fake.service.IStorageManagerProxy;
 import top.niunaijun.blackbox.fake.service.IStorageStatsManagerProxy;
+import top.niunaijun.blackbox.fake.service.ISystemUpdateProxy;
 import top.niunaijun.blackbox.fake.service.ITelephonyManagerProxy;
 import top.niunaijun.blackbox.fake.service.ITelephonyRegistryProxy;
 import top.niunaijun.blackbox.fake.service.IUserManagerProxy;
@@ -126,6 +127,7 @@ public class HookManager {
             }
             // 9.0
             if (BuildCompat.isPie()) {
+                addInjector(new ISystemUpdateProxy());
             }
             // 8.0
             if (BuildCompat.isOreo()) {
