@@ -1,9 +1,16 @@
 package top.niunaijun.blackbox.fake.service;
 
+import static top.niunaijun.blackbox.app.BActivityThread.getUid;
+
+import java.lang.reflect.Method;
+
 import black.android.os.BRINetworkManagementServiceStub;
 import black.android.os.BRServiceManager;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
+import top.niunaijun.blackbox.fake.hook.MethodHook;
+import top.niunaijun.blackbox.fake.hook.ProxyMethod;
 import top.niunaijun.blackbox.fake.service.base.UidMethodProxy;
+import top.niunaijun.blackbox.utils.MethodParameterUtils;
 
 /**
  * Created by BlackBox on 2022/3/5.
@@ -36,5 +43,18 @@ public class INetworkManagementServiceProxy extends BinderInvocationStub {
         addMethodHook(new UidMethodProxy("setUidCleartextNetworkPolicy", 0));
         addMethodHook(new UidMethodProxy("setUidMeteredNetworkBlacklist", 0));
         addMethodHook(new UidMethodProxy("setUidMeteredNetworkWhitelist", 0));
+    }
+
+    @ProxyMethod("getNetworkStatsUidDetail")
+    public static class getNetworkStatsUidDetail extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            int uid = (int)args[0];
+            if(uid == getUid()){
+                args[0] = getUid();//暂时不知道会不会出错
+            }
+            MethodParameterUtils.replaceFirstAppPkg(args);
+            return method.invoke(who, args);
+        }
     }
 }
