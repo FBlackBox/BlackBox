@@ -49,10 +49,7 @@ public class INetworkManagementServiceProxy extends BinderInvocationStub {
     public static class getNetworkStatsUidDetail extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            int uid = (int)args[0];
-            if(uid == getUid()){
-                args[0] = getUid();//暂时不知道会不会出错
-            }
+            MethodParameterUtils.replaceFirstUid(args);
             MethodParameterUtils.replaceFirstAppPkg(args);
             return method.invoke(who, args);
         }
