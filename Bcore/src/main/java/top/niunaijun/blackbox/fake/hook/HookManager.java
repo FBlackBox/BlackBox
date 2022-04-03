@@ -105,7 +105,6 @@ public class HookManager {
             addInjector(new IContextHubServiceProxy());
             addInjector(new IVibratorServiceProxy());
             addInjector(new IPersistentDataBlockServiceProxy());
-            addInjector(new IWifiScannerProxy());
             addInjector(AppInstrumentation.get());
             /*
             * It takes time to test and enhance the compatibility of WifiManager
@@ -113,7 +112,7 @@ public class HookManager {
             * commented by BlackBoxing at 2022/03/08
             * */
             addInjector(new IWifiManagerProxy());
-
+            addInjector(new IWifiScannerProxy());
             // 12.0
             if (BuildCompat.isS()) {
                 addInjector(new IActivityClientProxy(null));
