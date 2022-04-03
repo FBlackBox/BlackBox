@@ -70,6 +70,7 @@ void IO::addRule(const char *targetPath, const char *relocatePath) {
     info.targetPath = targetPath;
     info.relocatePath = relocatePath;
     relocate_rule.push_back(info);
+
 }
 
 void IO::init(JNIEnv *env) {

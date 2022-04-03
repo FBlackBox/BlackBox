@@ -53,6 +53,7 @@ public class IOCore {
             FileUtils.mkdirs(redirectPath);
         }
         NativeCore.addIORule(origPath, redirectPath);
+        NativeCore.IORedirect(origPath, redirectPath);
     }
 
     public String redirectPath(String path) {
@@ -109,7 +110,6 @@ public class IOCore {
 
             rule.put(String.format("/data/data/%s", packageName), packageInfo.dataDir);
             rule.put(String.format("/data/user/%d/%s", systemUserId, packageName), packageInfo.dataDir);
-
             if (BlackBoxCore.getContext().getExternalCacheDir() != null && context.getExternalCacheDir() != null) {
                 File external = BEnvironment.getExternalUserDir(BActivityThread.getUserId());
 
@@ -133,6 +133,7 @@ public class IOCore {
     private void hideRoot(Map<String, String> rule) {
         rule.put("/system/app/Superuser.apk", "/system/app/Superuser.apk-fake");
         rule.put("/sbin/su", "/sbin/su-fake");
+        rule.put("/system/bin/ls", "/system/bin/ls-fake");
         rule.put("/system/bin/su", "/system/bin/su-fake");
         rule.put("/system/xbin/su", "/system/xbin/su-fake");
         rule.put("/data/local/xbin/su", "/data/local/xbin/su-fake");

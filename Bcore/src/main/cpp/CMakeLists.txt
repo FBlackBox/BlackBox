@@ -16,6 +16,8 @@ aux_source_directory(./ SRC1)
 aux_source_directory(Utils SRC2)
 aux_source_directory(Hook SRC3)
 aux_source_directory(JniHook SRC4)
+aux_source_directory(Substrate SRC5)
+aux_source_directory(IORelocator SRC6)
 add_compile_options(-w)
 add_library( # Sets the name of the library.
         blackbox
@@ -27,6 +29,8 @@ add_library( # Sets the name of the library.
         ${SRC2}
         ${SRC3}
         ${SRC4}
+        ${SRC5}
+        ${SRC6}
         )
 
 # Searches for a specified prebuilt library and stores the path as a

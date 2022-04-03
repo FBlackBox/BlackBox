@@ -39,6 +39,8 @@ public class NativeCore {
 
     public static native void hideXposed();
 
+    public static native void IORedirect(String targetPath, String relocatePath);
+
     public static void dumpDex(ClassLoader classLoader, String packageName) {
         List<Long> cookies = DexFileCompat.getCookies(classLoader);
         for (Long cookie : cookies) {

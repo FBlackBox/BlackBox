@@ -11,6 +11,8 @@
 #include <Hook/UnixFileSystemHook.h>
 #include <Hook/BinderHook.h>
 #include <Hook/RuntimeHook.h>
+#include <Utils/StringUtils.h>
+#include <IORelocator/IORelocator.h>
 #include "Utils/HexDump.h"
 
 struct {
@@ -73,6 +75,7 @@ void nativeHook(JNIEnv *env) {
     VMClassLoaderHook::init(env);
 //    RuntimeHook::init(env);
     BinderHook::init(env);
+    IORelocate::init();
 }
 
 void hideXposed(JNIEnv *env, jclass clazz) {
@@ -106,12 +109,24 @@ void enableIO(JNIEnv *env, jclass clazz) {
     nativeHook(env);
 }
 
+
 static JNINativeMethod gMethods[] = {
         {"hideXposed", "()V",                                     (void *) hideXposed},
         {"addIORule",  "(Ljava/lang/String;Ljava/lang/String;)V", (void *) addIORule},
         {"enableIO",   "()V",                                     (void *) enableIO},
         {"init",       "(I)V",                                    (void *) init},
 };
+
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_top_niunaijun_blackbox_core_NativeCore_IORedirect(JNIEnv *env, jclass clazz,
+                                                       jstring target_path, jstring relocate_path) {
+    StringUtils old_path(target_path);
+    StringUtils new_path(relocate_path);
+    ALOGD("旧路径 -> %s,新路径 -> %s",old_path.c_str(),new_path.c_str());
+    IORelocate::relocatePath(old_path.c_str(),new_path.c_str());
+}
 
 int registerNativeMethods(JNIEnv *env, const char *className,
                           JNINativeMethod *gMethods, int numMethods) {
@@ -146,3 +161,5 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     registerMethod(env);
     return JNI_VERSION_1_6;
 }
+
+
