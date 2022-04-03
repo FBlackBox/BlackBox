@@ -8,6 +8,7 @@ import black.android.hardware.display.BRDisplayManagerGlobal;
 import top.niunaijun.blackbox.fake.hook.ClassInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
+import top.niunaijun.blackbox.fake.service.base.PkgMethodProxy;
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 
 /**
@@ -40,6 +41,7 @@ public class IDisplayManagerProxy extends ClassInvocationStub {
         IInterface mDm = BRDisplayManagerGlobal.get(dmg).mDm();
         return mDm != getProxyInvocation();
     }
+
 
     @ProxyMethod("createVirtualDisplay")
     public static class CreateVirtualDisplay extends MethodHook {

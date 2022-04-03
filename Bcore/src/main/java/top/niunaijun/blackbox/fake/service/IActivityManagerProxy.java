@@ -42,6 +42,7 @@ import top.niunaijun.blackbox.fake.hook.ClassInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
 import top.niunaijun.blackbox.fake.hook.ScanClass;
+import top.niunaijun.blackbox.fake.service.base.PkgMethodProxy;
 import top.niunaijun.blackbox.fake.service.context.providers.ContentProviderStub;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.proxy.record.ProxyBroadcastRecord;
@@ -93,6 +94,14 @@ public class IActivityManagerProxy extends ClassInvocationStub {
     @Override
     public boolean isBadEnv() {
         return getProxyInvocation() != getWho();
+    }
+
+    @Override
+    protected void onBindMethod() {
+        super.onBindMethod();
+        addMethodHook(new PkgMethodProxy("getAppStartMode"));
+        addMethodHook(new PkgMethodProxy("setAppLockedVerifying"));
+        addMethodHook(new PkgMethodProxy("reportJunkFromApp"));
     }
 
     @ProxyMethod("getContentProvider")
@@ -593,6 +602,47 @@ public class IActivityManagerProxy extends ClassInvocationStub {
             ActivityManager.TaskDescription td = (ActivityManager.TaskDescription) args[1];
             args[1] = TaskDescriptionCompat.fix(td);
             return method.invoke(who, args);
+        }
+    }
+
+    @ProxyMethod("setRequestedOrientation")
+    public static class setRequestedOrientation extends MethodHook{
+
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            try{
+                return method.invoke(who, args);
+            }catch (Throwable e){
+                e.printStackTrace();
+            }
+            return 0;
+        }
+    }
+
+    @ProxyMethod("registerUidObserver")
+    public static class registerUidObserver extends MethodHook{
+
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            return 0;
+        }
+    }
+
+    @ProxyMethod("unregisterUidObserver")
+    public static class unregisterUidObserver extends MethodHook{
+
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            return 0;
+        }
+    }
+
+    @ProxyMethod("updateConfiguration")
+    public static class updateConfiguration extends MethodHook{
+
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            return 0;
         }
     }
 }

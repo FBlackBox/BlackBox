@@ -1,11 +1,13 @@
 package top.niunaijun.blackbox.core.env;
 
 import android.content.ComponentName;
+import android.os.Build;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.utils.compat.BuildCompat;
 
 /**
  * Created by Milk on 4/21/21.
@@ -51,6 +53,11 @@ public class AppSystemEnv {
         sXposedPackages.add("de.robv.android.xposed.installer");
 
         sPreInstallPackages.add("com.huawei.hwid");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && Build.VERSION.SDK_INT < 29){
+            //解决Android 9三星浏览器闪退问题
+        }else{
+
+        }
     }
 
     public static boolean isOpenPackage(String packageName) {
