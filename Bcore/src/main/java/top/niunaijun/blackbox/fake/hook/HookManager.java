@@ -46,6 +46,7 @@ import top.niunaijun.blackbox.fake.service.IUserManagerProxy;
 import top.niunaijun.blackbox.fake.service.IVibratorServiceProxy;
 import top.niunaijun.blackbox.fake.service.IVpnManagerProxy;
 import top.niunaijun.blackbox.fake.service.IWifiManagerProxy;
+import top.niunaijun.blackbox.fake.service.IWifiScannerProxy;
 import top.niunaijun.blackbox.fake.service.IWindowManagerProxy;
 import top.niunaijun.blackbox.fake.service.context.ContentServiceStub;
 import top.niunaijun.blackbox.fake.service.context.RestrictionsManagerStub;
@@ -104,7 +105,7 @@ public class HookManager {
             addInjector(new IContextHubServiceProxy());
             addInjector(new IVibratorServiceProxy());
             addInjector(new IPersistentDataBlockServiceProxy());
-
+            addInjector(new IWifiScannerProxy());
             addInjector(AppInstrumentation.get());
             /*
             * It takes time to test and enhance the compatibility of WifiManager
