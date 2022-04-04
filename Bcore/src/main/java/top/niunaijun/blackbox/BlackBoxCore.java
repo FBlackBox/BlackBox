@@ -442,8 +442,8 @@ public class BlackBoxCore extends ClientConfiguration {
 
     private void initNotificationManager() {
         NotificationManager nm = (NotificationManager) BlackBoxCore.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        String CHANNEL_ONE_ID = BlackBoxCore.getContext().getPackageName() + ".blackbox_proxy";
-        String CHANNEL_ONE_NAME = "blackbox_proxy";
+        String CHANNEL_ONE_ID = BlackBoxCore.getContext().getPackageName() + ".blackbox_core";
+        String CHANNEL_ONE_NAME = "blackbox_core";
         if (BuildCompat.isOreo()) {
             NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,
                     CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);
