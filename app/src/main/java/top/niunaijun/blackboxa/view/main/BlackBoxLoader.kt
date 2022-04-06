@@ -83,7 +83,7 @@ class BlackBoxLoader {
                 userId: Int
             ) {
                 Log.d(TAG, "afterApplicationOnCreate: pkg $packageName, processName $processName")
-                RockerManager.init(application,userId)
+//                RockerManager.init(application,userId)
             }
         })
     }
