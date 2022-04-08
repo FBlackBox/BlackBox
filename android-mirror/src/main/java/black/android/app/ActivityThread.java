@@ -2,14 +2,11 @@ package black.android.app;
 
 import android.app.Activity;
 import android.app.Application;
-import android.app.ContentProviderHolder;
 import android.app.Instrumentation;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.ProviderInfo;
 import android.content.pm.ServiceInfo;
 import android.os.Handler;
 import android.os.IBinder;
@@ -22,7 +19,6 @@ import top.niunaijun.blackreflection.annotation.BClassName;
 import top.niunaijun.blackreflection.annotation.BConstructor;
 import top.niunaijun.blackreflection.annotation.BField;
 import top.niunaijun.blackreflection.annotation.BMethod;
-import top.niunaijun.blackreflection.annotation.BParamClass;
 import top.niunaijun.blackreflection.annotation.BParamClassName;
 import top.niunaijun.blackreflection.annotation.BStaticField;
 import top.niunaijun.blackreflection.annotation.BStaticMethod;
@@ -92,11 +88,6 @@ public interface ActivityThread {
     @BMethod
     Object getPackageInfo(ApplicationInfo ai, @BParamClassName("android.content.res.CompatibilityInfo") Object compatInfo,
                           int flags);
-
-    @BMethod
-    Object installProvider(Context context,
-                           @BParamClass(ContentProviderHolder.class) Object holder, ProviderInfo info,
-                           boolean noisy, boolean noReleaseNeeded, boolean stable);
 
     @BMethod
     void performNewIntents(IBinder IBinder0, List List1);

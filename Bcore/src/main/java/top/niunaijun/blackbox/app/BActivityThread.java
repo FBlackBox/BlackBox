@@ -415,13 +415,11 @@ public class BActivityThread extends IBActivityThread.Stub {
         return mBoundApplication.info;
     }
 
-    public static Object installProvider(Object mainThread, Context context, ProviderInfo providerInfo, Object holder) throws Throwable {
+    public static void installProvider(Object mainThread, Context context, ProviderInfo providerInfo, Object holder) throws Throwable {
         Method installProvider = Reflector.findMethodByFirstName(mainThread.getClass(), "installProvider");
         if (installProvider != null) {
             installProvider.setAccessible(true);
-            return installProvider.invoke(mainThread, context, holder, providerInfo, false, true, true);
-        } else {
-            return BRActivityThread.getWithException(mainThread).installProvider(context, holder, providerInfo, false, true, true);
+            installProvider.invoke(mainThread, context, holder, providerInfo, false, true, true);
         }
     }
 
