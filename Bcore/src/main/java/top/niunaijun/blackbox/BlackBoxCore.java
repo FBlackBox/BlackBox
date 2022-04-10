@@ -410,10 +410,12 @@ public class BlackBoxCore extends ClientConfiguration {
     }
 
     private void startLogcat() {
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), getContext().getPackageName() + "_logcat.txt");
-        FileUtils.deleteDir(file);
-        ShellUtils.execCommand("logcat -c", false);
-        ShellUtils.execCommand("logcat >> " + file.getAbsolutePath() + " &", false);
+        new Thread(() -> {
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), getContext().getPackageName() + "_logcat.txt");
+            FileUtils.deleteDir(file);
+            ShellUtils.execCommand("logcat -c", false);
+            ShellUtils.execCommand("logcat -f " + file.getAbsolutePath(), false);
+        }).start();
     }
 
     private static String getProcessName(Context context) {
