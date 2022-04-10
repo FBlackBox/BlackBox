@@ -130,7 +130,7 @@ class AppsFragment : Fragment() {
     }
 
     private fun isMove(point: Point, e: MotionEvent): Boolean {
-        val max = 20
+        val max = 40
 
         val x = point.x
         val y = point.y
