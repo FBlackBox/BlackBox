@@ -17,6 +17,8 @@ Currently we don't consider supporting Android 4.x, it supports Android 5.0 ～ 
 
 If conditions permit, downgrade targetSdkVersion to 28 or below for better compatibility.
 
+***Stability has not been tested extensively and is for learning and communication purposes only Please do not use for other purposes***
+
 ## Release
 Stable version and Canary build version
 - Stable version: Stable version is verified and released by administrators. [Download](https://github.com/FBlackBox/BlackBox/releases)
