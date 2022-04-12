@@ -4,14 +4,17 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.os.Process;
 import android.text.TextUtils;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.BActivityThread;
@@ -33,6 +36,7 @@ public class IOCore {
 
     private static final IOCore sIOCore = new IOCore();
     private static final TrieTree mTrieTree = new TrieTree();
+    private static final TrieTree sBlackTree = new TrieTree();
     private final Map<String, String> mRedirectMap = new LinkedHashMap<>();
 
     private static final Map<String, Map<String, String>> sCachePackageRedirect = new HashMap<>();
@@ -55,12 +59,21 @@ public class IOCore {
         NativeCore.addIORule(origPath, redirectPath);
     }
 
+    public void addBlackRedirect(String path) {
+        if (TextUtils.isEmpty(path))
+            return;
+        sBlackTree.add(path);
+    }
+
     public String redirectPath(String path) {
         if (TextUtils.isEmpty(path))
             return path;
         if (path.contains("/blackbox/")) {
             return path;
         }
+        String search = sBlackTree.search(path);
+        if (!TextUtils.isEmpty(search))
+            return search;
 
         //Search the key from TrieTree
         String key = mTrieTree.search(path);
@@ -99,6 +112,7 @@ public class IOCore {
     // 由于正常情况Application已完成重定向，以下重定向是怕代码写死。
     public void enableRedirect(Context context) {
         Map<String, String> rule = new LinkedHashMap<>();
+        Set<String> blackRule = new HashSet<>();
         String packageName = context.getPackageName();
 
         try {
@@ -116,6 +130,9 @@ public class IOCore {
                 // sdcard
                 rule.put("/sdcard", external.getAbsolutePath());
                 rule.put(String.format("/storage/emulated/%d", systemUserId), external.getAbsolutePath());
+
+                blackRule.add("/sdcard/Pictures");
+                blackRule.add(String.format("/storage/emulated/%d/Pictures", systemUserId));
             }
             if (BlackBoxCore.get().isHideRoot()) {
                 hideRoot(rule);
@@ -126,6 +143,9 @@ public class IOCore {
         }
         for (String key : rule.keySet()) {
             get().addRedirect(key, rule.get(key));
+        }
+        for (String s : blackRule) {
+            get().addBlackRedirect(s);
         }
         NativeCore.enableIO();
     }
