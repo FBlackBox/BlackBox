@@ -39,6 +39,7 @@ import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.proxy.record.ProxyActivityRecord;
 import top.niunaijun.blackbox.utils.ComponentUtils;
 import top.niunaijun.blackbox.utils.Slog;
+import top.niunaijun.blackbox.utils.compat.ActivityManagerCompat;
 
 import static android.content.pm.PackageManager.GET_ACTIVITIES;
 
@@ -313,6 +314,10 @@ public class ActivityStack {
                                         IBinder resultTo, String resultWho, int requestCode, int flags,
                                         Bundle options) {
         try {
+            flags &= ~ActivityManagerCompat.START_FLAG_DEBUG;
+            flags &= ~ActivityManagerCompat.START_FLAG_NATIVE_DEBUGGING;
+            flags &= ~ActivityManagerCompat.START_FLAG_TRACK_ALLOCATION;
+
             BRIActivityManager.get(BRActivityManagerNative.get().getDefault()).startActivity(appThread, BlackBoxCore.getHostPkg(), intent,
                     resolvedType, resultTo, resultWho, requestCode, flags, null, options);
         } catch (Throwable e) {

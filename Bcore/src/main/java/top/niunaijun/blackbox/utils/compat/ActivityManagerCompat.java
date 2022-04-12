@@ -70,6 +70,10 @@ public class ActivityManagerCompat {
 	/** User operation call: success! */
 	public static final int USER_OP_SUCCESS = 0;
 
+	public static final int START_FLAG_DEBUG = 1<<1;
+	public static final int START_FLAG_TRACK_ALLOCATION = 1<<2;
+	public static final int START_FLAG_NATIVE_DEBUGGING = 1<<3;
+
 	public static boolean finishActivity(IBinder token, int code, Intent data) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 			return BRIActivityManagerN.get(BRActivityManagerNative.get().getDefault()).finishActivity(
