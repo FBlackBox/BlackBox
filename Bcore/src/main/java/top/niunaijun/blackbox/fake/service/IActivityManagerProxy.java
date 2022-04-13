@@ -44,6 +44,7 @@ import top.niunaijun.blackbox.fake.hook.ProxyMethod;
 import top.niunaijun.blackbox.fake.hook.ScanClass;
 import top.niunaijun.blackbox.fake.service.base.PkgMethodProxy;
 import top.niunaijun.blackbox.fake.service.context.providers.ContentProviderStub;
+import top.niunaijun.blackbox.fake.service.context.providers.SettingsProviderStub;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.proxy.record.ProxyBroadcastRecord;
 import top.niunaijun.blackbox.proxy.record.ProxyPendingRecord;
@@ -130,6 +131,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
 
                     ProviderInfo providerInfo = BlackBoxCore.getBPackageManager().resolveContentProvider((String) auth, GET_META_DATA, BActivityThread.getUserId());
                     if (providerInfo == null) {
+                        Log.d(TAG, "hook system: " + auth);
                         Object invoke = method.invoke(who, args);
                         if (invoke != null) {
                             Object provider = Reflector.with(invoke)
@@ -138,12 +140,13 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                             if (provider != null && !(provider instanceof Proxy)) {
                                 Reflector.with(invoke)
                                         .field("provider")
-                                        .set(new ContentProviderStub().wrapper((IInterface) provider, BlackBoxCore.getHostPkg()));
+                                        .set(new SettingsProviderStub().wrapper((IInterface) provider, BlackBoxCore.getHostPkg()));
                             }
                         }
                         return invoke;
                     }
 
+                    Log.d(TAG, "hook app: " + auth);
                     IBinder providerBinder = null;
                     if (BActivityThread.getAppPid() != -1) {
                         AppConfig appConfig = BlackBoxCore.getBActivityManager().initProcess(providerInfo.packageName, providerInfo.processName, BActivityThread.getUserId());
@@ -352,6 +355,9 @@ public class IActivityManagerProxy extends ClassInvocationStub {
             IInterface invoke = (IInterface) method.invoke(who, args);
             if (invoke != null) {
                 String[] packagesForUid = BPackageManager.get().getPackagesForUid(BActivityThread.getCallingBUid());
+                if (packagesForUid.length < 1) {
+                    packagesForUid = new String[]{BlackBoxCore.getHostPkg()};
+                }
                 BlackBoxCore.getBActivityManager().getIntentSender(invoke.asBinder(), packagesForUid[0], BActivityThread.getCallingBUid());
             }
             return invoke;
@@ -606,13 +612,13 @@ public class IActivityManagerProxy extends ClassInvocationStub {
     }
 
     @ProxyMethod("setRequestedOrientation")
-    public static class setRequestedOrientation extends MethodHook{
+    public static class setRequestedOrientation extends MethodHook {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            try{
+            try {
                 return method.invoke(who, args);
-            }catch (Throwable e){
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
             return 0;
@@ -620,7 +626,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
     }
 
     @ProxyMethod("registerUidObserver")
-    public static class registerUidObserver extends MethodHook{
+    public static class registerUidObserver extends MethodHook {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -629,7 +635,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
     }
 
     @ProxyMethod("unregisterUidObserver")
-    public static class unregisterUidObserver extends MethodHook{
+    public static class unregisterUidObserver extends MethodHook {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
@@ -638,7 +644,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
     }
 
     @ProxyMethod("updateConfiguration")
-    public static class updateConfiguration extends MethodHook{
+    public static class updateConfiguration extends MethodHook {
 
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
