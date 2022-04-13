@@ -19,12 +19,19 @@ public abstract class BlackManager<Service extends IInterface> {
     protected abstract String getServiceName();
 
     public Service getService() {
-        if (mService != null && mService.asBinder().pingBinder()) {
+        if (mService != null && mService.asBinder().pingBinder() && mService.asBinder().isBinderAlive()) {
             return mService;
         }
         try {
             mService = Reflector.on(getTClass().getName() + "$Stub").method("asInterface", IBinder.class)
                     .call(BlackBoxCore.get().getService(getServiceName()));
+            mService.asBinder().linkToDeath(new IBinder.DeathRecipient() {
+                @Override
+                public void binderDied() {
+                    mService.asBinder().unlinkToDeath(this, 0);
+                    mService = null;
+                }
+            }, 0);
             return getService();
         } catch (Throwable e) {
             e.printStackTrace();
