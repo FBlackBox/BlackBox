@@ -53,6 +53,7 @@ import top.niunaijun.blackbox.fake.hook.HookManager;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.ShellUtils;
+import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
 import top.niunaijun.blackbox.utils.compat.XposedParserCompat;
@@ -353,7 +354,7 @@ public class BlackBoxCore extends ClientConfiguration {
         Bundle bundle = new Bundle();
         bundle.putString("_B_|_server_name_", name);
         Bundle vm = ProviderCall.callSafely(ProxyManifest.getBindProvider(), "VM", null, bundle);
-        assert vm != null;
+        Slog.d(TAG, "getService: " + name + ", " + binder);
         binder = BundleCompat.getBinder(vm, "_B_|_server_");
         mServices.put(name, binder);
         return binder;
