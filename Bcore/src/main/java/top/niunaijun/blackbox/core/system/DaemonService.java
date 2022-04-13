@@ -52,7 +52,7 @@ public class DaemonService extends Service {
     }
 
     private void showNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), getPackageName() + ".blackbox_proxy")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), getPackageName() + ".blackbox_core")
                 .setPriority(NotificationCompat.PRIORITY_MAX);
         startForeground(NOTIFY_ID, builder.build());
     }
