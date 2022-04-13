@@ -132,6 +132,8 @@ public class INotificationManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             List<?> list = BRParceledListSlice.get(args[1]).getList();
+            if (list == null)
+                return 0;
             for (Object o : list) {
                 BNotificationManager.get().createNotificationChannel((NotificationChannel) o);
             }
