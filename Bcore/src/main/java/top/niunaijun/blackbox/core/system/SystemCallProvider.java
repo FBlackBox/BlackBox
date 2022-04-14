@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
 
 /**
@@ -20,6 +21,8 @@ import top.niunaijun.blackbox.utils.compat.BundleCompat;
  * 此处无Bug
  */
 public class SystemCallProvider extends ContentProvider {
+    public static final String TAG = "SystemCallProvider";
+
     @Override
     public boolean onCreate() {
         return initSystem();
@@ -33,7 +36,8 @@ public class SystemCallProvider extends ContentProvider {
     @Nullable
     @Override
     public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
-        if (method.equals("VM")) {
+        Slog.d(TAG, "call: " + method + ", " + extras);
+        if ("VM".equals(method)) {
             Bundle bundle = new Bundle();
             if (extras != null) {
                 String name = extras.getString("_B_|_server_name_");

@@ -354,8 +354,8 @@ public class BlackBoxCore extends ClientConfiguration {
         Bundle bundle = new Bundle();
         bundle.putString("_B_|_server_name_", name);
         Bundle vm = ProviderCall.callSafely(ProxyManifest.getBindProvider(), "VM", null, bundle);
-        Slog.d(TAG, "getService: " + name + ", " + binder);
         binder = BundleCompat.getBinder(vm, "_B_|_server_");
+        Slog.d(TAG, "getService: " + name + ", " + binder);
         mServices.put(name, binder);
         return binder;
     }

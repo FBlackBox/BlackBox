@@ -282,13 +282,14 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
         }
 
         flags = updateFlags(flags, userId);
+        BPackageSettings ps = null;
         // reader
         synchronized (mPackages) {
             // Normalize package name to handle renamed packages and static libs
-            BPackageSettings ps = mPackages.get(packageName);
-            if (ps != null) {
-                return PackageManagerCompat.generatePackageInfo(ps, flags, ps.readUserState(userId), userId);
-            }
+            ps = mPackages.get(packageName);
+        }
+        if (ps != null) {
+            return PackageManagerCompat.generatePackageInfo(ps, flags, ps.readUserState(userId), userId);
         }
         return null;
     }
