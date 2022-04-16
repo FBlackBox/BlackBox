@@ -131,19 +131,19 @@ public class IActivityManagerProxy extends ClassInvocationStub {
 
                     ProviderInfo providerInfo = BlackBoxCore.getBPackageManager().resolveContentProvider((String) auth, GET_META_DATA, BActivityThread.getUserId());
                     if (providerInfo == null) {
-                        Log.d(TAG, "hook system: " + auth);
-                        Object invoke = method.invoke(who, args);
-                        if (invoke != null) {
-                            Object provider = Reflector.with(invoke)
-                                    .field("provider")
-                                    .get();
-                            if (provider != null && !(provider instanceof Proxy)) {
-                                Reflector.with(invoke)
-                                        .field("provider")
-                                        .set(new SettingsProviderStub().wrapper((IInterface) provider, BlackBoxCore.getHostPkg()));
-                            }
-                        }
-                        return invoke;
+//                        Log.d(TAG, "hook system: " + auth);
+//                        Object invoke = method.invoke(who, args);
+//                        if (invoke != null) {
+//                            Object provider = Reflector.with(invoke)
+//                                    .field("provider")
+//                                    .get();
+//                            if (provider != null && !(provider instanceof Proxy)) {
+//                                Reflector.with(invoke)
+//                                        .field("provider")
+//                                        .set(new SettingsProviderStub().wrapper((IInterface) provider, BlackBoxCore.getHostPkg()));
+//                            }
+//                        }
+                        return null;
                     }
 
                     Log.d(TAG, "hook app: " + auth);
