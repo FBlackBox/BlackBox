@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import cbfg.rvadapter.RVAdapter
+import com.afollestad.materialdialogs.MaterialDialog
 import com.ferfalk.simplesearchview.SimpleSearchView
 import top.niunaijun.blackbox.entity.location.BLocation
 import top.niunaijun.blackbox.fake.frameworks.BLocationManager
@@ -53,6 +54,8 @@ class FakeManagerActivity : BaseActivity() {
                 intent.putExtra("pkg", data.packageName)
 
                 locationResult.launch(intent)
+            }.setItemLongClickListener { _, item, position ->
+                disableFakeLocation(item,position)
             }
 
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
@@ -60,6 +63,20 @@ class FakeManagerActivity : BaseActivity() {
 
         initSearchView()
         initViewModel()
+    }
+
+    private fun disableFakeLocation(item: FakeLocationBean,position:Int) {
+        MaterialDialog(this).show {
+            title(R.string.close_fake_location)
+            message(text = getString(R.string.close_app_fake_location,item.name))
+            negativeButton(R.string.cancel)
+            positiveButton(R.string.done){
+                BLocationManager.disableFakeLocation(currentUserID(),item.packageName)
+                toast(getString(R.string.close_fake_location_success,item.name))
+                item.fakeLocationPattern = BLocationManager.CLOSE_MODE
+                mAdapter.replaceAt(position,item)
+            }
+        }
     }
 
     private fun initSearchView() {

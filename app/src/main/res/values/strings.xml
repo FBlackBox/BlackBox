@@ -12,7 +12,9 @@
     <string name="fake_location">Fake Location(Preview)</string>
     <string name="real_location">Real Location</string>
     <string name="set_location">Set Fake Location Successfully:%s-%s</string>
-
+    <string name="close_fake_location">Disable FakeLocation</string>
+    <string name="close_app_fake_location">Disable FakeLocation for %s</string>
+    <string name="close_fake_location_success">Disable FakeLocation for %s Successfully</string>
     <string name="setting">Setting</string>
     <string name="jump_module">Go to Module Manager</string>
     <string name="module_setting">Module Manager</string>
@@ -23,6 +25,8 @@
     <string name="userRemark">User Remark</string>
     <string name="done">Done</string>
     <string name="cancel">Cancel</string>
+    <string name="permission_setting">Setting</string>
+    <string name="no_reminders">No Reminders</string>
     <string name="app_stop">Stop Running</string>
     <string name="app_stop_hint">Do you want to stop %s forcibly?</string>
     <string name="is_stop">%s is Stopped</string>
@@ -31,6 +35,8 @@
     <string name="app_remove">Uninstall App</string>
     <string name="app_shortcut">Create Shortcut</string>
     <string name="shortcut_name">Shortcut Name</string>
+    <string name="try_add_shortcut">Try Added To Desktop</string>
+    <string name="add_shortcut_fail_msg">If the addition fails, please go to system settings and open the permission of "create desktop shortcut" for BlackBox</string>
     <string name="install_success">Installed Successfully</string>
     <string name="install_fail">Installed Failed: %s</string>
     <string name="install_fail_no_msg">Installed Failed</string>

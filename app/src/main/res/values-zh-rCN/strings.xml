@@ -10,9 +10,13 @@
     <string name="xp_setting">XP管理</string>
     <string name="tg_group">交流群</string>
     <string name="setting">软件设置</string>
+    <string name="permission_setting">权限设置</string>
     <string name="fake_location">虚拟定位(预览版)</string>
     <string name="real_location">真实位置</string>
     <string name="set_location">虚拟定位设置成功:%s-%s</string>
+    <string name="close_fake_location">关闭虚拟定位</string>
+    <string name="close_app_fake_location">是否关闭 %s 的虚拟定位</string>
+    <string name="close_fake_location_success"> %s 已关闭虚拟定位</string>
     <string name="jump_module">点击跳转到模块管理界面</string>
     <string name="module_setting">模块管理</string>
     <string name="enable_xposed">启用Xposed框架</string>
@@ -30,6 +34,9 @@
     <string name="app_remove">卸载应用</string>
     <string name="app_shortcut">创建快捷方式</string>
     <string name="shortcut_name">快捷方式名称</string>
+    <string name="try_add_shortcut">已尝试添加到桌面</string>
+    <string name="add_shortcut_fail_msg">若添加失败，请前往系统设置，为BlackBox打开"创建桌面快捷方式"的权限</string>
+    <string name="no_reminders">不再提醒</string>
     <string name="install_success">安装成功</string>
     <string name="install_fail">安装失败 : %s</string>
     <string name="install_fail_no_msg">安装失败</string>

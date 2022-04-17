@@ -25,6 +25,7 @@ class BlackBoxLoader {
     private var mHideRoot by AppSharedPreferenceDelegate(App.getContext(), false)
     private var mHideXposed by AppSharedPreferenceDelegate(App.getContext(), false)
     private var mDaemonEnable by AppSharedPreferenceDelegate(App.getContext(), false)
+    private var mShowShortcutPermissionDialog by AppSharedPreferenceDelegate(App.getContext(),true)
 
 
     fun hideRoot(): Boolean {
@@ -49,6 +50,14 @@ class BlackBoxLoader {
 
     fun invalidDaemonEnable(enable: Boolean) {
         this.mDaemonEnable = enable
+    }
+
+    fun showShortcutPermissionDialog():Boolean{
+        return mShowShortcutPermissionDialog
+    }
+
+    fun invalidShortcutPermissionDialog(show:Boolean){
+        this.mShowShortcutPermissionDialog = show
     }
 
     fun getBlackBoxCore(): BlackBoxCore {

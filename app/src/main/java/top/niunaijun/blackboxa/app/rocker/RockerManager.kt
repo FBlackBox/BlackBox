@@ -32,7 +32,6 @@ object RockerManager {
 
     fun init(application: Application?, userId: Int) {
 
-        Log.d(TAG, "init: ${application?.packageName},${BLocationManager.isFakeLocationEnable()}")
         if (application == null || !BLocationManager.isFakeLocationEnable()) {
             return
         }
@@ -50,7 +49,6 @@ object RockerManager {
 
             override fun onActivityStarted(activity: Activity) {
                 super.onActivityStarted(activity)
-                Log.d(TAG, "onActivityStarted: ${activity.javaClass.canonicalName}")
                 FloatingView.get().attach(activity)
             }
 
@@ -93,8 +91,6 @@ object RockerManager {
 
         val newLat = (dy / ec + location.latitude * Math.PI / 180.0) * 180.0 / Math.PI
         val newLocation = BLocation(newLat, newLng)
-        Log.d(TAG, "last:${location.latitude},${location.longitude}")
-        Log.d(TAG, "next:${newLocation.latitude},${newLocation.longitude}")
 
         BLocationManager.get().setLocation(userId, packageName, newLocation)
     }

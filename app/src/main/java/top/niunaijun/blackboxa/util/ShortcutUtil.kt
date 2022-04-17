@@ -9,7 +9,10 @@ import androidx.core.graphics.drawable.toBitmap
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import top.niunaijun.blackboxa.R
+import top.niunaijun.blackboxa.app.App
+import top.niunaijun.blackboxa.app.AppManager
 import top.niunaijun.blackboxa.bean.AppInfo
+import top.niunaijun.blackboxa.util.ContextUtil.openAppSystemSettings
 import top.niunaijun.blackboxa.view.main.ShortcutActivity
 
 /**
@@ -48,8 +51,9 @@ object ShortcutUtil {
                             .setLongLabel(input)
                             .setIcon(IconCompat.createWithBitmap(info.icon.toBitmap()))
                             .build()
-                    ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)
 
+                    ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)
+                    showAllowPermissionDialog(context)
                 }
                 positiveButton(R.string.done)
                 negativeButton(R.string.cancel)
@@ -58,5 +62,25 @@ object ShortcutUtil {
         } else {
             toast(R.string.cannot_create_shortcut)
         }
+    }
+
+    private fun showAllowPermissionDialog(context: Context){
+        if (!AppManager.mBlackBoxLoader.showShortcutPermissionDialog()){
+            return
+        }
+
+        MaterialDialog(context).show {
+            title(R.string.try_add_shortcut)
+            message(R.string.add_shortcut_fail_msg)
+            positiveButton(R.string.done)
+            negativeButton(R.string.permission_setting){
+                App.getContext().openAppSystemSettings()
+            }
+
+            neutralButton(R.string.no_reminders){
+                AppManager.mBlackBoxLoader.invalidShortcutPermissionDialog(false)
+            }
+        }
+
     }
 }
