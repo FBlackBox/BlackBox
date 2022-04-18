@@ -17,7 +17,7 @@ import top.niunaijun.blackbox.utils.compat.ContextCompat;
  * しーＪ
  * 此处无Bug
  */
-public class SettingsProviderStub extends ClassInvocationStub implements BContentProvider {
+public class SystemProviderStub extends ClassInvocationStub implements BContentProvider {
     private IInterface mBase;
 
     @Override
