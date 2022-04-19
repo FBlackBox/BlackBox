@@ -696,7 +696,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             if (!support) {
                 String msg = packageArchiveInfo.applicationInfo.loadLabel(BlackBoxCore.getPackageManager()) + "[" + packageArchiveInfo.packageName + "]";
                 return result.installError(packageArchiveInfo.packageName,
-                        msg + (BlackBoxCore.is64Bit() ? " not support armeabi-v7a abi" : "not support arm64-v8a abi"));
+                        msg + "\n" + (BlackBoxCore.is64Bit() ? "The box does not support 32-bit Application" : "The box does not support 64-bit Application"));
             }
             PackageParser.Package aPackage = parserApk(apkFile.getAbsolutePath());
             if (aPackage == null) {
