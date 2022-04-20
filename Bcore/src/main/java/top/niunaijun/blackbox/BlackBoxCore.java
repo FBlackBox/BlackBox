@@ -406,8 +406,8 @@ public class BlackBoxCore extends ClientConfiguration {
     }
 
     @Override
-    public boolean requestInstallPackage(File file) {
-        return mClientConfiguration.requestInstallPackage(file);
+    public boolean requestInstallPackage(File file, int userId) {
+        return mClientConfiguration.requestInstallPackage(file, userId);
     }
 
     private void startLogcat() {

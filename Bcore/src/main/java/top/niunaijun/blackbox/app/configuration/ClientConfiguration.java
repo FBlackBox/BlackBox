@@ -35,7 +35,7 @@ public abstract class ClientConfiguration {
      *
      * @return Is it handled?
      */
-    public boolean requestInstallPackage(File file) {
+    public boolean requestInstallPackage(File file, int userId) {
         return false;
     }
 }

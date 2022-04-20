@@ -8,9 +8,7 @@ import top.niunaijun.blackbox.app.BActivityThread
 import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback
 import top.niunaijun.blackbox.app.configuration.ClientConfiguration
 import top.niunaijun.blackboxa.app.App
-import top.niunaijun.blackboxa.app.rocker.RockerManager
 import top.niunaijun.blackboxa.biz.cache.AppSharedPreferenceDelegate
-import top.niunaijun.blackboxa.util.toast
 import java.io.File
 
 /**
@@ -25,7 +23,7 @@ class BlackBoxLoader {
     private var mHideRoot by AppSharedPreferenceDelegate(App.getContext(), false)
     private var mHideXposed by AppSharedPreferenceDelegate(App.getContext(), false)
     private var mDaemonEnable by AppSharedPreferenceDelegate(App.getContext(), false)
-    private var mShowShortcutPermissionDialog by AppSharedPreferenceDelegate(App.getContext(),true)
+    private var mShowShortcutPermissionDialog by AppSharedPreferenceDelegate(App.getContext(), true)
 
 
     fun hideRoot(): Boolean {
@@ -52,11 +50,11 @@ class BlackBoxLoader {
         this.mDaemonEnable = enable
     }
 
-    fun showShortcutPermissionDialog():Boolean{
+    fun showShortcutPermissionDialog(): Boolean {
         return mShowShortcutPermissionDialog
     }
 
-    fun invalidShortcutPermissionDialog(show:Boolean){
+    fun invalidShortcutPermissionDialog(show: Boolean) {
         this.mShowShortcutPermissionDialog = show
     }
 
@@ -72,7 +70,10 @@ class BlackBoxLoader {
                 context: Context?,
                 userId: Int
             ) {
-                Log.d(TAG, "beforeCreateApplication: pkg $packageName, processName $processName,userID:${BActivityThread.getUserId()}")
+                Log.d(
+                    TAG,
+                    "beforeCreateApplication: pkg $packageName, processName $processName,userID:${BActivityThread.getUserId()}"
+                )
             }
 
 
@@ -115,7 +116,7 @@ class BlackBoxLoader {
                 return mDaemonEnable
             }
 
-            override fun requestInstallPackage(file: File?): Boolean {
+            override fun requestInstallPackage(file: File?, userId: Int): Boolean {
                 val packageInfo =
                     context.packageManager.getPackageArchiveInfo(file!!.absolutePath, 0)
                 return false
