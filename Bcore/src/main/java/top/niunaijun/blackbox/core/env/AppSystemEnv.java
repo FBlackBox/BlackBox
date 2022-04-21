@@ -31,10 +31,12 @@ public class AppSystemEnv {
         sSystemPackages.add("com.google.android.webview.canary");
         sSystemPackages.add("com.android.webview");
         sSystemPackages.add("com.android.camera");
+        sSystemPackages.add("com.android.talkback");
+        sSystemPackages.add("com.miui.gallery");
 
         // google Gboard
         sSystemPackages.add("com.google.android.inputmethod.latin");
-        sSystemPackages.add(BlackBoxCore.getHostPkg());
+        // sSystemPackages.add(BlackBoxCore.getHostPkg());
 
         // 华为
         sSystemPackages.add("com.huawei.webview");
@@ -52,7 +54,7 @@ public class AppSystemEnv {
 
         sXposedPackages.add("de.robv.android.xposed.installer");
 
-        sPreInstallPackages.add("com.huawei.hwid");
+        // sPreInstallPackages.add("com.huawei.hwid");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && Build.VERSION.SDK_INT < 29){
             //解决Android 9三星浏览器闪退问题
         }else{
