@@ -189,9 +189,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
     @Override
     public RunningServiceInfo getRunningServices(String callerPackage, int userId) throws RemoteException {
         UserSpace userSpace = getOrCreateSpaceLocked(userId);
-        synchronized (userSpace.mActiveServices) {
-            return userSpace.mActiveServices.getRunningServiceInfo(callerPackage, userId);
-        }
+        return userSpace.mActiveServices.getRunningServiceInfo(callerPackage, userId);
     }
 
     @Override

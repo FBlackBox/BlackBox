@@ -91,7 +91,9 @@ public class BProcessManagerService implements ISystemService {
             bProcess.put(processName, app);
             mPidsSelfLocked.add(app);
 
-            mProcessMap.put(buid, bProcess);
+            synchronized (mProcessMap) {
+                mProcessMap.put(buid, bProcess);
+            }
             if (!initAppProcessL(app)) {
                 //init process fail
                 bProcess.remove(processName);
@@ -125,10 +127,7 @@ public class BProcessManagerService implements ISystemService {
         synchronized (mProcessLock) {
             int callingUid = Binder.getCallingUid();
             int callingPid = Binder.getCallingPid();
-            ProcessRecord app;
-            synchronized (mProcessLock) {
-                app = findProcessByPid(callingPid);
-            }
+            ProcessRecord app = findProcessByPid(callingPid);;
             if (app == null) {
                 String stubProcessName = getProcessName(BlackBoxCore.getContext(), callingPid);
                 int bpid = parseBPid(stubProcessName);
@@ -215,7 +214,7 @@ public class BProcessManagerService implements ISystemService {
     }
 
     public ProcessRecord findProcessRecord(String packageName, String processName, int userId) {
-        synchronized (mProcessLock) {
+        synchronized (mProcessMap) {
             int appId = BPackageManagerService.get().getAppId(packageName);
             int buid = BUserHandle.getUid(userId, appId);
             Map<String, ProcessRecord> processRecordMap = mProcessMap.get(buid);
@@ -259,7 +258,7 @@ public class BProcessManagerService implements ISystemService {
     }
 
     public List<ProcessRecord> getPackageProcessAsUser(String packageName, int userId) {
-        synchronized (mProcessLock) {
+        synchronized (mProcessMap) {
             int buid = BUserHandle.getUid(userId, BPackageManagerService.get().getAppId(packageName));
             Map<String, ProcessRecord> process = mProcessMap.get(buid);
             if (process == null)
@@ -269,23 +268,19 @@ public class BProcessManagerService implements ISystemService {
     }
 
     public int getBUidByPidOrPackageName(int pid, String packageName) {
-        synchronized (mProcessLock) {
-            ProcessRecord callingProcess = BProcessManagerService.get().findProcessByPid(pid);
-            if (callingProcess == null) {
-                return BPackageManagerService.get().getAppId(packageName);
-            }
-            return BUserHandle.getAppId(callingProcess.buid);
+        ProcessRecord callingProcess = findProcessByPid(pid);
+        if (callingProcess == null) {
+            return BPackageManagerService.get().getAppId(packageName);
         }
+        return BUserHandle.getAppId(callingProcess.buid);
     }
 
     public int getUserIdByCallingPid(int callingPid) {
-        synchronized (mProcessLock) {
-            ProcessRecord callingProcess = BProcessManagerService.get().findProcessByPid(callingPid);
-            if (callingProcess == null) {
-                return 0;
-            }
-            return callingProcess.userId;
+        ProcessRecord callingProcess = findProcessByPid(callingPid);
+        if (callingProcess == null) {
+            return 0;
         }
+        return callingProcess.userId;
     }
 
     public ProcessRecord findProcessByPid(int pid) {
