@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>चैट डेटा कलेक्टर</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #075e54; /* WhatsApp green */
+            margin-bottom: 30px;
+        }
+        
+        .platform-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            transition: 0.3s;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        
+        .tab.active {
+            background-color: #075e54;
+            color: white;
+        }
+        
+        .tab:nth-child(2).active {
+            background-color: #e1306c; /* Instagram pink */
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background-color: #075e54;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            width: 100%;
+        }
+        
+        button:hover {
+            background-color: #128c7e;
+        }
+        
+        .whatsapp-btn {
+            background-color: #075e54;
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #128c7e;
+        }
+        
+        .instagram-btn {
+            background-color: #e1306c;
+        }
+        
+        .instagram-btn:hover {
+            background-color: #c13584;
+        }
+        
+        .results {
+            margin-top: 30px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        
+        .chat-info {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .chat-info h3 {
+            margin-top: 0;
+            color: #075e54;
+        }
+        
+        .chat-info p {
+            margin: 5px 0;
+        }
+        
+        .status {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .loading {
+            text-align: center;
+            display: none;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #075e54;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>चैट डेटा कलेक्टर</h1>
+        
+        <div class="platform-tabs">
+            <button class="tab active" onclick="openTab('whatsapp')">WhatsApp</button>
+            <button class="tab" onclick="openTab('instagram')">Instagram</button>
+        </div>
+        
+        <div id="whatsapp" class="tab-content active">
+            <div class="input-group">
+                <label for="whatsapp-link">WhatsApp चैट लिंक डालें:</label>
+                <input type="text" id="whatsapp-link" placeholder="https://wa.me/xxxxxxxxxx या whatsapp://xxxxx">
+            </div>
+            <button class="whatsapp-btn" onclick="extractWhatsAppData()">डेटा एकत्रित करें</button>
+            
+            <div id="whatsapp-status" class="status"></div>
+            <div id="whatsapp-loading" class="loading">
+                <div class="spinner"></div>
+                <p>डेटा एकत्रित किया जा रहा है...</p>
+            </div>
+            
+            <div id="whatsapp-results" class="results"></div>
+        </div>
+        
+        <div id="instagram" class="tab-content">
+            <div class="input-group">
+                <label for="instagram-link">Instagram चैट लिंक डालें:</label>
+                <input type="text" id="instagram-link" placeholder="https://www.instagram.com/direct/inbox/ या instagram://xxxxx">
+            </div>
+            <button class="instagram-btn" onclick="extractInstagramData()">डेटा एकत्रित करें</button>
+            
+            <div id="instagram-status" class="status"></div>
+            <div id="instagram-loading" class="loading">
+                <div class="spinner"></div>
+                <p>डेटा एकत्रित किया जा रहा है...</p>
+            </div>
+            
+            <div id="instagram-results" class="results"></div>
+        </div>
+    </div>
+    
+    <script>
+        function openTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            // Show the selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Update tab buttons
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            // Activate clicked tab
+            if (tabName === 'whatsapp') {
+                tabs[0].classList.add('active');
+            } else {
+                tabs[1].classList.add('active');
+            }
+        }
+        
+        function showStatus(elementId, message, isSuccess = true) {
+            const statusElement = document.getElementById(elementId);
+            statusElement.textContent = message;
+            statusElement.className = isSuccess ? 'status success' : 'status error';
+            statusElement.style.display = 'block';
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                statusElement.style.display = 'none';
+            }, 5000);
+        }
+        
+        function showLoading(elementId, show = true) {
+            const loadingElement = document.getElementById(elementId);
+            loadingElement.style.display = show ? 'block' : 'none';
+        }
+        
+        function extractWhatsAppData() {
+            const link = document.getElementById('whatsapp-link').value.trim();
+            
+            if (!link) {
+                showStatus('whatsapp-status', 'कृपया WhatsApp चैट लिंक डालें', false);
+                return;
+            }
+            
+            showLoading('whatsapp-loading', true);
+            
+            // Simulate API call with timeout
+            setTimeout(() => {
+                showLoading('whatsapp-loading', false);
+                
+                // Validate WhatsApp link format
+                if (!isValidWhatsAppLink(link)) {
+                    showStatus('whatsapp-status', 'अमान्य WhatsApp लिंक फॉर्मेट', false);
+                    return;
+                }
+                
+                showStatus('whatsapp-status', 'WhatsApp चैट डेटा सफलतापूर्वक एकत्रित किया गया', true);
+                
+                // Display sample results (in a real app, this would come from an API)
+                const resultsDiv = document.getElementById('whatsapp-results');
+                resultsDiv.innerHTML = `
+                    <div class="chat-info">
+                        <h3>चैट जानकारी</h3>
+                        <p><strong>लिंक:</strong> ${link}</p>
+                        <p><strong>संपर्क नाम:</strong> अंकित शर्मा</p>
+                        <p><strong>अंतिम संदेश:</strong> कल मिलते हैं!</p>
+                        <p><strong>अंतिम संदेश समय:</strong> आज, 10:30 AM</p>
+                        <p><strong>संदेश कुल:</strong> 142</p>
+                        <p><strong>मीडिया फाइलें:</strong> 12 फोटो, 3 वीडियो</p>
+                    </div>
+                `;
+            }, 2000);
+        }
+        
+        function extractInstagramData() {
+            const link = document.getElementById('instagram-link').value.trim();
+            
+            if (!link) {
+                showStatus('instagram-status', 'कृपया Instagram चैट लिंक डालें', false);
+                return;
+            }
+            
+            showLoading('instagram-loading', true);
+            
+            // Simulate API call with timeout
+            setTimeout(() => {
+                showLoading('instagram-loading', false);
+                
+                // Validate Instagram link format
+                if (!isValidInstagramLink(link)) {
+                    showStatus('instagram-status', 'अमान्य Instagram लिंक फॉर्मेट', false);
+                    return;
+                }
+                
+                showStatus('instagram-status', 'Instagram चैट डेटा सफलतापूर्वक एकत्रित किया गया', true);
+                
+                // Display sample results (in a real app, this would come from an API)
+                const resultsDiv = document.getElementById('instagram-results');
+                resultsDiv.innerHTML = `
+                    <div class="chat-info">
+                        <h3>चैट जानकारी</h3>
+                        <p><strong>लिंक:</strong> ${link}</p>
+                        <p><strong>उपयोगकर्ता नाम:</strong> priya_sharma_23</p>
+                        <p><strong>अंतिम संदेश:</strong> मेरा नया पोस्ट देखा?</p>
+                        <p><strong>अंतिम संदेश समय:</strong> आज, 11:45 AM</p>
+                        <p><strong>संदेश कुल:</strong> 89</p>
+                        <p><strong>मीडिया भेजा गया:</strong> 8 फोटो, 2 रील्स</p>
+                    </div>
+                `;
+            }, 2000);
+        }
+        
+        function isValidWhatsAppLink(link) {
+            return link.startsWith('https://wa.me/') || 
+                   link.startsWith('whatsapp://') || 
+                   link.startsWith('https://chat.whatsapp.com/');
+        }
+        
+        function isValidInstagramLink(link) {
+            return link.includes('instagram.com/direct/') || 
+                   link.startsWith('instagram://');
+        }
+    </script>
+</body>
+</html>
+
