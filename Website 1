@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Online Shop</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
+        header { background: #333; color: white; text-align: center; padding: 1rem; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+        .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+        .product { background: white; padding: 1rem; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center; }
+        .product img { max-width: 100%; height: 200px; object-fit: cover; }
+        button { background: #28a745; color: white; border: none; padding: 0.5rem; cursor: pointer; border-radius: 3px; }
+        button:hover { background: #218838; }
+        #cart { position: fixed; top: 10px; right: 10px; background: white; padding: 1rem; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 300px; display: none; }
+        #cart.show { display: block; }
+        #checkout { margin-top: 1rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My Online Shop</h1>
+        <button onclick="toggleCart()">View Cart (0)</button>
+    </header>
+    <div class="container">
+        <h2>Products</h2>
+        <div class="products" id="products">
+            <!-- Products will be added here via JS -->
+        </div>
+    </div>
+    <div id="cart">
+        <h3>Shopping Cart</h3>
+        <ul id="cart-items"></ul>
+        <p>Total: $<span id="total">0</span></p>
+        <button id="checkout" onclick="checkout()">Checkout</button>
+    </div>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        // Sample products
+        const products = [
+            { id: 1, name: "T-Shirt", price: 20, img: "https://via.placeholder.com/250x200?text=T-Shirt" },
+            { id: 2, name: "Jeans", price: 50, img: "https://via.placeholder.com/250x200?text=Jeans" },
+            { id: 3, name: "Sneakers", price: 80, img: "https://via.placeholder.com/250x200?text=Sneakers" },
+            { id: 4, name: "Hat", price: 15, img: "https://via.placeholder.com/250x200?text=Hat" }
+        ];
+
+        // Render products
+        const productsContainer = document.getElementById('products');
+        products.forEach(product => {
+            const productDiv = document.createElement('div');
+            productDiv.className = 'product';
+            productDiv.innerHTML = `
+                <img src="${product.img}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <p>$${product.price}</p>
+                <button onclick="addToCart(${product.id})">Add to Cart</button>
+            `;
+            productsContainer.appendChild(productDiv);
+        });
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            cart.push(product);
+            total += product.price;
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = '';
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} - $${item.price}`;
+                cartItems.appendChild(li);
+            });
+            document.getElementById('total').textContent = total;
+            document.querySelector('header button').textContent = `View Cart (${cart.length})`;
+        }
+
+        function toggleCart() {
+            document.getElementById('cart').classList.toggle('show');
+        }
+
+        function checkout() {
+            alert(`Checkout total: $${total}. (This is a demo – no real payment!)`);
+            cart = [];
+            total = 0;
+            updateCart();
+            toggleCart();
+        }
+    </script>
+</body>
+</html>
